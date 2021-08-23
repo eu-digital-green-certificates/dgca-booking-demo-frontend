@@ -1,0 +1,18 @@
+//Font Definitions
+// @import "@fortawesome/fontawesome-free/css/solid.min.css";
+
+// Override default variables before the import
+$body-bg: #cfcfcf;
+$font-family-base: Arial, sans-serif;
+$primary: #004494;
+$primary-dark: #002f67;
+$info: #ffd617;
+$dark: #404040;
+$gray-100: #f2f5f9;
+$body-color: $dark;
+$light: #ebebeb;
+
+// Import Bootstrap and its default variables
+@import "~bootstrap/scss/bootstrap.scss";
+
+
