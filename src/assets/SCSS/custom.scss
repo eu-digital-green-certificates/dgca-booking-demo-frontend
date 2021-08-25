@@ -107,3 +107,35 @@ $container-max-widths: (
     max-width: 300px;
     height:301px;
 }
+
+.booking-container {
+    display:flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    background-image: url("../images/header_airline.png") !important;
+    background-repeat: no-repeat;
+    height: 556px;
+}
+
+.search {
+    margin-right: 7rem;
+    margin-left: 7rem;
+    margin-bottom: 7rem;
+    height:30%;
+    width:100%;
+    color:#262626;
+}
+
+.search-header {
+    background-color: white;
+    width: 100%;
+    font-size: 20;
+    font-weight: bold;
+    border-bottom: 2px solid #d0d0d1;
+}
+.search-content {
+    background-color:rgba(245, 245, 245, 0.9) !important;
+    width: 100%;
+    font-size: 22;
+}

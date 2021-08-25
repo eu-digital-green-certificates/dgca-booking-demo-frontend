@@ -24,7 +24,7 @@ import { Col, CardGroup, Container, Fade, Image, Row } from 'react-bootstrap'
 import '../i18n';
 // import { useTranslation } from 'react-i18next';
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import AppContext from '../misc/appContext';
 import stage from '../assets/images/header_airline.png'
 
@@ -42,22 +42,35 @@ const LandingPage = () => {
 
     return (!isInit ? <></> :
         <Fade appear={true} in={true} >
-            <Container className='p-0'>
-                <Image className='p-0' fluid src={stage} />
-
+            <Fragment>
+                <Container className='p-0 booking-container'>
+                    <Row className="search">
+                        <Col>
+                            <Container>
+                                <Row className="search-header">
+                                    <Col>Flights</Col>
+                                    <Col>Flight &amp; Hotel</Col>
+                                    <Col>Rental Car</Col>
+                                    <Col>Hotel</Col>
+                                </Row>
+                                <Row className="search-content"><p>2.Zeile</p></Row>
+                            </Container>
+                        </Col>
+                    </Row>
+                </Container>
                 <Container className='content-container'>
                     <Row className='card-group'>
                         <Col sm='6' md='4' className='col-item' >
 
                         </Col>
                         <Col sm='6' md='4' className='col-item' >
-                            
+
                         </Col>
-                        <Col  sm='6' md='4' className='col-item' >
-                            
+                        <Col sm='6' md='4' className='col-item' >
+
                         </Col>
-                        <Col  sm='6' md='4' className='col-item' >
-                            
+                        <Col sm='6' md='4' className='col-item' >
+
                         </Col>
                     </Row>
                 </Container>
@@ -66,8 +79,7 @@ const LandingPage = () => {
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordVac}>{t('translation:record-vaccination-cert-dat')}</Button>
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordTest}>{t('translation:record-test-cert-dat')}</Button>
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordRecovery}>{t('translation:record-recovery-cert-dat')}</Button> */}
-
-            </Container>
+            </Fragment>
         </Fade>
     )
 }
