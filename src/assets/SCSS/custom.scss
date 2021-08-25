@@ -1,10 +1,21 @@
 //Font Definitions
 // @import "@fortawesome/fontawesome-free/css/solid.min.css";
 
+@font-face {
+    font-family: "TeleNeo";
+    src: url(./fonts/TeleNeoWeb-Regular.eot) format("eot"), url(./fonts/TeleNeoWeb-Regular.woff) format("woff"),
+        url(./fonts/TeleNeoWeb-Regular.woff2) format("woff2");
+}
+@font-face {
+    font-family: "TeleNeo";
+    src: url(./fonts/TeleNeoWeb-Bold.eot) format("eot"), url(./fonts/TeleNeoWeb-Bold.woff) format("woff"),
+        url(./fonts/TeleNeoWeb-Bold.woff2) format("woff2");
+    font-weight: bold;
+}
 // Override default variables before the import
 $body-bg: #cfcfcf;
-$font-family-base: Arial, sans-serif;
-$primary: #004494;
+$font-family-base: TeleNeo;
+$primary: #00739f;
 $primary-dark: #002f67;
 $info: #ffd617;
 $dark: #404040;
@@ -12,7 +23,87 @@ $gray-100: #f2f5f9;
 $body-color: $dark;
 $light: #ebebeb;
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 800px,
+  lg: 1000px,
+  xl: 1400px,
+  xxl: 1650px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1300px,
+  xxl: 1585px
+);
+
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";
 
+.header-title {
+    color: $light;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bold;
+}
 
+.demo-logo {
+    margin: 2rem;
+    width: 3rem;
+    height: 3rem;
+}
+
+#header {
+    display: flex;
+    background-color: $primary;
+    padding-left: 0rem;
+    padding-right: 7rem;
+    height: 7rem;
+}
+
+#header-right {
+    display: flex;
+    padding: 0;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#user {
+    background-image: url("../images/login_icon.png") !important;
+    width: 2.375rem;
+    height: 2.375rem;
+    margin-right: 2rem;
+}
+
+#menu {
+    background-image: url("../images/burgermenu.png") !important;
+    width: 1.625rem;
+    height: 1.625rem;
+}
+
+.header-text {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 26px;
+    color: white;
+}
+
+.content-container {
+    background-color: white;
+    padding: 7rem;
+}
+
+.card-group{
+    justify-content: space-between;
+}
+.col-item{
+    background-color: #ccc;
+    // margin-left: 0.75rem;
+    // margin-right: 0.75rem;
+    border: #707070 solid 1px;
+    max-width: 300px;
+    height:301px;
+}

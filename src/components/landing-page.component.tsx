@@ -19,13 +19,14 @@
  * under the License.
  */
 
-import { Container, Fade } from 'react-bootstrap'
+import { Col, CardGroup, Container, Fade, Image, Row } from 'react-bootstrap'
 
 import '../i18n';
 // import { useTranslation } from 'react-i18next';
 
 import React from 'react';
 import AppContext from '../misc/appContext';
+import stage from '../assets/images/header_airline.png'
 
 const LandingPage = () => {
 
@@ -41,7 +42,25 @@ const LandingPage = () => {
 
     return (!isInit ? <></> :
         <Fade appear={true} in={true} >
-            <Container className='center-content'>
+            <Container className='p-0'>
+                <Image className='p-0' fluid src={stage} />
+
+                <Container className='content-container'>
+                    <Row className='card-group'>
+                        <Col sm='6' md='4' className='col-item' >
+
+                        </Col>
+                        <Col sm='6' md='4' className='col-item' >
+                            
+                        </Col>
+                        <Col  sm='6' md='4' className='col-item' >
+                            
+                        </Col>
+                        <Col  sm='6' md='4' className='col-item' >
+                            
+                        </Col>
+                    </Row>
+                </Container>
                 {/* <span className='landing-title mx-auto mb-4'>{t('translation:welcome')}</span>
 
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordVac}>{t('translation:record-vaccination-cert-dat')}</Button>

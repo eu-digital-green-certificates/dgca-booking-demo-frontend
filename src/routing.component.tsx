@@ -80,7 +80,7 @@ const Routing = () => {
                 {/*
     Content area. fit the rest of screen and children
     */}
-                <Container id='qt-body'>
+                <Container className='p-0'>
 
                     {/* Landing */}
                     <Route
