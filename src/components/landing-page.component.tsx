@@ -19,14 +19,21 @@
  * under the License.
  */
 
-import { Col, CardGroup, Container, Fade, Image, Row } from 'react-bootstrap'
+import { Col, CardGroup, Container, Fade, Image, Row, Form, FormGroup, Button, FormControl, InputGroup } from 'react-bootstrap';
 
 import '../i18n';
 // import { useTranslation } from 'react-i18next';
 
 import React, { Fragment } from 'react';
 import AppContext from '../misc/appContext';
-import stage from '../assets/images/header_airline.png'
+import flightIcon from '../assets/images/icon_fluege.png';
+import flighthotelIcon from '../assets/images/icon_flughotel.png';
+import hotelIcon from '../assets/images/icon_hotel.png';
+import rentalcarIcon from '../assets/images/icon_mietwagen.png';
+import locationIcon from '../assets/images/icon_von.png';
+import changeIcon from '../assets/images/icon_wechseln.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarker } from '@fortawesome/free-solid-svg-icons';
 
 const LandingPage = () => {
 
@@ -47,13 +54,61 @@ const LandingPage = () => {
                     <Row className="search">
                         <Col>
                             <Container>
-                                <Row className="search-header">
-                                    <Col>Flights</Col>
-                                    <Col>Flight &amp; Hotel</Col>
-                                    <Col>Rental Car</Col>
-                                    <Col>Hotel</Col>
+                                <Row>
+                                    <Container className="search-header">
+                                        <div className="search-header-element">
+                                            <Image className="icon" src={flightIcon} />{'Flights'}
+                                        </div>
+                                        <div className="search-header-element">
+                                            <Image className="icon" src={flighthotelIcon} />Flight &amp; Hotel
+                                        </div>
+                                        <div className="search-header-element">
+                                            <Image className="icon" src={rentalcarIcon} />Rental Car
+                                        </div>
+                                        <div className="search-header-element">
+                                            <Image className="icon" src={hotelIcon} />Hotel
+                                        </div>
+                                    </Container>
                                 </Row>
-                                <Row className="search-content"><p>2.Zeile</p></Row>
+                                <Row >
+                                    <Container className="search-content">
+                                        <Row>
+                                            <div className="from">from</div>
+                                        </Row>
+                                        <Row>
+                                            <Form>
+                                                <Form.Group as={Row}>
+                                                    <Col>
+                                                        <InputGroup className="input-transparent">
+                                                            <Form.Control
+                                                                className="input-transparent"
+                                                                placeholder="From"
+                                                                type="text"
+                                                            />
+                                                            <InputGroup.Text className="input-transparent">
+                                                                <span className="location-icon"/>
+                                                            </InputGroup.Text>
+                                                        </InputGroup>
+                                                    </Col>
+                                                    <Col>
+                                                        <span><Image className="icon" src={changeIcon} /></span>
+                                                    </Col>
+
+                                                    <Col>
+                                                        <Form.Control
+                                                            className="input-transparent"
+                                                            placeholder="To"
+                                                            type="text"
+                                                        />
+                                                    </Col>
+                                                    <Col>
+                                                        <Button className="botton">Next</Button>
+                                                    </Col>
+                                                </Form.Group>
+                                            </Form>
+                                        </Row>
+                                    </Container>
+                                </Row>
                             </Container>
                         </Col>
                     </Row>

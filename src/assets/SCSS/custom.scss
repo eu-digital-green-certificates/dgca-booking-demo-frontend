@@ -128,14 +128,116 @@ $container-max-widths: (
 }
 
 .search-header {
+    display: flex;
     background-color: white;
     width: 100%;
-    font-size: 20;
+    height:45px;
+    font-size: 20 !important;
     font-weight: bold;
     border-bottom: 2px solid #d0d0d1;
+    align-items: center;
 }
+
+.search-header-element {
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin-right:10px;
+}
+
+.search-header-element:first-child {
+    border-bottom: 3px solid black;
+  }
+  
+  .icon {
+    width: 16px;
+    height: 16px;
+    padding-right: 2px;
+}
+
 .search-content {
     background-color:rgba(245, 245, 245, 0.9) !important;
     width: 100%;
-    font-size: 22;
+    font-size: 20 !important;
 }
+
+.from {
+    font-size: 18;
+    color: #7e7e7e;
+    padding-top:2px;
+    padding-bottom: 2px;
+}
+
+// .form-control {
+//     &.input-transparent {
+//       font-size: 22;
+//       box-sizing: border-box;
+//       height: 36px;
+//       width: 140px;
+//       border-top: none;
+//       border-left: none;
+//       border-right: none;
+//       border-bottom: 2px solid #7e7e7e;
+//       border-radius: 0%;
+//       color: black;
+//       background-color: transparent;
+
+//       &:focus{
+//         border-color: none;
+//         box-shadow: none;
+//       }
+//     }
+    
+//     .location-icon {
+//       float: right;
+//       margin-left: -16px;
+//       margin-top: 32px;
+//       position: absolute;
+//       z-index: 2;
+//       width: 16px;
+//       height: 16px;
+//       background-color:red;
+//     }
+
+//   }´
+
+.input-transparent {
+      font-size: 22;
+      box-sizing: border-box;
+      height: 36px;
+    //   width: 140px;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid #7e7e7e;
+      border-radius: 0%;
+      color: black;
+      background-color: transparent;
+
+      &:focus{
+        border-color: none;
+        box-shadow: none;
+        background-color: transparent;
+        color: black;
+        outline-color: transparent;
+      }
+    }
+   
+    //TODO kann weg
+    .location-icon {
+        background-image: url("../images/icon_von.png") !important;
+        height: 20px;
+        width: 20px;
+    }
+      
+
+ 
+
+  .botton {
+      //TODO
+      background: yellow;
+      color: #262626;
+      width: 100px;
+      border: none;
+      font-weight: bold;
+  }
+  
