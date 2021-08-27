@@ -30,10 +30,6 @@ import flightIcon from '../assets/images/icon_fluege.png';
 import flighthotelIcon from '../assets/images/icon_flughotel.png';
 import hotelIcon from '../assets/images/icon_hotel.png';
 import rentalcarIcon from '../assets/images/icon_mietwagen.png';
-import locationIcon from '../assets/images/icon_von.png';
-import changeIcon from '../assets/images/icon_wechseln.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarker } from '@fortawesome/free-solid-svg-icons';
 
 const LandingPage = () => {
 
@@ -75,10 +71,10 @@ const LandingPage = () => {
                                         <Row>
                                             <div className="from">from</div>
                                         </Row>
-                                        <Row>
+                                        <Row className="d-flex pb-4">
                                             <Form>
                                                 <Form.Group as={Row}>
-                                                    <Col>
+                                                    <Col xs lg="4" md="4">
                                                         <InputGroup className="input-transparent">
                                                             <Form.Control
                                                                 className="input-transparent"
@@ -90,18 +86,18 @@ const LandingPage = () => {
                                                             </InputGroup.Text>
                                                         </InputGroup>
                                                     </Col>
-                                                    <Col>
-                                                        <span><Image className="icon" src={changeIcon} /></span>
+                                                    <Col xs lg="1" md="1">
+                                                        <div className="change-icon"/>
                                                     </Col>
 
-                                                    <Col>
+                                                    <Col xs lg="4" md="4">
                                                         <Form.Control
                                                             className="input-transparent"
                                                             placeholder="To"
                                                             type="text"
                                                         />
                                                     </Col>
-                                                    <Col>
+                                                    <Col xs lg="3" md="3">
                                                         <Button className="botton">Next</Button>
                                                     </Col>
                                                 </Form.Group>

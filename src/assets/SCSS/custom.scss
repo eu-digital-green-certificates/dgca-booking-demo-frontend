@@ -119,9 +119,6 @@ $container-max-widths: (
 }
 
 .search {
-    margin-right: 7rem;
-    margin-left: 7rem;
-    margin-bottom: 7rem;
     height:30%;
     width:100%;
     color:#262626;
@@ -149,8 +146,8 @@ $container-max-widths: (
   }
   
   .icon {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     padding-right: 2px;
 }
 
@@ -161,50 +158,16 @@ $container-max-widths: (
 }
 
 .from {
-    font-size: 18;
+    font-size: 18 !important;
     color: #7e7e7e;
     padding-top:2px;
     padding-bottom: 2px;
 }
 
-// .form-control {
-//     &.input-transparent {
-//       font-size: 22;
-//       box-sizing: border-box;
-//       height: 36px;
-//       width: 140px;
-//       border-top: none;
-//       border-left: none;
-//       border-right: none;
-//       border-bottom: 2px solid #7e7e7e;
-//       border-radius: 0%;
-//       color: black;
-//       background-color: transparent;
-
-//       &:focus{
-//         border-color: none;
-//         box-shadow: none;
-//       }
-//     }
-    
-//     .location-icon {
-//       float: right;
-//       margin-left: -16px;
-//       margin-top: 32px;
-//       position: absolute;
-//       z-index: 2;
-//       width: 16px;
-//       height: 16px;
-//       background-color:red;
-//     }
-
-//   }´
-
 .input-transparent {
-      font-size: 22;
+      font-size: 22 !important;
       box-sizing: border-box;
       height: 36px;
-    //   width: 140px;
       border-top: none;
       border-left: none;
       border-right: none;
@@ -212,32 +175,38 @@ $container-max-widths: (
       border-radius: 0%;
       color: black;
       background-color: transparent;
+      padding:0%;
 
       &:focus{
         border-color: none;
         box-shadow: none;
         background-color: transparent;
         color: black;
-        outline-color: transparent;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 2px solid #7e7e7e;
       }
     }
    
-    //TODO kann weg
-    .location-icon {
-        background-image: url("../images/icon_von.png") !important;
-        height: 20px;
-        width: 20px;
-    }
-      
+.location-icon {
+  background-image: url("../images/icon_von.png") !important;
+  height: 20px;
+  width: 20px;
+}
 
- 
+.change-icon {
+    background-image: url("../images/icon_wechseln.png") !important;
+    height: 34px;
+    width: 34px;
+    margin:auto;
+}
 
-  .botton {
-      //TODO
-      background: yellow;
-      color: #262626;
-      width: 100px;
-      border: none;
-      font-weight: bold;
-  }
+.botton {
+  background: #ffd617;
+  color: #262626;
+  width: 100px;
+  border: none;
+  font-weight: bold;
+}
   
