@@ -82,12 +82,12 @@ const LandingPage = () => {
                                                                 type="text"
                                                             />
                                                             <InputGroup.Text className="input-transparent">
-                                                                <span className="location-icon"/>
+                                                                <span className="location-icon" />
                                                             </InputGroup.Text>
                                                         </InputGroup>
                                                     </Col>
                                                     <Col xs lg="1" md="1">
-                                                        <div className="change-icon"/>
+                                                        <div className="change-icon" />
                                                     </Col>
 
                                                     <Col xs lg="4" md="4">
@@ -110,6 +110,46 @@ const LandingPage = () => {
                     </Row>
                 </Container>
                 <Container className='content-container'>
+                    <Row className='p-0'>
+                        <Container fluid className='check-in-container'>
+                            <Col xs="12" lg="3" md="3" className="p-0">
+                                <InputGroup className="input-checkin">
+                                    <Form.Control
+                                        className="input-checkin"
+                                        placeholder="Check-in"
+                                        type="text"
+                                    />
+                                    <InputGroup.Text className="input-checkin">
+                                        <span className="plus-icon" />
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Col>
+                            <Col xs="12" lg="3" md="3" className="p-0">
+                                <InputGroup className="input-checkin">
+                                    <Form.Control
+                                        className="input-checkin"
+                                        placeholder="Flight status"
+                                        type="text"
+                                    />
+                                    <InputGroup.Text className="input-checkin">
+                                        <span className="plus-icon" />
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Col>
+                            <Col xs="12" lg="3" md="3" className="p-0">
+                                <InputGroup className="input-checkin">
+                                    <Form.Control
+                                        className="input-checkin"
+                                        placeholder="My bookings"
+                                        type="text"
+                                    />
+                                    <InputGroup.Text className="input-checkin">
+                                        <span className="plus-icon" />
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Col>
+                        </Container>
+                    </Row>
                     <Row className='card-group'>
                         <Col sm='6' md='4' className='col-item' >
 
