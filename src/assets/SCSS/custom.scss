@@ -133,8 +133,8 @@ $container-max-widths: (
 }
 
 .search {
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
     height:30%;
     width:100%;
     color:#262626;
@@ -261,3 +261,23 @@ $container-max-widths: (
   font-weight: bold;
 }
   
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: $primary;
+    font-weight: bold;
+    font-size: 16pt;
+    color:white;
+    height: 40px;
+    margin:0%;
+    padding: 0%;
+   
+    img {
+        margin-left:15px;
+        margin-right: 9px;
+        height:24px;
+        width:24px
+    }
+}

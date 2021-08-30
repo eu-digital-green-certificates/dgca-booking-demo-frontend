@@ -30,20 +30,32 @@ import flightIcon from '../assets/images/icon_fluege.png';
 import flighthotelIcon from '../assets/images/icon_flughotel.png';
 import hotelIcon from '../assets/images/icon_hotel.png';
 import rentalcarIcon from '../assets/images/icon_mietwagen.png';
+import { propTypes } from 'react-bootstrap/esm/Image';
+import CheckinModal from './checkin-modal.component';
 
-const LandingPage = () => {
+const LandingPage = (props: any) => {
 
     const context = React.useContext(AppContext);
     // const { t } = useTranslation();
 
-    const [isInit, setIsInit] = React.useState(false)
+    const [isInit, setIsInit] = React.useState(false);
+    const [checkinPageShow, setCheckinPageShow] = React.useState(false);
 
     React.useEffect(() => {
         if (context.navigation)
             setIsInit(true);
     }, [context.navigation])
 
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        alert("HandleSubmit");
+        props.setCheckinPageShow(true);
+    }    
+
     return (!isInit ? <></> :
+        <>
         <Fade appear={true} in={true} >
             <Fragment>
                 <Container className='p-0 booking-container'>
@@ -72,7 +84,7 @@ const LandingPage = () => {
                                             <div className="from">from</div>
                                         </Row>
                                         <Row className="d-flex pb-4">
-                                            <Form>
+                                            <Form onSubmit={handleSubmit}>
                                                 <Form.Group as={Row}>
                                                     <Col xs lg="4" md="4">
                                                         <InputGroup className="input-transparent">
@@ -98,7 +110,7 @@ const LandingPage = () => {
                                                         />
                                                     </Col>
                                                     <Col xs lg="3" md="3">
-                                                        <Button className="botton">Next</Button>
+                                                        <Button className="botton" type="submit">Next</Button>
                                                     </Col>
                                                 </Form.Group>
                                             </Form>
@@ -172,7 +184,10 @@ const LandingPage = () => {
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordRecovery}>{t('translation:record-recovery-cert-dat')}</Button> */}
             </Fragment>
         </Fade>
-    )
+        {/* <CheckinModal 
+            show={true}
+        />         */}
+    </>)
 }
 
 export default LandingPage;
