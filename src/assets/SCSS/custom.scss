@@ -259,6 +259,14 @@ $container-max-widths: (
   width: 100px;
   border: none;
   font-weight: bold;
+  &:focus, &:hover, &:visited, &:active{
+    background: #ffd617;
+    color: #262626;
+    width: 100px;
+    border: none;
+    font-weight: bold;
+
+  }
 }
   
 .modal-header {
@@ -280,4 +288,9 @@ $container-max-widths: (
         height:24px;
         width:24px
     }
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
 }

@@ -39,7 +39,7 @@ const LandingPage = (props: any) => {
     // const { t } = useTranslation();
 
     const [isInit, setIsInit] = React.useState(false);
-    const [checkinPageShow, setCheckinPageShow] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
 
     React.useEffect(() => {
         if (context.navigation)
@@ -50,9 +50,14 @@ const LandingPage = (props: any) => {
         event.preventDefault();
         event.stopPropagation();
 
-        alert("HandleSubmit");
-        props.setCheckinPageShow(true);
-    }    
+        setShowModal(true);
+    } 
+    
+    const handleCheckin = (event: any) => {
+        setShowModal(false);
+        console.log("bin im handleCheckin");
+        alert("modal closed");
+    }
 
     return (!isInit ? <></> :
         <>
@@ -184,9 +189,10 @@ const LandingPage = (props: any) => {
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordRecovery}>{t('translation:record-recovery-cert-dat')}</Button> */}
             </Fragment>
         </Fade>
-        {/* <CheckinModal 
-            show={true}
-        />         */}
+        <CheckinModal 
+            show={showModal}
+            handleCheckin={handleCheckin}
+        />        
     </>)
 }
 

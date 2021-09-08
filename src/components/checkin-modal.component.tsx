@@ -23,7 +23,7 @@ import React, { Fragment } from 'react';
 
 import '../i18n';
 import { useTranslation } from 'react-i18next';
-import { Col, Image, Modal, ModalBody, ModalFooter, Row } from 'react-bootstrap';
+import { Button, Col, Form, Image, Modal, ModalBody, ModalFooter, Row } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 import airplane from '../assets/images/airplane_outline.png'
@@ -39,8 +39,13 @@ const CheckinModal = (props: any) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.show])
 
-    const handleClick = () => {
-        props.onLogin();
+    const handleCheckin = () => {
+        // if (props.handleCheckin) {
+            console.log("handleCheckin");
+            props.handleCheckin();
+            setShow(false);
+            
+        // }
     }
 
     return (
@@ -56,9 +61,25 @@ const CheckinModal = (props: any) => {
                 {t('translation:checkin')}
             </ModalHeader>
             <ModalBody>
-                Hallo
+                <Form.Control
+                    className="input-checkin"
+                    placeholder={t('translation:forename')}
+                    type="text"
+                />
+                <Form.Control
+                    className="input-checkin"
+                    placeholder={t('translation:lastname')}
+                    type="text"
+                />
+                <Form.Control
+                    className="input-checkin"
+                    placeholder={t('translation:bookingCode')}
+                    type="text"
+                />
             </ModalBody>
-            <ModalFooter></ModalFooter>
+            <ModalFooter className="modal-footer">
+                <Button className="botton" onClick={handleCheckin}>Login</Button>
+            </ModalFooter>
 
         </Modal>
     );
