@@ -68,6 +68,7 @@ const CheckinModal = (props: any) => {
             show={show}
             onHide={handleClose}
             centered
+            size='sm'
         >
             <Form className='form-flex' onSubmit={handleCheckin}>
                 <ModalHeader className='pb-0 modal-header'>
