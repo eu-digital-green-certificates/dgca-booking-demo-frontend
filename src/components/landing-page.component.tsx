@@ -46,154 +46,153 @@ const LandingPage = (props: any) => {
             setIsInit(true);
     }, [context.navigation])
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleCheckinClick = (event: any) => {
         event.preventDefault();
         event.stopPropagation();
 
         setShowModal(true);
-    } 
-    
+    }
+
     const handleCheckin = (event: any) => {
         setShowModal(false);
         console.log("bin im handleCheckin");
-        alert("modal closed");
     }
 
     return (!isInit ? <></> :
         <>
-        <Fade appear={true} in={true} >
-            <Fragment>
-                <Container className='p-0 booking-container'>
-                    <Row className="search">
-                        <Col>
-                            <Container>
-                                <Row>
-                                    <Container className="search-header">
-                                        <div className="search-header-element">
-                                            <Image className="icon" src={flightIcon} />{'Flights'}
-                                        </div>
-                                        <div className="search-header-element">
-                                            <Image className="icon" src={flighthotelIcon} />Flight &amp; Hotel
-                                        </div>
-                                        <div className="search-header-element">
-                                            <Image className="icon" src={rentalcarIcon} />Rental Car
-                                        </div>
-                                        <div className="search-header-element">
-                                            <Image className="icon" src={hotelIcon} />Hotel
-                                        </div>
-                                    </Container>
-                                </Row>
-                                <Row >
-                                    <Container className="search-content">
-                                        <Row>
-                                            <div className="from">from</div>
-                                        </Row>
-                                        <Row className="d-flex pb-4">
-                                            <Form onSubmit={handleSubmit}>
-                                                <Form.Group as={Row}>
-                                                    <Col xs lg="4" md="4">
-                                                        <InputGroup className="input-transparent">
+            <Fade appear={true} in={true} >
+                <Fragment>
+                    <Container className='p-0 booking-container'>
+                        <Row className="search">
+                            <Col>
+                                <Container>
+                                    <Row>
+                                        <Container className="search-header">
+                                            <div className="search-header-element">
+                                                <Image className="icon" src={flightIcon} />{'Flights'}
+                                            </div>
+                                            <div className="search-header-element">
+                                                <Image className="icon" src={flighthotelIcon} />Flight &amp; Hotel
+                                            </div>
+                                            <div className="search-header-element">
+                                                <Image className="icon" src={rentalcarIcon} />Rental Car
+                                            </div>
+                                            <div className="search-header-element">
+                                                <Image className="icon" src={hotelIcon} />Hotel
+                                            </div>
+                                        </Container>
+                                    </Row>
+                                    <Row >
+                                        <Container className="search-content">
+                                            <Row>
+                                                <div className="from">from</div>
+                                            </Row>
+                                            <Row className="d-flex pb-4">
+                                                <Form>
+                                                    <Form.Group as={Row}>
+                                                        <Col xs lg="4" md="4">
+                                                            <InputGroup className="input-transparent">
+                                                                <Form.Control
+                                                                    className="input-transparent"
+                                                                    placeholder="From"
+                                                                    type="text"
+                                                                />
+                                                                <InputGroup.Text className="input-transparent">
+                                                                    <span className="location-icon" />
+                                                                </InputGroup.Text>
+                                                            </InputGroup>
+                                                        </Col>
+                                                        <Col xs lg="1" md="1">
+                                                            <div className="change-icon" />
+                                                        </Col>
+
+                                                        <Col xs lg="4" md="4">
                                                             <Form.Control
                                                                 className="input-transparent"
-                                                                placeholder="From"
+                                                                placeholder="To"
                                                                 type="text"
                                                             />
-                                                            <InputGroup.Text className="input-transparent">
-                                                                <span className="location-icon" />
-                                                            </InputGroup.Text>
-                                                        </InputGroup>
-                                                    </Col>
-                                                    <Col xs lg="1" md="1">
-                                                        <div className="change-icon" />
-                                                    </Col>
-
-                                                    <Col xs lg="4" md="4">
-                                                        <Form.Control
-                                                            className="input-transparent"
-                                                            placeholder="To"
-                                                            type="text"
-                                                        />
-                                                    </Col>
-                                                    <Col xs lg="3" md="3">
-                                                        <Button className="botton" type="submit">Next</Button>
-                                                    </Col>
-                                                </Form.Group>
-                                            </Form>
-                                        </Row>
-                                    </Container>
-                                </Row>
+                                                        </Col>
+                                                        <Col xs lg="3" md="3">
+                                                            <Button className="botton" type="submit">Next</Button>
+                                                        </Col>
+                                                    </Form.Group>
+                                                </Form>
+                                            </Row>
+                                        </Container>
+                                    </Row>
+                                </Container>
+                            </Col>
+                        </Row>
+                    </Container>
+                    <Container className='content-container'>
+                        <Row className='p-0'>
+                            <Container fluid className='check-in-container'>
+                                <Col xs="12" lg="3" md="3" className="p-0">
+                                    <InputGroup className="input-checkin">
+                                        <Form.Control
+                                            className="input-checkin"
+                                            placeholder="Check-in"
+                                            type="text"
+                                        />
+                                        <InputGroup.Text className="input-checkin">
+                                            <span className="plus-icon" onClick={ handleCheckinClick }/>
+                                        </InputGroup.Text>
+                                    </InputGroup>
+                                </Col>
+                                <Col xs="12" lg="3" md="3" className="p-0">
+                                    <InputGroup className="input-checkin">
+                                        <Form.Control
+                                            className="input-checkin"
+                                            placeholder="Flight status"
+                                            type="text"
+                                        />
+                                        <InputGroup.Text className="input-checkin">
+                                            <span className="plus-icon" />
+                                        </InputGroup.Text>
+                                    </InputGroup>
+                                </Col>
+                                <Col xs="12" lg="3" md="3" className="p-0">
+                                    <InputGroup className="input-checkin">
+                                        <Form.Control
+                                            className="input-checkin"
+                                            placeholder="My bookings"
+                                            type="text"
+                                        />
+                                        <InputGroup.Text className="input-checkin">
+                                            <span className="plus-icon"/>
+                                        </InputGroup.Text>
+                                    </InputGroup>
+                                </Col>
                             </Container>
-                        </Col>
-                    </Row>
-                </Container>
-                <Container className='content-container'>
-                    <Row className='p-0'>
-                        <Container fluid className='check-in-container'>
-                            <Col xs="12" lg="3" md="3" className="p-0">
-                                <InputGroup className="input-checkin">
-                                    <Form.Control
-                                        className="input-checkin"
-                                        placeholder="Check-in"
-                                        type="text"
-                                    />
-                                    <InputGroup.Text className="input-checkin">
-                                        <span className="plus-icon" />
-                                    </InputGroup.Text>
-                                </InputGroup>
+                        </Row>
+                        <Row className='card-group'>
+                            <Col sm='6' md='4' className='col-item' >
+
                             </Col>
-                            <Col xs="12" lg="3" md="3" className="p-0">
-                                <InputGroup className="input-checkin">
-                                    <Form.Control
-                                        className="input-checkin"
-                                        placeholder="Flight status"
-                                        type="text"
-                                    />
-                                    <InputGroup.Text className="input-checkin">
-                                        <span className="plus-icon" />
-                                    </InputGroup.Text>
-                                </InputGroup>
+                            <Col sm='6' md='4' className='col-item' >
+
                             </Col>
-                            <Col xs="12" lg="3" md="3" className="p-0">
-                                <InputGroup className="input-checkin">
-                                    <Form.Control
-                                        className="input-checkin"
-                                        placeholder="My bookings"
-                                        type="text"
-                                    />
-                                    <InputGroup.Text className="input-checkin">
-                                        <span className="plus-icon" />
-                                    </InputGroup.Text>
-                                </InputGroup>
+                            <Col sm='6' md='4' className='col-item' >
+
                             </Col>
-                        </Container>
-                    </Row>
-                    <Row className='card-group'>
-                        <Col sm='6' md='4' className='col-item' >
+                            <Col sm='6' md='4' className='col-item' >
 
-                        </Col>
-                        <Col sm='6' md='4' className='col-item' >
-
-                        </Col>
-                        <Col sm='6' md='4' className='col-item' >
-
-                        </Col>
-                        <Col sm='6' md='4' className='col-item' >
-
-                        </Col>
-                    </Row>
-                </Container>
-                {/* <span className='landing-title mx-auto mb-4'>{t('translation:welcome')}</span>
+                            </Col>
+                        </Row>
+                    </Container>
+                    {/* <span className='landing-title mx-auto mb-4'>{t('translation:welcome')}</span>
 
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordVac}>{t('translation:record-vaccination-cert-dat')}</Button>
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordTest}>{t('translation:record-test-cert-dat')}</Button>
                 <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordRecovery}>{t('translation:record-recovery-cert-dat')}</Button> */}
-            </Fragment>
-        </Fade>
-        <CheckinModal 
-            show={showModal}
-            handleCheckin={handleCheckin}
-        />        
-    </>)
+                </Fragment>
+            </Fade>
+            <CheckinModal
+                show={showModal}
+                handleCheckin={handleCheckin}
+            />
+        </>)
 }
 
 export default LandingPage;

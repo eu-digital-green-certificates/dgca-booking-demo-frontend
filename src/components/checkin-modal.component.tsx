@@ -27,11 +27,15 @@ import { Button, Col, Form, Image, Modal, ModalBody, ModalFooter, Row } from 're
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 import airplane from '../assets/images/airplane_outline.png'
+import { IPerson } from '../misc/person';
 
 const CheckinModal = (props: any) => {
 
     const { t } = useTranslation();
     const [show, setShow] = React.useState(true);
+    const [forename, setForname] = React.useState<string>();
+    const [lastname, setLastname] = React.useState<string>();
+    const [bookingCode, setBookingCode] = React.useState<string>();
 
     React.useEffect(() => {
         if (props)
@@ -40,12 +44,13 @@ const CheckinModal = (props: any) => {
     }, [props.show])
 
     const handleCheckin = () => {
-        // if (props.handleCheckin) {
-            console.log("handleCheckin");
-            props.handleCheckin();
-            setShow(false);
-            
-        // }
+        let person: IPerson = {
+            forename: forename!,
+            lastname: lastname!,
+            bookingCode: bookingCode!
+        }
+        console.log(person);
+        props.handleCheckin();
     }
 
     return (
@@ -55,32 +60,41 @@ const CheckinModal = (props: any) => {
             keyboard={false}
             centered
         >
-
-            <ModalHeader className='pb-0 modal-header'>
-                <Image src={airplane} />
-                {t('translation:checkin')}
-            </ModalHeader>
-            <ModalBody>
-                <Form.Control
-                    className="input-checkin"
-                    placeholder={t('translation:forename')}
-                    type="text"
-                />
-                <Form.Control
-                    className="input-checkin"
-                    placeholder={t('translation:lastname')}
-                    type="text"
-                />
-                <Form.Control
-                    className="input-checkin"
-                    placeholder={t('translation:bookingCode')}
-                    type="text"
-                />
-            </ModalBody>
-            <ModalFooter className="modal-footer">
-                <Button className="botton" onClick={handleCheckin}>Login</Button>
-            </ModalFooter>
-
+            <Form className='form-flex' onSubmit={handleCheckin}>
+                <ModalHeader className='pb-0 modal-header'>
+                    <Image src={airplane} />
+                    {t('translation:checkin')}
+                </ModalHeader>
+                <ModalBody>
+                    <Form.Control
+                        className="input-checkin"
+                        placeholder={t('translation:forename')}
+                        type="text"
+                        value={forename}
+                        onChange={(evt: any) => setForname(evt.target.value)}
+                        required
+                    />
+                    <Form.Control
+                        className="input-checkin"
+                        placeholder={t('translation:lastname')}
+                        type="text"
+                        value={lastname}
+                        onChange={(evt: any) => setLastname(evt.target.value)}
+                        required
+                    />
+                    <Form.Control
+                        className="input-checkin"
+                        placeholder={t('translation:bookingCode')}
+                        type="text"
+                        value={bookingCode}
+                        onChange={(evt: any) => setBookingCode(evt.target.value)}
+                        required
+                    />
+                </ModalBody>
+                <ModalFooter className="modal-footer">
+                    <Button className="botton" type='submit'>Login</Button>
+                </ModalFooter>
+            </Form>
         </Modal>
     );
 }

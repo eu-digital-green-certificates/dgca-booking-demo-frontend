@@ -21,7 +21,7 @@
 
 import React from 'react';
 
-export interface IPassenger {
+export interface IPerson {
     forename: string,
     lastname: string,
     bookingCode: string
