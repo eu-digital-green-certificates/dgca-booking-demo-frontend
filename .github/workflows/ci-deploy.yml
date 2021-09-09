@@ -5,6 +5,9 @@ on:
       version:
         required: true
         description: Version to deploy
+  push:
+    branches:
+    - main
 jobs:
   deploy:
     runs-on: ubuntu-20.04
