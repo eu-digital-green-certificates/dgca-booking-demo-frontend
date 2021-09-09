@@ -233,6 +233,12 @@ $container-max-widths: (
       border-bottom: 1px solid #7e7e7e;
     }
   }
+
+.input-checkin-modal {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+  
    
 .location-icon {
   background-image: url("../images/icon_von.png") !important;
@@ -292,5 +298,5 @@ $container-max-widths: (
 
 .modal-footer {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 }

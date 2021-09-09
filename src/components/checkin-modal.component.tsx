@@ -32,16 +32,25 @@ import { IPerson } from '../misc/person';
 const CheckinModal = (props: any) => {
 
     const { t } = useTranslation();
-    const [show, setShow] = React.useState(true);
+    const [show, setShow] = React.useState(false);
     const [forename, setForname] = React.useState<string>();
     const [lastname, setLastname] = React.useState<string>();
     const [bookingCode, setBookingCode] = React.useState<string>();
 
     React.useEffect(() => {
-        if (props)
-            setShow(props.show);
+        if(props.show) {
+            handleShow();
+        }
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.show])
+
+    const handleClose = () => {
+        //TODO close Modal - do nothing
+        props.handleCheckin();
+        setShow(false);
+    }
+    const handleShow = () => setShow(true);
 
     const handleCheckin = () => {
         let person: IPerson = {
@@ -50,14 +59,14 @@ const CheckinModal = (props: any) => {
             bookingCode: bookingCode!
         }
         console.log(person);
+        //TODO api call - go to the next page
         props.handleCheckin();
     }
 
     return (
         <Modal contentClassName='checkin-modal'
             show={show}
-            backdrop="static"
-            keyboard={false}
+            onHide={handleClose}
             centered
         >
             <Form className='form-flex' onSubmit={handleCheckin}>
@@ -66,25 +75,28 @@ const CheckinModal = (props: any) => {
                     {t('translation:checkin')}
                 </ModalHeader>
                 <ModalBody>
+                    <Form.Label>
+                        {t('translation:plsLogin')}
+                    </Form.Label>
                     <Form.Control
-                        className="input-checkin"
-                        placeholder={t('translation:forename')}
+                        className="input-checkin input-checkin-modal"
+                        placeholder={t('translation:forename') + '*'}
                         type="text"
                         value={forename}
                         onChange={(evt: any) => setForname(evt.target.value)}
                         required
                     />
                     <Form.Control
-                        className="input-checkin"
-                        placeholder={t('translation:lastname')}
+                        className="input-checkin input-checkin-modal"
+                        placeholder={t('translation:lastname') + '*'}
                         type="text"
                         value={lastname}
                         onChange={(evt: any) => setLastname(evt.target.value)}
                         required
                     />
                     <Form.Control
-                        className="input-checkin"
-                        placeholder={t('translation:bookingCode')}
+                        className="input-checkin input-checkin-modal"
+                        placeholder={t('translation:bookingCode') + '*'}
                         type="text"
                         value={bookingCode}
                         onChange={(evt: any) => setBookingCode(evt.target.value)}

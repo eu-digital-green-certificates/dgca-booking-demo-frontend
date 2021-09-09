@@ -55,7 +55,6 @@ const LandingPage = (props: any) => {
 
     const handleCheckin = (event: any) => {
         setShowModal(false);
-        console.log("bin im handleCheckin");
     }
 
     return (!isInit ? <></> :

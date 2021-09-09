@@ -3,5 +3,6 @@
   "checkin": "Check-in",
   "forename": "Forename",
   "lastname": "Last name",
-  "bookingCode": "Booking code/Ticketnr."
+  "bookingCode": "Booking code/Ticketnr.",
+  "plsLogin": "Please log in"
 }
