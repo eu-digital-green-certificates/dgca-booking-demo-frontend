@@ -4,5 +4,10 @@
   "forename": "Forename",
   "lastname": "Last name",
   "bookingCode": "Booking code/Ticketnr.",
-  "plsLogin": "Please log in"
+  "plsLogin": "Please log in",
+  "infoChekin": "In order to receive your ticket, you habe to upload a test result / vaccination ticket or scan the QR code with your wallet app (please consider the validity till the time of arrival).<br>Click here for tutorial.<br>",
+  "conditionFulfilled": "Condition fulfilled",
+  "name": "Name",
+  "lblUpload": "Upload a valid test/vaccination certificate from your harddrive",
+  "lblScan": "Scan the code with your wallet app"
 }

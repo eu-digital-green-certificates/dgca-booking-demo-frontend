@@ -23,7 +23,7 @@ import React, { Fragment } from 'react';
 
 import '../i18n';
 import { useTranslation } from 'react-i18next';
-import { Button, Col, Form, Image, Modal, ModalBody, ModalFooter, Row } from 'react-bootstrap';
+import { Button, Form, Image, Modal, ModalBody, ModalFooter } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 import airplane from '../assets/images/airplane_outline.png'

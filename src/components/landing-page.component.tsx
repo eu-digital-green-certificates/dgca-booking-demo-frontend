@@ -19,7 +19,7 @@
  * under the License.
  */
 
-import { Col, CardGroup, Container, Fade, Image, Row, Form, FormGroup, Button, FormControl, InputGroup } from 'react-bootstrap';
+import { Col, Container, Fade, Image, Row, Form,  Button, InputGroup } from 'react-bootstrap';
 
 import '../i18n';
 // import { useTranslation } from 'react-i18next';
@@ -30,7 +30,6 @@ import flightIcon from '../assets/images/icon_fluege.png';
 import flighthotelIcon from '../assets/images/icon_flughotel.png';
 import hotelIcon from '../assets/images/icon_hotel.png';
 import rentalcarIcon from '../assets/images/icon_mietwagen.png';
-import { propTypes } from 'react-bootstrap/esm/Image';
 import CheckinModal from './checkin-modal.component';
 
 const LandingPage = (props: any) => {
