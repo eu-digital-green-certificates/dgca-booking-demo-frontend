@@ -1,10 +1,21 @@
 //Font Definitions
 // @import "@fortawesome/fontawesome-free/css/solid.min.css";
 
+@font-face {
+    font-family: "TeleNeo";
+    src: url(./fonts/TeleNeoWeb-Regular.eot) format("eot"), url(./fonts/TeleNeoWeb-Regular.woff) format("woff"),
+        url(./fonts/TeleNeoWeb-Regular.woff2) format("woff2");
+}
+@font-face {
+    font-family: "TeleNeo";
+    src: url(./fonts/TeleNeoWeb-Bold.eot) format("eot"), url(./fonts/TeleNeoWeb-Bold.woff) format("woff"),
+        url(./fonts/TeleNeoWeb-Bold.woff2) format("woff2");
+    font-weight: bold;
+}
 // Override default variables before the import
 $body-bg: #cfcfcf;
-$font-family-base: Arial, sans-serif;
-$primary: #004494;
+$font-family-base: TeleNeo;
+$primary: #00739f;
 $primary-dark: #002f67;
 $info: #ffd617;
 $dark: #404040;
@@ -12,7 +23,280 @@ $gray-100: #f2f5f9;
 $body-color: $dark;
 $light: #ebebeb;
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 800px,
+  lg: 1000px,
+  xl: 1400px,
+  xxl: 1650px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1300px,
+  xxl: 1585px
+);
+
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";
 
+.header-title {
+    color: $light;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bold;
+}
 
+.demo-logo {
+    margin: 2rem;
+    width: 3rem;
+    height: 3rem;
+}
+
+#header {
+    display: flex;
+    background-color: $primary;
+    padding-left: 0rem;
+    padding-right: 7rem;
+    height: 7rem;
+}
+
+#header-right {
+    display: flex;
+    padding: 0;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#user {
+    background-image: url("../images/login_icon.png") !important;
+    width: 2.375rem;
+    height: 2.375rem;
+    margin-right: 2rem;
+}
+
+#menu {
+    background-image: url("../images/burgermenu.png") !important;
+    width: 1.625rem;
+    height: 1.625rem;
+}
+
+.header-text {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 26px;
+    color: white;
+}
+
+.content-container {
+    background-color: white;
+    padding-left: 7rem;
+    padding-right: 7rem;
+    padding-bottom: 7rem;
+}
+
+.check-in-container {
+    display: flex;
+    flex-flow: wrap;
+    flex-direction: row;
+    margin:0%;
+    padding-left: 0%;
+    padding-right: 0%;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+    justify-content: space-between;
+}
+
+.card-group{
+    justify-content: space-between;
+}
+.col-item{
+    background-color: #ccc;
+    // margin-left: 0.75rem;
+    // margin-right: 0.75rem;
+    border-top: #707070 solid 1px;
+    max-width: 300px;
+    height:301px;
+}
+
+.booking-container {
+    display:flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    background-image: url("../images/header_airline.png") !important;
+    background-repeat: no-repeat;
+    height: 556px;
+}
+
+.search {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+    height:30%;
+    width:100%;
+    color:#262626;
+}
+
+.search-header {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+    width: 100%;
+    height:45px;
+    font-size: 20 !important;
+    font-weight: bold;
+    border-bottom: 2px solid #d0d0d1;
+    align-items: center;
+}
+
+.search-header-element {
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin-right:10px;
+}
+
+.search-header-element:first-child {
+    border-bottom: 3px solid black;
+  }
+  
+  .icon {
+    width: 24px;
+    height: 24px;
+    padding-right: 2px;
+}
+
+.search-content {
+    background-color:rgba(245, 245, 245, 0.9) !important;
+    width: 100%;
+    font-size: 20 !important;
+}
+
+.from {
+    font-size: 18 !important;
+    color: #7e7e7e;
+    padding-top:2px;
+    padding-bottom: 2px;
+}
+
+.input-transparent {
+  font-size: 22 !important;
+  box-sizing: border-box;
+  height: 36px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #7e7e7e;
+  border-radius: 0%;
+  color: black;
+  background-color: transparent;
+  padding:0%;
+
+  &:focus{
+    border-color: none;
+    box-shadow: none;
+    background-color: transparent;
+    color: black;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #7e7e7e;
+  }
+}
+
+.input-checkin {
+    font-size: 24 !important;
+    font-weight: bold;
+    box-sizing: border-box;
+    height: 36px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #7e7e7e;
+    border-radius: 0%;
+    color: black;
+    background-color: transparent;
+    padding:0%;
+  
+    &:focus{
+      font-size: 24 !important;
+      font-weight: bold;
+      border-color: none;
+      box-shadow: none;
+      background-color: transparent;
+      color: black;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 1px solid #7e7e7e;
+    }
+  }
+
+.input-checkin-modal {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+  
+   
+.location-icon {
+  background-image: url("../images/icon_von.png") !important;
+  height: 20px;
+  width: 20px;
+}
+
+.plus-icon {
+    background-image: url("../images/icon_plus.png") !important;
+    height: 24px;
+    width: 24px;
+  }
+
+.change-icon {
+    background-image: url("../images/icon_wechseln.png") !important;
+    height: 34px;
+    width: 34px;
+    margin:auto;
+}
+
+.botton {
+  background: #ffd617;
+  color: #262626;
+  width: 100px;
+  border: none;
+  font-weight: bold;
+  &:focus, &:hover, &:visited, &:active{
+    background: #ffd617;
+    color: #262626;
+    width: 100px;
+    border: none;
+    font-weight: bold;
+
+  }
+}
+  
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: $primary;
+    font-weight: bold;
+    font-size: 16pt;
+    color:white;
+    height: 40px;
+    margin:0%;
+    padding: 0%;
+   
+    img {
+        margin-left:15px;
+        margin-right: 9px;
+        height:24px;
+        width:24px
+    }
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-start;
+}

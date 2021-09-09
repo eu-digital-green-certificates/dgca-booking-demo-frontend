@@ -20,12 +20,12 @@
  */
 
 import React from 'react';
-import { Container } from 'react-bootstrap'
+import { Col, Container, Fade, Image, Row } from 'react-bootstrap'
 
 import '../i18n';
 import { useTranslation } from 'react-i18next';
 
-// import EULogo from '../assets/images/Flag+EU.png'
+import logo from '../assets/images/airplane_outline.png'
 
 const Header = (props: any) => {
 
@@ -35,13 +35,22 @@ const Header = (props: any) => {
 
     return (!isInit ? <></> :
         <>
-            <Container className='bg-white px-0 position-relative'>
-                {/* simple header with logo */}
-                {/* <Image src={EULogo} className='m-3' /> */}
-            </Container>
-            <Container className='d-flex bg-gray-1 px-0 position-relative'>
-                <span className='header-title'>{t('translation:title')}</span>
-            </Container>
+            <Fade appear={true} in={true} >
+                <Container className='w100'>
+                    <Row id='header'>
+                        <Col className='d-flex p-0'>
+                            <Image className='demo-logo' src={logo} />
+                            <h1 className='header-title'>{t('translation:title')}</h1>
+                        </Col>
+                        <Col id='header-right'>
+                            <span className='header-text' >Login</span>
+                            <span id='user' />
+                            <span className='header-text' >Menü</span>
+                            <span id='menu' />
+                        </Col>
+                    </Row>
+                </Container>
+            </Fade>
         </>
     )
 }
