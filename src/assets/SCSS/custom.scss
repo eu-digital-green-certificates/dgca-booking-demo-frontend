@@ -274,6 +274,22 @@ $container-max-widths: (
 
   }
 }
+
+.upload-botton {
+    background: transparent;
+    color: #262626;
+    width: 100px;
+    border: 1px solid #262626;
+    font-weight: bold;
+    &:focus, &:hover, &:visited, &:active{
+      background: transparent;
+      color: #262626;
+      width: 100px;
+      border: 1px solid #262626;
+      font-weight: bold;
+  
+    }
+  }
   
 .modal-header {
     display: flex;
@@ -299,4 +315,47 @@ $container-max-widths: (
 .modal-footer {
     display: flex;
     justify-content: flex-start;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.padding-checkin {
+    padding: 0.5rem;
+}
+
+.flight-information {
+    display: flex;
+    border: 1px solid #262626;
+    
+    .logo {
+        background-image: url("../images/logo_c19.png") !important;
+        background-repeat: no-repeat;
+        width: 43px;
+        height: 51px;
+        padding-right: 30%;
+    }
+}
+
+.wrapper-flight-information {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    padding:0%;
+    height: 100%;
+}
+
+.text-vertical-center {
+    display: inline-flex;
+    align-items: center;
+    height:100%;
+}
+
+.no-grow {
+    flex: 0 1 0 !important;
+}
+
+.shrink-grow {
+    flex: 1 1 0 ! important
 }

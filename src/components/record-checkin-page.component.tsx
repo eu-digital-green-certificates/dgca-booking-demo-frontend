@@ -23,7 +23,7 @@ import '../i18n';
 import { useTranslation } from 'react-i18next';
 
 import React from 'react';
-import { Fade, Container, Row, Col } from 'react-bootstrap';
+import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
 
 const RecordCheckinPage = (props: any) => {
@@ -41,39 +41,79 @@ const RecordCheckinPage = (props: any) => {
     return (!isInit ? <></> :
         <>
             <Fade appear={true} in={true} >
-                <Container className='p-0'>
+                <Container className='content-container'>
                     <Row>
                         <h1>{t('translation:checkin')}</h1>
                     </Row>
                     <Row>
-                        <Col xs={12} sm={7} lg={7}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        <Col xs={12} sm={7} lg={7}>
+                            {t('translation:infoCheckin1')}<br />
+                            {t('translation:infoCheckin2')}<br />
+                            {t('translation:infoCheckin3')}<br /><br />
+                            {t('translation:infoCheckin4')}<br /><br />
+                            {t('translation:infoCheckin5')}
                         </Col>
-                        <Col xs={12} sm={4} lg={5}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        <Col xs={12} sm={5} lg={5}>
+                            <Container className="wrapper-flight-information">
+                                <Container className="padding-checkin flight-information mb-2">
+                                    {/* TODO:  */}
+                                    Flight AIR094, Group booking<br />
+                                    Booking code 2DDBSL<br />
+                                    Munich(MUC)<br />
+                                    Dresden(DRE)<br />
+                                    Economy Classic<br />
+                                    3 Passender(s)<br />
+                                    Tuesday, 17.08.2021 12:15
+                                </Container>
+                                <Container className="padding-checkin flight-information mb-2">
+                                    <span className="logo" />
+                                    <span className="text-vertical-center">
+                                        {t('translation:dccCertificate')}
+                                    </span>
+                                </Container>
+                            </Container>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className="bold">
                         <Col xs={12} sm={1} lg={1}>
-                            {t('translation:conditionFulfilled')}
+                            <span className="text-vertical-center">
+                                {t('translation:conditionFulfilled')}
+                            </span>
                         </Col>
                         <Col xs={12} sm={6} lg={6}>
-                            {t('translation:Name')}
+                            <span className="text-vertical-center">
+                                {t('translation:Name')}
+                            </span>
                         </Col>
-                        <Col xs={12} sm={2} lg={2}>
-                            {t('translation:lblUpload')}
+                        <Col xs={12} sm={2} lg={2} className="shrink-grow">
+                            <span className="text-vertical-center">
+                                {t('translation:lblUpload')}
+                            </span>
                         </Col>
-                        <Col xs={12} sm={3} lg={3}>
-                            {t('translation:lblScan')}
+                        <Col xs={12} sm={1} lg={1} className="no-grow">
+                            <span className="text-vertical-center">
+                                {t('translation:or')}
+                            </span>
+                        </Col>
+                        <Col xs={12} sm={2} lg={2} className="shrink-grow">
+                            <span className="text-vertical-center">
+                                {t('translation:lblScan')}
+                            </span>
                         </Col>
                     </Row>
                     <hr />
                     <Row>
                         <Col xs={12} sm={1} lg={1}>Lorem .
                         </Col>
-                        <Col xs={12} sm={6} lg={6}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        <Col xs={12} sm={6} lg={6}>Alfred Mustermann
                         </Col>
-                        <Col xs={12} sm={2} lg={2}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
                         </Col>
-                        <Col xs={12} sm={3} lg={3}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        {/* Attention column for or */}
+                        <Col xs={12} sm={1} lg={1} className="no-grow">
+                            &nbsp;
+                        </Col>
+                        <Col xs={12} sm={2} lg={2} className="shrink-grow">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                         </Col>
                     </Row>
                     <hr />
