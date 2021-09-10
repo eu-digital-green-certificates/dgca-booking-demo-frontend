@@ -28,10 +28,13 @@ import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 import airplane from '../assets/images/airplane_outline.png'
 import { IPerson } from '../misc/person';
+import AppContext from '../misc/appContext';
 
 const CheckinModal = (props: any) => {
 
+    const context = React.useContext(AppContext);
     const { t } = useTranslation();
+
     const [show, setShow] = React.useState(false);
     const [forename, setForname] = React.useState<string>();
     const [lastname, setLastname] = React.useState<string>();
@@ -46,9 +49,9 @@ const CheckinModal = (props: any) => {
     }, [props.show])
 
     const handleClose = () => {
-        //TODO close Modal - do nothing
         props.handleCheckin();
         setShow(false);
+
     }
     const handleShow = () => setShow(true);
 
@@ -58,9 +61,7 @@ const CheckinModal = (props: any) => {
             lastname: lastname!,
             bookingCode: bookingCode!
         }
-        console.log(person);
-        //TODO api call - go to the next page
-        props.handleCheckin();
+        context.navigation!.toCheckin();  
     }
 
     return (

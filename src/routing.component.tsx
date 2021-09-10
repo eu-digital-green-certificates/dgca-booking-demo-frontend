@@ -35,6 +35,7 @@ import IError from './misc/error';
 import Header from './components/header.component';
 import AppContext, { IAppContext } from './misc/appContext';
 import utils from './misc/utils';
+import RecordCheckinPage from './components/record-checkin-page.component';
 
 const Routing = () => {
     const { t } = useTranslation();
@@ -88,6 +89,12 @@ const Routing = () => {
                         path={context.navigation.routes.landing}
                     >
                         <LandingPage />
+                    </Route>
+                    <Route
+                        exact
+                        path={context.navigation.routes.checkin}
+                    >
+                        <RecordCheckinPage />
                     </Route>
 
                 </Container>
