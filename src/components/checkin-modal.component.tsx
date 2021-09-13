@@ -27,51 +27,39 @@ import { Button, Form, Image, Modal, ModalBody, ModalFooter } from 'react-bootst
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 import airplane from '../assets/images/airplane_outline.png'
-import { IPerson } from '../misc/person';
+import { IPerson } from '../interfaces/person';
 import AppContext from '../misc/appContext';
 
 const CheckinModal = (props: any) => {
 
     const context = React.useContext(AppContext);
     const { t } = useTranslation();
-
-    const [show, setShow] = React.useState(false);
     const [forename, setForname] = React.useState<string>();
     const [lastname, setLastname] = React.useState<string>();
     const [bookingCode, setBookingCode] = React.useState<string>();
 
-    React.useEffect(() => {
-        if(props.show) {
-            handleShow();
-        }
-        
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.show])
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        // const form = event.currentTarget;
 
-    const handleClose = () => {
-        props.handleCheckin();
-        setShow(false);
+        event.preventDefault();
+        event.stopPropagation();
 
-    }
-    const handleShow = () => setShow(true);
-
-    const handleCheckin = () => {
         let person: IPerson = {
             forename: forename!,
             lastname: lastname!,
-            bookingCode: bookingCode!
+            bookingReference: bookingCode!
         }
         context.navigation!.toCheckin();  
     }
 
     return (
         <Modal contentClassName='checkin-modal'
-            show={show}
-            onHide={handleClose}
+            show={props.show}
+            onHide={props.hide}
             centered
             size='sm'
         >
-            <Form className='form-flex' onSubmit={handleCheckin}>
+            <Form className='form-flex' onSubmit={handleSubmit}>
                 <ModalHeader className='pb-0 modal-header'>
                     <Image src={airplane} />
                     {t('translation:checkin')}

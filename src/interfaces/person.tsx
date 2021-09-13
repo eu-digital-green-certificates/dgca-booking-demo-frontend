@@ -24,5 +24,5 @@ import React from 'react';
 export interface IPerson {
     forename: string,
     lastname: string,
-    bookingCode: string
+    bookingReference: string
 }
