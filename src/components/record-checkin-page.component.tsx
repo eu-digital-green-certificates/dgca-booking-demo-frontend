@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
+import { BookingResponse } from '../interfaces/booking-response';
 
 const RecordCheckinPage = (props: any) => {
 
@@ -32,13 +33,22 @@ const RecordCheckinPage = (props: any) => {
     const context = React.useContext(AppContext);
 
     const [isInit, setIsInit] = React.useState(false);
+    const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
+
+    // React.useEffect(() => {
+    //     if (bookingResponse)
+    //         alert("Bin im BookingResponse");
+    // }, [bookingResponse])
 
     React.useEffect(() => {
-        if (context.navigation)
+        if (context.navigation){
+            setBookingResponse(props.bookingResponse);
             setIsInit(true);
+        }
+            
     }, [context.navigation])
 
-    return (!isInit ? <></> :
+    return (!isInit? <></> :
         <>
             <Fade appear={true} in={true} >
                 <Container className='content-container'>
@@ -103,9 +113,9 @@ const RecordCheckinPage = (props: any) => {
                     </Row>
                     <hr />
                     <Row>
-                        <Col xs={12} sm={1} lg={1}>Lorem .
+                        <Col xs={12} sm={1} lg={1}>Lorem.
                         </Col>
-                        <Col xs={12} sm={6} lg={6}>Alfred Mustermann
+                        <Col xs={12} sm={6} lg={6}>{JSON.stringify(bookingResponse)}
                         </Col>
                         <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
                         </Col>

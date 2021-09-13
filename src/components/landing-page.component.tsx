@@ -33,6 +33,7 @@ import rentalcarIcon from '../assets/images/icon_mietwagen.png';
 import CheckinModal from './checkin-modal.component';
 import { IPerson } from '../interfaces/person';
 import { useBooking } from '../api';
+import { BookingResponse } from '../interfaces/booking-response';
 
 const LandingPage = (props: any) => {
 
@@ -42,19 +43,27 @@ const LandingPage = (props: any) => {
     const [isInit, setIsInit] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
     const [booking, getBooking] = useBooking();
+    const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
 
     React.useEffect(() => {
         if (context.navigation)
             setIsInit(true);
     }, [context.navigation])
 
+    React.useEffect(() => {
+        if (bookingResponse) {
+            props.setBookingResponse(bookingResponse);
+            context.navigation!.toCheckin();
+        }
+    }, [bookingResponse, setBookingResponse])
+
+    //TODO: braucht man das?
     const handleCheckinClick = (event: any) => {
         setShowModal(true);
     }
 
+    //TODO: braucht man das?
     const handleCheckin = (person: IPerson) => {
-        //setShowModal(false);
-
         getBooking(person);
     }
 
@@ -184,6 +193,7 @@ const LandingPage = (props: any) => {
                 show={showModal}
                 hide={() => setShowModal(false)}
                 handleCheckin={handleCheckin}
+                setBookingResponse={setBookingResponse}
             />
         </>)
 }

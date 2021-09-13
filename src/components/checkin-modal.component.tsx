@@ -29,6 +29,7 @@ import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import airplane from '../assets/images/airplane_outline.png'
 import { IPerson } from '../interfaces/person';
 import AppContext from '../misc/appContext';
+import { useBooking } from '../api';
 
 const CheckinModal = (props: any) => {
 
@@ -38,8 +39,25 @@ const CheckinModal = (props: any) => {
     const [lastname, setLastname] = React.useState<string>();
     const [bookingCode, setBookingCode] = React.useState<string>();
 
+
+    const handleError = (error: any) => {
+        let msg = '';
+
+        if (error) {
+            msg = error.message
+        }
+        props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
+    }
+
+    const [booking, getBooking] = useBooking(undefined, handleError);
+
+    React.useEffect(() => {
+        if (booking) {
+            props.setBookingResponse(booking);
+        }
+    }, [booking])
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        // const form = event.currentTarget;
 
         event.preventDefault();
         event.stopPropagation();
@@ -49,7 +67,8 @@ const CheckinModal = (props: any) => {
             lastname: lastname!,
             bookingReference: bookingCode!
         }
-        context.navigation!.toCheckin();  
+
+        getBooking(person);
     }
 
     return (
