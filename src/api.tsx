@@ -52,7 +52,6 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
                 console.log('response: '); console.log(JSON.stringify(response.data));
 
                 setResult(response.data);
-                console.log(response.data);
                 if (onSuccess) {
                     onSuccess();
                 }

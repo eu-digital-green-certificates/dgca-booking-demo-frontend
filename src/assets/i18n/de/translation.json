@@ -1,3 +1,6 @@
 {
-  "title": "Booking Demo"
+  "title": "Booking Demo",
+  "error-message": "Fehlermeldung",
+  "serverError": "Es ist ein Fehler aufgetreten: ",
+  "cancel": "Abbrechen"
 }

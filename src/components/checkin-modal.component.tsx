@@ -70,6 +70,7 @@ const CheckinModal = (props: any) => {
             bookingReference: bookingCode!
         }
 
+        //TODO: sollte über die Landingpage erfolgen
         getBooking(person);
     }
 

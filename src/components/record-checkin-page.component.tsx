@@ -26,6 +26,8 @@ import React from 'react';
 import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
+import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
+import utils from "../misc/utils";
 
 const RecordCheckinPage = (props: any) => {
 
@@ -41,14 +43,14 @@ const RecordCheckinPage = (props: any) => {
     // }, [bookingResponse])
 
     React.useEffect(() => {
-        if (context.navigation){
+        if (context.navigation) {
             setBookingResponse(props.bookingResponse);
             setIsInit(true);
         }
-            
+
     }, [context.navigation])
 
-    return (!isInit? <></> :
+    return (!isInit && bookingResponse ? <></> :
         <>
             <Fade appear={true} in={true} >
                 <Container className='content-container'>
@@ -68,12 +70,12 @@ const RecordCheckinPage = (props: any) => {
                                 <Container className="padding-checkin flight-information mb-2">
                                     {/* TODO:  */}
                                     Flight AIR094, Group booking<br />
-                                    Booking code 2DDBSL<br />
-                                    Munich(MUC)<br />
-                                    Dresden(DRE)<br />
+                                    Booking code {bookingResponse?.reference}<br />
+                                    {bookingResponse?.flightInfo.from}<br />
+                                    {bookingResponse?.flightInfo.to}<br />
                                     Economy Classic<br />
-                                    3 Passender(s)<br />
-                                    Tuesday, 17.08.2021 12:15
+                                    {bookingResponse?.passengers.length} Passender(s)<br />
+                                    {utils.convertDateToOutputFormat(bookingResponse?.flightInfo.time)}
                                 </Container>
                                 <Container className="padding-checkin flight-information mb-2">
                                     <span className="logo" />
@@ -112,21 +114,25 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                     </Row>
                     <hr />
-                    <Row>
-                        <Col xs={12} sm={1} lg={1}>Lorem.
-                        </Col>
-                        <Col xs={12} sm={6} lg={6}>{JSON.stringify(bookingResponse)}
-                        </Col>
-                        <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
-                        </Col>
-                        {/* Attention column for or */}
-                        <Col xs={12} sm={1} lg={1} className="no-grow">
-                            &nbsp;
-                        </Col>
-                        <Col xs={12} sm={2} lg={2} className="shrink-grow">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                        </Col>
-                    </Row>
-                    <hr />
+                    {bookingResponse?.passengers.map((passenger: BookingPassengerResponse) =>
+                        <div>
+                            <Row>
+                                <Col xs={12} sm={1} lg={1}>{passenger.dccStatus}
+                                </Col>
+                                <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
+                                </Col>
+                                <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
+                                </Col>
+                                {/* Attention column for or */}
+                                <Col xs={12} sm={1} lg={1} className="no-grow">
+                                    &nbsp;
+                                </Col>
+                                <Col xs={12} sm={2} lg={2} className="shrink-grow">QR Code
+                                </Col>
+                            </Row>
+                            <hr />
+                        </div>
+                    )}
                 </Container>
             </Fade>
         </>)
