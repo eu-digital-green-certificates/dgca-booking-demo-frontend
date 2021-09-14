@@ -44,8 +44,10 @@ const CheckinModal = (props: any) => {
         let msg = '';
 
         if (error) {
-            msg = error.message
+            msg = error.message    
         }
+
+        props.hide();
         props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
     }
 

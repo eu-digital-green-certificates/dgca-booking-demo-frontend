@@ -1,5 +1,8 @@
 {
   "title": "Booking Demo",
+  "error-message": "Fehlermeldung",
+  "serverError": "Es ist ein Fehler aufgetreten: ",
+  "cancel": "Abbrechen",
   "checkin": "Check-in",
   "forename": "Forename",
   "lastname": "Last name",

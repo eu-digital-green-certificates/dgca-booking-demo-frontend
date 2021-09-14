@@ -132,6 +132,15 @@ $container-max-widths: (
     height: 556px;
 }
 
+.jcc-xs-jcfs-md {
+    display: flex;
+    justify-content: center;
+
+    @include media-breakpoint-up(md) {
+        justify-content: flex-start;
+    }
+}
+
 .search {
     padding-left: 7rem;
     padding-right: 7rem;

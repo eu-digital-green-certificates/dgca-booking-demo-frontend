@@ -37,6 +37,7 @@ import AppContext, { IAppContext } from './misc/appContext';
 import utils from './misc/utils';
 import RecordCheckinPage from './components/record-checkin-page.component';
 import { BookingResponse } from './interfaces/booking-response';
+import ErrorPage from './components/error-page.component';
 
 const Routing = () => {
     const { t } = useTranslation();
@@ -78,6 +79,7 @@ const Routing = () => {
     */}
                 <Route path={context.navigation.routes.root}>
                     <Header />
+                    <ErrorPage error={error} show={errorShow} onCancel={error?.onCancel} onHide={() => setErrorShow(false)} />
                 </Route>
 
                 {/*
@@ -90,7 +92,7 @@ const Routing = () => {
                         exact
                         path={context.navigation.routes.landing}
                     >
-                        <LandingPage setBookingResponse={setBookingResponse} bookingResponse={bookingResponse}/>
+                        <LandingPage setBookingResponse={setBookingResponse} bookingResponse={bookingResponse} setError={setError}/>
                     </Route>
                     <Route
                         exact

@@ -194,6 +194,7 @@ const LandingPage = (props: any) => {
                 hide={() => setShowModal(false)}
                 handleCheckin={handleCheckin}
                 setBookingResponse={setBookingResponse}
+                setError={props.setError}
             />
         </>)
 }
