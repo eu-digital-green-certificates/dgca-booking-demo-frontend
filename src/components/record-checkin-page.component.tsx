@@ -133,6 +133,12 @@ const RecordCheckinPage = (props: any) => {
                             <hr />
                         </div>
                     )}
+                    <Row xs={12} sm={12} lg={12}>
+                        <Container className="buttons-line">
+                            <Button className="buttons-line-button" onClick={context.navigation!.toLanding}>{t('translation:cancel')}</Button>
+                            <Button className="buttons-line-button">{t('translation:submitCheckin')}</Button>
+                        </Container>
+                    </Row>
                 </Container>
             </Fade>
         </>)

@@ -19,5 +19,6 @@
   "lblScan": "Scan the code with your wallet app",
   "or": "OR",
   "dccCertificate": "DCC (digital vaccination certificate)",
-  "upload": "Upload"
+  "upload": "Upload",
+  "submitCheckin": "Submit Check-In"
 }
