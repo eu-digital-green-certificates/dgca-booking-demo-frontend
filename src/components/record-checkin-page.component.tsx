@@ -22,6 +22,8 @@
 import '../i18n';
 import { useTranslation } from 'react-i18next';
 
+import QRCode from 'qrcode.react';
+
 import React from 'react';
 import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
@@ -36,6 +38,7 @@ const RecordCheckinPage = (props: any) => {
 
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
+    const [qrCodeValue, setQrCodeValue] = React.useState('');
 
     // React.useEffect(() => {
     //     if (bookingResponse)
@@ -46,9 +49,19 @@ const RecordCheckinPage = (props: any) => {
         if (context.navigation) {
             setBookingResponse(props.bookingResponse);
             setIsInit(true);
+            //TODO:
+            setQrCodeValue(dcc);
         }
 
     }, [context.navigation])
+
+    //TODO: have to be taken from backend!
+    const dcc = "HC1:6BF-606A0T9WTWGSLKC 4X7923S%CA.48Y+6TAB3XK2F310RT012F3LMQ1001JC X8Y50.FK8ZKO/EZKEZ967L6C56." +
+    ".DU%DLPCG/DS2DHIA5Y8GY8JPCT3E5JDOA73467463W5207ZWERIL9WEQDD+Q6TW6FA7C464KCCWE6T9OF6:/6NA76W5." +
+    "JC2EC+96-Q63KCZPCNF6OF63W59%6PF6.SA*479L61G73564KC*KETF6A46.96646B565WET.D6$CBWE3/DO341$CKWEY " +
+    "CUPC1JC%N9+EDIPDCECRTCWH8.KEZEDWJC0FD6A5AIA%G7X+AQB9F+ALG7$X85G6+%6UB8AY8VS8VNAJ*8A1A*" +
+    "CBYB9UY9UB8%6A27BT3DC6CRHQ:FQSBG6X2MQE PIUIJ+Q83%3.KBJD7N5T+GUIIJT-MFWT*$0CQ7P5C4UQHF8F." +
+    "EC4D78J.2K$KQDIDIQRVS8A4KF5QM:D";
 
     return (!isInit && bookingResponse ? <></> :
         <>
@@ -127,7 +140,9 @@ const RecordCheckinPage = (props: any) => {
                                 <Col xs={12} sm={1} lg={1} className="no-grow">
                                     &nbsp;
                                 </Col>
-                                <Col xs={12} sm={2} lg={2} className="shrink-grow">QR Code
+                                <Col xs={12} sm={2} lg={2} className="shrink-grow qr-code-container">
+                                    {qrCodeValue ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={qrCodeValue} />
+                                        </> : <></>}
                                 </Col>
                             </Row>
                             <hr />

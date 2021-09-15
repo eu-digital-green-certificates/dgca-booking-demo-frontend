@@ -396,3 +396,7 @@ $container-max-widths: (
         margin: 5px 5px;
     }
 }
+
+#qr-code-container {
+    background-color: $body-bg;
+}
