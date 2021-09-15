@@ -35,6 +35,9 @@ import IError from './misc/error';
 import Header from './components/header.component';
 import AppContext, { IAppContext } from './misc/appContext';
 import utils from './misc/utils';
+import RecordCheckinPage from './components/record-checkin-page.component';
+import { BookingResponse } from './interfaces/booking-response';
+import ErrorPage from './components/error-page.component';
 
 const Routing = () => {
     const { t } = useTranslation();
@@ -42,6 +45,7 @@ const Routing = () => {
     const [error, setError] = React.useState<IError>();
     const [errorShow, setErrorShow] = React.useState(false);
     const [isInit, setIsInit] = React.useState(false);
+    const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
 
     const context: IAppContext = {
         navigation: useNavigation(),
@@ -75,6 +79,7 @@ const Routing = () => {
     */}
                 <Route path={context.navigation.routes.root}>
                     <Header />
+                    <ErrorPage error={error} show={errorShow} onCancel={error?.onCancel} onHide={() => setErrorShow(false)} />
                 </Route>
 
                 {/*
@@ -87,8 +92,13 @@ const Routing = () => {
                         exact
                         path={context.navigation.routes.landing}
                     >
-                        <LandingPage />
+                        <LandingPage setBookingResponse={setBookingResponse} bookingResponse={bookingResponse} setError={setError}/>
                     </Route>
+                    <Route
+                        exact
+                        path={context.navigation.routes.checkin}
+                        render={ (props) => <RecordCheckinPage setBookingResponse={setBookingResponse} bookingResponse={bookingResponse}/>}
+                    />
 
                 </Container>
             </AppContext.Provider>

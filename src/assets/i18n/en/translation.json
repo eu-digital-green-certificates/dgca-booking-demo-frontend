@@ -1,13 +1,24 @@
 {
   "title": "Booking Demo",
+  "error-message": "Error message",
+  "serverError": "An error has occurred: ",
+  "cancel": "Cancel",
   "checkin": "Check-in",
   "forename": "Forename",
   "lastname": "Last name",
   "bookingCode": "Booking code/Ticketnr.",
   "plsLogin": "Please log in",
-  "infoChekin": "In order to receive your ticket, you habe to upload a test result / vaccination ticket or scan the QR code with your wallet app (please consider the validity till the time of arrival).<br>Click here for tutorial.<br>",
+  "infoCheckin1": "In order to receive your ticket, you habe to upload a test result / vaccination ticket or scan the QR code with your wallet app (please consider the validity till the time of arrival).",
+  "infoCheckin2": "Click here for tutorial.",
+  "infoCheckin3": "As soon as all results are available, you access to your e ticket.",
+  "infoCheckin4": "If not all certificates for all persons are available, this is no problem.",
+  "infoCheckin5": "You can, without any problems, do a quick test directly at the airport. You're welcome to use the service at the counter to finish the check in procedure.",
   "conditionFulfilled": "Condition fulfilled",
   "name": "Name",
-  "lblUpload": "Upload a valid test/vaccination certificate from your harddrive",
-  "lblScan": "Scan the code with your wallet app"
+  "lblUpload": "Upload a valid test / vaccination certificate from your harddrive",
+  "lblScan": "Scan the code with your wallet app",
+  "or": "OR",
+  "dccCertificate": "DCC (digital vaccination certificate)",
+  "upload": "Upload",
+  "submitCheckin": "Submit Check-In"
 }

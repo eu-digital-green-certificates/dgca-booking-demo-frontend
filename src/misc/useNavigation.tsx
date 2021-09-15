@@ -28,7 +28,8 @@ export interface IRoute {
 
 export interface INavigation {
     routes: IRoute,
-    toLanding: () => void
+    toLanding: () => void,
+    toCheckin: () => void
 }
 
 export const useRoutes = () => {
@@ -39,7 +40,8 @@ export const useRoutes = () => {
     React.useEffect(() => {
         setResult({
             root: basePath,
-            landing: basePath
+            landing: basePath,
+            checkin: basePath + 'checkin'
         })
     }, [])
 
@@ -68,6 +70,7 @@ const useNavigation = () => {
                 routes: _routes,
 
                 toLanding: () => { history.push(_routes.landing); },
+                toCheckin: () => { history.push(_routes.checkin); }
             }
 
             setResult(n);

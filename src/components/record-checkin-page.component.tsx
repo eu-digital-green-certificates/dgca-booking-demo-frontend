@@ -23,8 +23,11 @@ import '../i18n';
 import { useTranslation } from 'react-i18next';
 
 import React from 'react';
-import { Fade, Container, Row, Col } from 'react-bootstrap';
+import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
+import { BookingResponse } from '../interfaces/booking-response';
+import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
+import utils from "../misc/utils";
 
 const RecordCheckinPage = (props: any) => {
 
@@ -32,51 +35,110 @@ const RecordCheckinPage = (props: any) => {
     const context = React.useContext(AppContext);
 
     const [isInit, setIsInit] = React.useState(false);
+    const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
+
+    // React.useEffect(() => {
+    //     if (bookingResponse)
+    //         alert("Bin im BookingResponse");
+    // }, [bookingResponse])
 
     React.useEffect(() => {
-        if (context.navigation)
+        if (context.navigation) {
+            setBookingResponse(props.bookingResponse);
             setIsInit(true);
+        }
+
     }, [context.navigation])
 
-    return (!isInit ? <></> :
+    return (!isInit && bookingResponse ? <></> :
         <>
             <Fade appear={true} in={true} >
-                <Container className='p-0'>
+                <Container className='content-container'>
                     <Row>
                         <h1>{t('translation:checkin')}</h1>
                     </Row>
                     <Row>
-                        <Col xs={12} sm={7} lg={7}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        <Col xs={12} sm={7} lg={7}>
+                            {t('translation:infoCheckin1')}<br />
+                            {t('translation:infoCheckin2')}<br />
+                            {t('translation:infoCheckin3')}<br /><br />
+                            {t('translation:infoCheckin4')}<br /><br />
+                            {t('translation:infoCheckin5')}
                         </Col>
-                        <Col xs={12} sm={4} lg={5}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        <Col xs={12} sm={5} lg={5}>
+                            <Container className="wrapper-flight-information">
+                                <Container className="padding-checkin flight-information mb-2">
+                                    {/* TODO:  */}
+                                    Flight AIR094, Group booking<br />
+                                    Booking code {bookingResponse?.reference}<br />
+                                    {bookingResponse?.flightInfo.from}<br />
+                                    {bookingResponse?.flightInfo.to}<br />
+                                    Economy Classic<br />
+                                    {bookingResponse?.passengers.length} Passender(s)<br />
+                                    {utils.convertDateToOutputFormat(bookingResponse?.flightInfo.time)}
+                                </Container>
+                                <Container className="padding-checkin flight-information mb-2">
+                                    <span className="logo" />
+                                    <span className="text-vertical-center">
+                                        {t('translation:dccCertificate')}
+                                    </span>
+                                </Container>
+                            </Container>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className="bold">
                         <Col xs={12} sm={1} lg={1}>
-                            {t('translation:conditionFulfilled')}
+                            <span className="text-vertical-center">
+                                {t('translation:conditionFulfilled')}
+                            </span>
                         </Col>
                         <Col xs={12} sm={6} lg={6}>
-                            {t('translation:Name')}
+                            <span className="text-vertical-center">
+                                {t('translation:Name')}
+                            </span>
                         </Col>
-                        <Col xs={12} sm={2} lg={2}>
-                            {t('translation:lblUpload')}
+                        <Col xs={12} sm={2} lg={2} className="shrink-grow">
+                            <span className="text-vertical-center">
+                                {t('translation:lblUpload')}
+                            </span>
                         </Col>
-                        <Col xs={12} sm={3} lg={3}>
-                            {t('translation:lblScan')}
+                        <Col xs={12} sm={1} lg={1} className="no-grow">
+                            <span className="text-vertical-center">
+                                {t('translation:or')}
+                            </span>
+                        </Col>
+                        <Col xs={12} sm={2} lg={2} className="shrink-grow">
+                            <span className="text-vertical-center">
+                                {t('translation:lblScan')}
+                            </span>
                         </Col>
                     </Row>
                     <hr />
-                    <Row>
-                        <Col xs={12} sm={1} lg={1}>Lorem .
-                        </Col>
-                        <Col xs={12} sm={6} lg={6}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                        </Col>
-                        <Col xs={12} sm={2} lg={2}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                        </Col>
-                        <Col xs={12} sm={3} lg={3}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                        </Col>
+                    {bookingResponse?.passengers.map((passenger: BookingPassengerResponse) =>
+                        <div>
+                            <Row>
+                                <Col xs={12} sm={1} lg={1}>{passenger.dccStatus}
+                                </Col>
+                                <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
+                                </Col>
+                                <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
+                                </Col>
+                                {/* Attention column for or */}
+                                <Col xs={12} sm={1} lg={1} className="no-grow">
+                                    &nbsp;
+                                </Col>
+                                <Col xs={12} sm={2} lg={2} className="shrink-grow">QR Code
+                                </Col>
+                            </Row>
+                            <hr />
+                        </div>
+                    )}
+                    <Row xs={12} sm={12} lg={12}>
+                        <Container className="buttons-line">
+                            <Button className="buttons-line-button" onClick={context.navigation!.toLanding}>{t('translation:cancel')}</Button>
+                            <Button className="buttons-line-button">{t('translation:submitCheckin')}</Button>
+                        </Container>
                     </Row>
-                    <hr />
                 </Container>
             </Fade>
         </>)

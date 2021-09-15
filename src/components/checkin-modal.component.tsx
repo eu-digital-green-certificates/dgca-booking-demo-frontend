@@ -27,50 +27,61 @@ import { Button, Form, Image, Modal, ModalBody, ModalFooter } from 'react-bootst
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 import airplane from '../assets/images/airplane_outline.png'
-import { IPerson } from '../misc/person';
+import { IPerson } from '../interfaces/person';
+import AppContext from '../misc/appContext';
+import { useBooking } from '../api';
 
 const CheckinModal = (props: any) => {
 
+    const context = React.useContext(AppContext);
     const { t } = useTranslation();
-    const [show, setShow] = React.useState(false);
     const [forename, setForname] = React.useState<string>();
     const [lastname, setLastname] = React.useState<string>();
     const [bookingCode, setBookingCode] = React.useState<string>();
 
-    React.useEffect(() => {
-        if(props.show) {
-            handleShow();
+
+    const handleError = (error: any) => {
+        let msg = '';
+
+        if (error) {
+            msg = error.message    
         }
-        
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.show])
 
-    const handleClose = () => {
-        //TODO close Modal - do nothing
-        props.handleCheckin();
-        setShow(false);
+        props.hide();
+        props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
     }
-    const handleShow = () => setShow(true);
 
-    const handleCheckin = () => {
+    const [booking, getBooking] = useBooking(undefined, handleError);
+
+    React.useEffect(() => {
+        if (booking) {
+            props.setBookingResponse(booking);
+        }
+    }, [booking])
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+        event.preventDefault();
+        event.stopPropagation();
+
         let person: IPerson = {
             forename: forename!,
             lastname: lastname!,
-            bookingCode: bookingCode!
+            bookingReference: bookingCode!
         }
-        console.log(person);
-        //TODO api call - go to the next page
-        props.handleCheckin();
+
+        //TODO: sollte über die Landingpage erfolgen
+        getBooking(person);
     }
 
     return (
         <Modal contentClassName='checkin-modal'
-            show={show}
-            onHide={handleClose}
+            show={props.show}
+            onHide={props.hide}
             centered
             size='sm'
         >
-            <Form className='form-flex' onSubmit={handleCheckin}>
+            <Form className='form-flex' onSubmit={handleSubmit}>
                 <ModalHeader className='pb-0 modal-header'>
                     <Image src={airplane} />
                     {t('translation:checkin')}

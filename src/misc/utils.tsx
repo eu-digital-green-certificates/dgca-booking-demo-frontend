@@ -47,7 +47,7 @@ const utils: IUtils = {
     pickerDateFormat: 'yyyy-MM-dd',
     pickerDateTimeFormat: 'yyyy-MM-dd / hh:mm a',
     momentDateFormat: 'yyyy-MM-DD',
-    momentDateTimeFormat: 'yyyy-MM-DD / hh:mm A',
+    momentDateTimeFormat: 'dddd, yyyy-MM-DD / hh:mm A',
     convertDateToOutputFormat: convertDateToOutputFormat
 }
 
