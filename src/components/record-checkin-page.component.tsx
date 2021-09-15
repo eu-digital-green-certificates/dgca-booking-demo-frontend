@@ -22,7 +22,7 @@
 import '../i18n';
 import { useTranslation } from 'react-i18next';
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
@@ -115,7 +115,7 @@ const RecordCheckinPage = (props: any) => {
                     </Row>
                     <hr />
                     {bookingResponse?.passengers.map((passenger: BookingPassengerResponse) =>
-                        <div>
+                        <Fragment key={passenger.id}>
                             <Row>
                                 <Col xs={12} sm={1} lg={1}>{passenger.dccStatus}
                                 </Col>
@@ -131,7 +131,7 @@ const RecordCheckinPage = (props: any) => {
                                 </Col>
                             </Row>
                             <hr />
-                        </div>
+                        </Fragment>
                     )}
                     <Row xs={12} sm={12} lg={12}>
                         <Container className="buttons-line">
