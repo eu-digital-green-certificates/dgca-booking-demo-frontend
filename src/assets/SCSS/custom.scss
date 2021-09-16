@@ -1,6 +1,3 @@
-//Font Definitions
-// @import "@fortawesome/fontawesome-free/css/solid.min.css";
-
 @font-face {
     font-family: "TeleNeo";
     src: url(./fonts/TeleNeoWeb-Regular.eot) format("eot"), url(./fonts/TeleNeoWeb-Regular.woff) format("woff"),
@@ -293,16 +290,18 @@ $container-max-widths: (
     width: 100px;
     border: 1px solid #262626;
     font-weight: bold;
-    &:focus, &:hover, &:visited, &:active{
-      background: transparent;
-      color: #262626;
-      width: 100px;
-      border: 1px solid #262626;
-      font-weight: bold;
-  
+    &:focus,
+    &:hover,
+    &:visited,
+    &:active {
+        background: transparent;
+        color: #262626;
+        width: 100px;
+        border: 1px solid #262626;
+        font-weight: bold;
     }
-  }
-  
+}
+
 .modal-header {
     display: flex;
     flex-direction: row;
@@ -340,7 +339,7 @@ $container-max-widths: (
 .flight-information {
     display: flex;
     border: 1px solid #262626;
-    
+
     .logo {
         background-image: url("../images/logo_c19.png") !important;
         background-repeat: no-repeat;
@@ -354,14 +353,14 @@ $container-max-widths: (
     display: flex;
     flex-flow: column;
     justify-content: space-between;
-    padding:0%;
+    padding: 0%;
     height: 100%;
 }
 
 .text-vertical-center {
     display: inline-flex;
     align-items: center;
-    height:100%;
+    height: 100%;
 }
 
 .no-grow {
@@ -369,7 +368,7 @@ $container-max-widths: (
 }
 
 .shrink-grow {
-    flex: 1 1 0 ! important
+    flex: 1 1 0 !important;
 }
 
 .buttons-line {
@@ -387,12 +386,12 @@ $container-max-widths: (
     background-color: #004494;
 
     @include media-breakpoint-up(xs) {
-        width:100%;
+        width: 100%;
         margin: 5px 0%;
     }
 
     @include media-breakpoint-up(sm) {
-        width:180px;
+        width: 180px;
         margin: 5px 5px;
     }
 }

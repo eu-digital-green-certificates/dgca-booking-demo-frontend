@@ -35,16 +35,16 @@ const CheckinModal = (props: any) => {
 
     const context = React.useContext(AppContext);
     const { t } = useTranslation();
-    const [forename, setForname] = React.useState<string>();
-    const [lastname, setLastname] = React.useState<string>();
-    const [bookingCode, setBookingCode] = React.useState<string>();
+    const [forename, setForname] = React.useState<string>('');
+    const [lastname, setLastname] = React.useState<string>('');
+    const [bookingCode, setBookingCode] = React.useState<string>('');
 
 
     const handleError = (error: any) => {
         let msg = '';
 
         if (error) {
-            msg = error.message    
+            msg = error.message
         }
 
         props.hide();
@@ -65,9 +65,9 @@ const CheckinModal = (props: any) => {
         event.stopPropagation();
 
         let person: IPerson = {
-            forename: forename!,
-            lastname: lastname!,
-            bookingReference: bookingCode!
+            forename: forename,
+            lastname: lastname,
+            bookingReference: bookingCode
         }
 
         //TODO: sollte über die Landingpage erfolgen
