@@ -19,7 +19,7 @@
  * under the License.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import '../i18n';
 import { useTranslation } from 'react-i18next';

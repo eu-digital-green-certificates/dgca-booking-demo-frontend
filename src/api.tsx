@@ -69,4 +69,39 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
     ] as const;
 }
 
+export const useGetValidationStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
+    const [validationStatus, setValidationStatus] = React.useState<string>('');
+
+    const baseUri = '/validationStatus';
+
+    const header = {
+        'Content-Type': 'application/json'
+    };
+
+    const getValidationStatus = () => {
+        
+        api.get(baseUri, { headers: header })
+            .then(response => {
+
+                console.log('validationStatus: '); console.log(JSON.stringify(response.data));
+
+                setValidationStatus(response.data);
+                if (onSuccess) {
+                    console.log("Bin im Success");
+                    onSuccess();
+                }
+            })
+            .catch(error => {
+                if (onError) {
+                    alert("Bin im Error: " + error);
+                    onError(error);
+                }
+            });
+    }
+
+    return [
+        validationStatus,
+        getValidationStatus
+    ] as const;
+}
 

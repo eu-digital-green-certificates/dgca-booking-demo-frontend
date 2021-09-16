@@ -30,6 +30,7 @@ import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
 import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
 import utils from "../misc/utils";
+import { useGetValidationStatus } from '../api';
 
 const RecordCheckinPage = (props: any) => {
 
@@ -40,10 +41,16 @@ const RecordCheckinPage = (props: any) => {
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [qrCodeValue, setQrCodeValue] = React.useState('');
 
-    // React.useEffect(() => {
-    //     if (bookingResponse)
-    //         alert("Bin im BookingResponse");
-    // }, [bookingResponse])
+    const handleError = (error: any) => {
+        let msg = '';
+
+        if (error) {
+            msg = error.message
+        }
+
+        // props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
+    }
+    const [validationStatus, getValidationStatus] = useGetValidationStatus(undefined, handleError);
 
     React.useEffect(() => {
         if (context.navigation) {
@@ -54,6 +61,16 @@ const RecordCheckinPage = (props: any) => {
         }
 
     }, [context.navigation])
+
+    React.useEffect(() => {
+        if (bookingResponse) {
+            getValidationStatus();
+            console.log(validationStatus);
+        }
+
+    }, [bookingResponse])
+
+    
 
     //TODO: have to be taken from backend!
     const dcc = "HC1:6BF-606A0T9WTWGSLKC 4X7923S%CA.48Y+6TAB3XK2F310RT012F3LMQ1001JC X8Y50.FK8ZKO/EZKEZ967L6C56." +
@@ -107,7 +124,7 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                         <Col xs={12} sm={6} lg={6}>
                             <span className="text-vertical-center">
-                                {t('translation:Name')}
+                                {t('translation:name')}
                             </span>
                         </Col>
                         <Col xs={12} sm={2} lg={2} className="shrink-grow">
@@ -141,7 +158,7 @@ const RecordCheckinPage = (props: any) => {
                                     &nbsp;
                                 </Col>
                                 <Col xs={12} sm={2} lg={2} className="shrink-grow qr-code-container">
-                                    {qrCodeValue ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={qrCodeValue} />
+                                    {qrCodeValue ? <> <QRCode id='qr-code-pdf' size={128} renderAs='svg' value={qrCodeValue} />
                                         </> : <></>}
                                 </Col>
                             </Row>
@@ -151,7 +168,7 @@ const RecordCheckinPage = (props: any) => {
                     <Row xs={12} sm={12} lg={12}>
                         <Container className="buttons-line">
                             <Button className="buttons-line-button" onClick={context.navigation!.toLanding}>{t('translation:cancel')}</Button>
-                            <Button className="buttons-line-button">{t('translation:submitCheckin')}</Button>
+                            <Button className="buttons-line-button" disabled={validationStatus !== '404' }>{t('translation:submitCheckin')}</Button>
                         </Container>
                     </Row>
                 </Container>
