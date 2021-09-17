@@ -93,7 +93,6 @@ export const useGetValidationStatus = (onSuccess?: () => void, onError?: (error:
             })
             .catch(error => {
                 if (onError) {
-                    alert("Bin im Error: " + error);
                     onError(error);
                 }
             });

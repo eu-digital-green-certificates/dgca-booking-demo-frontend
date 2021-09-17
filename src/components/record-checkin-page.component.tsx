@@ -73,12 +73,7 @@ const RecordCheckinPage = (props: any) => {
     
 
     //TODO: have to be taken from backend!
-    const dcc = "HC1:6BF-606A0T9WTWGSLKC 4X7923S%CA.48Y+6TAB3XK2F310RT012F3LMQ1001JC X8Y50.FK8ZKO/EZKEZ967L6C56." +
-    ".DU%DLPCG/DS2DHIA5Y8GY8JPCT3E5JDOA73467463W5207ZWERIL9WEQDD+Q6TW6FA7C464KCCWE6T9OF6:/6NA76W5." +
-    "JC2EC+96-Q63KCZPCNF6OF63W59%6PF6.SA*479L61G73564KC*KETF6A46.96646B565WET.D6$CBWE3/DO341$CKWEY " +
-    "CUPC1JC%N9+EDIPDCECRTCWH8.KEZEDWJC0FD6A5AIA%G7X+AQB9F+ALG7$X85G6+%6UB8AY8VS8VNAJ*8A1A*" +
-    "CBYB9UY9UB8%6A27BT3DC6CRHQ:FQSBG6X2MQE PIUIJ+Q83%3.KBJD7N5T+GUIIJT-MFWT*$0CQ7P5C4UQHF8F." +
-    "EC4D78J.2K$KQDIDIQRVS8A4KF5QM:D";
+    const dcc = JSON.stringify(JSON.parse("{\"protocol\":\"DCCVALIDATION\",\"protocolVersion\":\"1.0.0\",\"serviceIdentity\":\"dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/identity\",\"token\":\"eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJWYWxpZGF0aW9uIERlY29yYXRvciBEZXJ2aWNlIiwiZXhwIjoxNjMxODYyNTgwLCJzdWIiOiIyNjdkNmI4Yy00NTU0LTQ0YzctYTY4NC00MWNiZTUwYTJmYzcifQ.NIkl_YOeMuUoP_RWsk-FNmzGOvm2gv1Tl16xL2LWK_QLTWcjuxwFgOYWipjxEHQ1-0KsioDZ_ymPBOzyBo1w7A\",\"consent\":\"Please confirm to start the DCC Exchange flow. If you not confirm, the flow is aborted.\",\"subject\":\"267d6b8c-4554-44c7-a684-41cbe50a2fc7\",\"serviceProvider\":\"Booking Demo\"}"));
 
     return (!isInit && bookingResponse ? <></> :
         <>
@@ -158,7 +153,7 @@ const RecordCheckinPage = (props: any) => {
                                     &nbsp;
                                 </Col>
                                 <Col xs={12} sm={2} lg={2} className="shrink-grow qr-code-container">
-                                    {qrCodeValue ? <> <QRCode id='qr-code-pdf' size={128} renderAs='svg' value={qrCodeValue} />
+                                    {qrCodeValue ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={qrCodeValue} />
                                         </> : <></>}
                                 </Col>
                             </Row>
