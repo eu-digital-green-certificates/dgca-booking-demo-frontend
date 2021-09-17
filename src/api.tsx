@@ -69,6 +69,7 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
     ] as const;
 }
 
+//TODO: 
 export const useGetValidationStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
     const [validationStatus, setValidationStatus] = React.useState<string>('');
 
@@ -104,3 +105,51 @@ export const useGetValidationStatus = (onSuccess?: () => void, onError?: (error:
     ] as const;
 }
 
+export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) => void) => {
+    const [qrCode, setQrCode] = React.useState<string>();
+
+    const baseUri = '/initialize/';
+
+    const header = {
+        'Content-Type': 'application/json'
+    };
+
+    /**
+     * Returns a QR-Code
+     * 
+     * @param id Id of the Person 
+     */
+    const getQrCode = (id: string) => {
+        const url = baseUri + id;
+
+        api.get(url, { headers: header })
+            .then(response => {
+
+                setQrCode(response.data);
+                if (onSuccess) {
+                    alert("onSuccess!");
+                    onSuccess();
+                }
+            })
+            .catch(error => {
+                if (onError) {
+                    alert("onError!")
+                    onError(error);
+                }
+            });
+    }
+
+    return [
+        qrCode,
+        getQrCode
+    ] as const;
+}
+
+export const getQrCodeWithoutHook = (id: string) => {
+    const header = {
+        'Content-Type': 'application/json'
+    };
+
+    const url = '/initialize/' + id;
+    return api.get(url, { headers: header });
+}

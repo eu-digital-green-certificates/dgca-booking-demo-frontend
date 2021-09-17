@@ -47,4 +47,11 @@ export interface BookingPassengerResponse {
      * @memberof BookingPassengerResponse
      */
     dccStatus?: any;
+
+    /**
+     * 
+     * @type {string}
+     * @memberof BookingPassengerResponse
+     */
+     qrCode?: string;
 }

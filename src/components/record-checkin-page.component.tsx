@@ -30,7 +30,7 @@ import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
 import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
 import utils from "../misc/utils";
-import { useGetValidationStatus } from '../api';
+import { useGetValidationStatus, useGetInitialize } from '../api';
 
 const RecordCheckinPage = (props: any) => {
 
@@ -39,41 +39,36 @@ const RecordCheckinPage = (props: any) => {
 
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
-    const [qrCodeValue, setQrCodeValue] = React.useState('');
 
     const handleError = (error: any) => {
         let msg = '';
 
         if (error) {
+            console.log(error);
             msg = error.message
         }
 
         // props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
     }
-    const [validationStatus, getValidationStatus] = useGetValidationStatus(undefined, handleError);
+
+    const [qrCode, getQrCode] = useGetInitialize(undefined, handleError);
 
     React.useEffect(() => {
         if (context.navigation) {
             setBookingResponse(props.bookingResponse);
             setIsInit(true);
-            //TODO:
-            setQrCodeValue(dcc);
         }
 
     }, [context.navigation])
 
     React.useEffect(() => {
         if (bookingResponse) {
-            getValidationStatus();
-            console.log(validationStatus);
+            bookingResponse?.passengers.map((passenger: BookingPassengerResponse) => {
+                getQrCode(passenger.id);
+            })
         }
 
     }, [bookingResponse])
-
-    
-
-    //TODO: have to be taken from backend!
-    const dcc = JSON.stringify(JSON.parse("{\"protocol\":\"DCCVALIDATION\",\"protocolVersion\":\"1.0.0\",\"serviceIdentity\":\"dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/identity\",\"token\":\"eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJWYWxpZGF0aW9uIERlY29yYXRvciBEZXJ2aWNlIiwiZXhwIjoxNjMxODYyNTgwLCJzdWIiOiIyNjdkNmI4Yy00NTU0LTQ0YzctYTY4NC00MWNiZTUwYTJmYzcifQ.NIkl_YOeMuUoP_RWsk-FNmzGOvm2gv1Tl16xL2LWK_QLTWcjuxwFgOYWipjxEHQ1-0KsioDZ_ymPBOzyBo1w7A\",\"consent\":\"Please confirm to start the DCC Exchange flow. If you not confirm, the flow is aborted.\",\"subject\":\"267d6b8c-4554-44c7-a684-41cbe50a2fc7\",\"serviceProvider\":\"Booking Demo\"}"));
 
     return (!isInit && bookingResponse ? <></> :
         <>
@@ -153,8 +148,10 @@ const RecordCheckinPage = (props: any) => {
                                     &nbsp;
                                 </Col>
                                 <Col xs={12} sm={2} lg={2} className="shrink-grow qr-code-container">
-                                    {qrCodeValue ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={qrCodeValue} />
-                                        </> : <></>}
+                                    {
+                                        qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={JSON.stringify(qrCode)} />
+                                        </> : <></>
+                                    }
                                 </Col>
                             </Row>
                             <hr />
@@ -163,7 +160,7 @@ const RecordCheckinPage = (props: any) => {
                     <Row xs={12} sm={12} lg={12}>
                         <Container className="buttons-line">
                             <Button className="buttons-line-button" onClick={context.navigation!.toLanding}>{t('translation:cancel')}</Button>
-                            <Button className="buttons-line-button" disabled={validationStatus !== '404' }>{t('translation:submitCheckin')}</Button>
+                            <Button className="buttons-line-button" disabled={false}>{t('translation:submitCheckin')}</Button>
                         </Container>
                     </Row>
                 </Container>
