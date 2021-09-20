@@ -31,6 +31,7 @@ import { BookingResponse } from '../interfaces/booking-response';
 import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
 import utils from "../misc/utils";
 import { useGetValidationStatus, useGetInitialize } from '../api';
+import { DisplayPassenger } from '../interfaces/display-passenger';
 
 const RecordCheckinPage = (props: any) => {
 
@@ -39,6 +40,7 @@ const RecordCheckinPage = (props: any) => {
 
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
+    const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
 
     const handleError = (error: any) => {
         let msg = '';
@@ -51,7 +53,7 @@ const RecordCheckinPage = (props: any) => {
         // props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
     }
 
-    const [qrCode, getQrCode] = useGetInitialize(undefined, handleError);
+    const [qrCode, getQrCode, getQrCodePromise] = useGetInitialize(undefined, handleError);
 
     React.useEffect(() => {
         if (context.navigation) {
@@ -63,8 +65,23 @@ const RecordCheckinPage = (props: any) => {
 
     React.useEffect(() => {
         if (bookingResponse) {
+            const tmpDisplayPassengers: DisplayPassenger[] = [];
             bookingResponse?.passengers.map((passenger: BookingPassengerResponse) => {
-                getQrCode(passenger.id);
+                let tmpDisplayPassenger: DisplayPassenger = { ...passenger };
+                getQrCodePromise(passenger.id)
+                    .then(response => {
+
+                        tmpDisplayPassenger.qrCode = JSON.stringify(response.data);
+                    })
+                    .catch(error => {
+                        alert("QR konnte nicht geholt werden:" + tmpDisplayPassenger.id)
+                    })
+                    .finally(() => {
+                        tmpDisplayPassengers.push(tmpDisplayPassenger);
+                        if(tmpDisplayPassengers.length === bookingResponse.passengers.length) {
+                            setDisplayPassengers(tmpDisplayPassengers);
+                        }
+                    });
             })
         }
 
@@ -134,7 +151,7 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                     </Row>
                     <hr />
-                    {bookingResponse?.passengers.map((passenger: BookingPassengerResponse) =>
+                    {displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
                                 <Col xs={12} sm={1} lg={1}>{passenger.dccStatus}
@@ -149,7 +166,7 @@ const RecordCheckinPage = (props: any) => {
                                 </Col>
                                 <Col xs={12} sm={2} lg={2} className="shrink-grow qr-code-container">
                                     {
-                                        qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={JSON.stringify(qrCode)} />
+                                        passenger.qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={passenger.qrCode} />
                                         </> : <></>
                                     }
                                 </Col>

@@ -105,8 +105,12 @@ export const useGetValidationStatus = (onSuccess?: () => void, onError?: (error:
     ] as const;
 }
 
+export interface IQrCode {
+    [key: string]: string;
+}
+
 export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) => void) => {
-    const [qrCode, setQrCode] = React.useState<string>();
+    const [qrCode, setQrCode] = React.useState<IQrCode>({});
 
     const baseUri = '/initialize/';
 
@@ -125,7 +129,8 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
         api.get(url, { headers: header })
             .then(response => {
 
-                setQrCode(response.data);
+                //setQrCode(response.data);
+                qrCode[id] = JSON.stringify(response.data);
                 if (onSuccess) {
                     alert("onSuccess!");
                     onSuccess();
@@ -139,9 +144,23 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
             });
     }
 
+    /**
+     * Returns a QR-Code Promise
+     * 
+     * @param id Id of the Person 
+     */
+     const getQrCodePromise = (id: string) => {
+        const url = baseUri + id;
+
+        //Promis ohne then
+        return api.get(url, { headers: header })
+            
+    }
+
     return [
         qrCode,
-        getQrCode
+        getQrCode,
+        getQrCodePromise
     ] as const;
 }
 
