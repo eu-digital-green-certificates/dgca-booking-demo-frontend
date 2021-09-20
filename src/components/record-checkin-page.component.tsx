@@ -22,12 +22,16 @@
 import '../i18n';
 import { useTranslation } from 'react-i18next';
 
+import QRCode from 'qrcode.react';
+
 import React, { Fragment } from 'react';
 import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
 import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
 import utils from "../misc/utils";
+import { useGetValidationStatus, useGetInitialize } from '../api';
+import { DisplayPassenger } from '../interfaces/display-passenger';
 
 const RecordCheckinPage = (props: any) => {
 
@@ -36,11 +40,20 @@ const RecordCheckinPage = (props: any) => {
 
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
+    const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
 
-    // React.useEffect(() => {
-    //     if (bookingResponse)
-    //         alert("Bin im BookingResponse");
-    // }, [bookingResponse])
+    const handleError = (error: any) => {
+        let msg = '';
+
+        if (error) {
+            console.log(error);
+            msg = error.message
+        }
+
+        // props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
+    }
+
+    const [qrCode, getQrCode, getQrCodePromise] = useGetInitialize(undefined, handleError);
 
     React.useEffect(() => {
         if (context.navigation) {
@@ -49,6 +62,30 @@ const RecordCheckinPage = (props: any) => {
         }
 
     }, [context.navigation])
+
+    React.useEffect(() => {
+        if (bookingResponse) {
+            const tmpDisplayPassengers: DisplayPassenger[] = [];
+            bookingResponse?.passengers.map((passenger: BookingPassengerResponse) => {
+                let tmpDisplayPassenger: DisplayPassenger = { ...passenger };
+                getQrCodePromise(passenger.id)
+                    .then(response => {
+
+                        tmpDisplayPassenger.qrCode = JSON.stringify(response.data);
+                    })
+                    .catch(error => {
+                        alert("QR konnte nicht geholt werden:" + tmpDisplayPassenger.id)
+                    })
+                    .finally(() => {
+                        tmpDisplayPassengers.push(tmpDisplayPassenger);
+                        if(tmpDisplayPassengers.length === bookingResponse.passengers.length) {
+                            setDisplayPassengers(tmpDisplayPassengers);
+                        }
+                    });
+            })
+        }
+
+    }, [bookingResponse])
 
     return (!isInit && bookingResponse ? <></> :
         <>
@@ -94,7 +131,7 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                         <Col xs={12} sm={6} lg={6}>
                             <span className="text-vertical-center">
-                                {t('translation:Name')}
+                                {t('translation:name')}
                             </span>
                         </Col>
                         <Col xs={12} sm={2} lg={2} className="shrink-grow">
@@ -114,7 +151,7 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                     </Row>
                     <hr />
-                    {bookingResponse?.passengers.map((passenger: BookingPassengerResponse) =>
+                    {displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
                                 <Col xs={12} sm={1} lg={1}>{passenger.dccStatus}
@@ -127,7 +164,11 @@ const RecordCheckinPage = (props: any) => {
                                 <Col xs={12} sm={1} lg={1} className="no-grow">
                                     &nbsp;
                                 </Col>
-                                <Col xs={12} sm={2} lg={2} className="shrink-grow">QR Code
+                                <Col xs={12} sm={2} lg={2} className="shrink-grow qr-code-container">
+                                    {
+                                        passenger.qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={passenger.qrCode} />
+                                        </> : <></>
+                                    }
                                 </Col>
                             </Row>
                             <hr />
@@ -136,7 +177,7 @@ const RecordCheckinPage = (props: any) => {
                     <Row xs={12} sm={12} lg={12}>
                         <Container className="buttons-line">
                             <Button className="buttons-line-button" onClick={context.navigation!.toLanding}>{t('translation:cancel')}</Button>
-                            <Button className="buttons-line-button">{t('translation:submitCheckin')}</Button>
+                            <Button className="buttons-line-button" disabled={false}>{t('translation:submitCheckin')}</Button>
                         </Container>
                     </Row>
                 </Container>

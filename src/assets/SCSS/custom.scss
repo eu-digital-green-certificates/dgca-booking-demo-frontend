@@ -385,6 +385,12 @@ $container-max-widths: (
     color: white;
     background-color: #004494;
 
+    &:disabled {
+        color: black;
+        background-color: #ffd617;
+        border-color: transparent;
+    }
+
     @include media-breakpoint-up(xs) {
         width: 100%;
         margin: 5px 0%;
@@ -394,4 +400,8 @@ $container-max-widths: (
         width: 180px;
         margin: 5px 5px;
     }
+}
+
+#qr-code-container {
+    background-color: $body-bg;
 }

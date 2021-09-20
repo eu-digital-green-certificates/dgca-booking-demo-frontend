@@ -69,4 +69,106 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
     ] as const;
 }
 
+//TODO: 
+export const useGetValidationStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
+    const [validationStatus, setValidationStatus] = React.useState<string>('');
 
+    const baseUri = '/validationStatus';
+
+    const header = {
+        'Content-Type': 'application/json'
+    };
+
+    const getValidationStatus = () => {
+        
+        api.get(baseUri, { headers: header })
+            .then(response => {
+
+                console.log('validationStatus: '); console.log(JSON.stringify(response.data));
+
+                setValidationStatus(response.data);
+                if (onSuccess) {
+                    console.log("Bin im Success");
+                    onSuccess();
+                }
+            })
+            .catch(error => {
+                if (onError) {
+                    onError(error);
+                }
+            });
+    }
+
+    return [
+        validationStatus,
+        getValidationStatus
+    ] as const;
+}
+
+export interface IQrCode {
+    [key: string]: string;
+}
+
+export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) => void) => {
+    const [qrCode, setQrCode] = React.useState<IQrCode>({});
+
+    const baseUri = '/initialize/';
+
+    const header = {
+        'Content-Type': 'application/json'
+    };
+
+    /**
+     * Returns a QR-Code
+     * 
+     * @param id Id of the Person 
+     */
+    const getQrCode = (id: string) => {
+        const url = baseUri + id;
+
+        api.get(url, { headers: header })
+            .then(response => {
+
+                //setQrCode(response.data);
+                qrCode[id] = JSON.stringify(response.data);
+                if (onSuccess) {
+                    alert("onSuccess!");
+                    onSuccess();
+                }
+            })
+            .catch(error => {
+                if (onError) {
+                    alert("onError!")
+                    onError(error);
+                }
+            });
+    }
+
+    /**
+     * Returns a QR-Code Promise
+     * 
+     * @param id Id of the Person 
+     */
+     const getQrCodePromise = (id: string) => {
+        const url = baseUri + id;
+
+        //Promis ohne then
+        return api.get(url, { headers: header })
+            
+    }
+
+    return [
+        qrCode,
+        getQrCode,
+        getQrCodePromise
+    ] as const;
+}
+
+export const getQrCodeWithoutHook = (id: string) => {
+    const header = {
+        'Content-Type': 'application/json'
+    };
+
+    const url = '/initialize/' + id;
+    return api.get(url, { headers: header });
+}

@@ -8,7 +8,7 @@
   "lastname": "Last name",
   "bookingCode": "Booking code/Ticketnr.",
   "plsLogin": "Please log in",
-  "infoCheckin1": "In order to receive your ticket, you habe to upload a test result / vaccination ticket or scan the QR code with your wallet app (please consider the validity till the time of arrival).",
+  "infoCheckin1": "In order to receive your ticket, you have to upload a test result / vaccination ticket or scan the QR code with your wallet app (please consider the validity till the time of arrival).",
   "infoCheckin2": "Click here for tutorial.",
   "infoCheckin3": "As soon as all results are available, you access to your e ticket.",
   "infoCheckin4": "If not all certificates for all persons are available, this is no problem.",
