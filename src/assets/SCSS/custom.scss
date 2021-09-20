@@ -243,7 +243,19 @@ $container-max-widths: (
 }
 
 .input-checkin-modal {
-    margin-top: 2rem;
+    
+    margin-bottom: 1rem;
+
+    &:first-of-type {
+        margin-top: 2rem;
+    }
+
+    &:last-child {
+        margin-top: 1rem;
+    }
+}
+
+.input-date-modal {
     margin-bottom: 2rem;
 }
 

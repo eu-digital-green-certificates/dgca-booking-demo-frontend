@@ -20,5 +20,6 @@
   "or": "OR",
   "dccCertificate": "DCC (digital vaccination certificate)",
   "upload": "Upload",
-  "submitCheckin": "Submit Check-In"
+  "submitCheckin": "Submit Check-In",
+  "date-of-birth": "Date of Birth"
 }

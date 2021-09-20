@@ -119,6 +119,7 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
     };
 
     /**
+     * TODO: not used
      * Returns a QR-Code
      * 
      * @param id Id of the Person 
@@ -162,13 +163,4 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
         getQrCode,
         getQrCodePromise
     ] as const;
-}
-
-export const getQrCodeWithoutHook = (id: string) => {
-    const header = {
-        'Content-Type': 'application/json'
-    };
-
-    const url = '/initialize/' + id;
-    return api.get(url, { headers: header });
 }
