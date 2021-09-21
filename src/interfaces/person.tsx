@@ -24,6 +24,6 @@ import React from 'react';
 export interface IPerson {
     forename: string,
     lastname: string,
-    dateOfBirth: string,
+    birthDate: string,
     bookingReference: string
 }
