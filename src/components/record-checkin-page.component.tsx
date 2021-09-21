@@ -74,6 +74,7 @@ const RecordCheckinPage = (props: any) => {
                         tmpDisplayPassenger.qrCode = JSON.stringify(response.data);
                     })
                     .catch(error => {
+                        //TODO: Fehlermeldung
                         alert("QR konnte nicht geholt werden:" + tmpDisplayPassenger.id)
                     })
                     .finally(() => {

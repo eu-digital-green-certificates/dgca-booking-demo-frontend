@@ -23,6 +23,13 @@ import React from 'react';
 
 import '../i18n';
 import { useTranslation } from 'react-i18next';
+import utils from '../misc/utils';
+
+import DatePicker from "react-datepicker";
+import { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import de from 'date-fns/locale/de';
+
 import { Button, Form, Image, Modal, ModalBody, ModalFooter } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
@@ -30,6 +37,8 @@ import airplane from '../assets/images/airplane_outline.png'
 import { IPerson } from '../interfaces/person';
 import AppContext from '../misc/appContext';
 import { useBooking } from '../api';
+
+registerLocale('de', de)
 
 const CheckinModal = (props: any) => {
 
@@ -39,6 +48,7 @@ const CheckinModal = (props: any) => {
     const [lastname, setLastname] = React.useState<string>('');
     const [bookingCode, setBookingCode] = React.useState<string>('');
 
+    const [dateOfBirth, setDateOfBirth] = React.useState<Date>();
 
     const handleError = (error: any) => {
         let msg = '';
@@ -67,11 +77,27 @@ const CheckinModal = (props: any) => {
         let person: IPerson = {
             forename: forename,
             lastname: lastname,
+            dateOfBirth: dateOfBirth!.toISOString(),
             bookingReference: bookingCode
         }
 
         //TODO: sollte über die Landingpage erfolgen
         getBooking(person);
+    }
+
+    const handleDateOfBirthChange = (evt: Date | [Date, Date] | null) => {
+        let date: Date;
+
+        if (Array.isArray(evt))
+            date = evt[0];
+        else
+            date = evt as Date;
+
+        if (date) {
+            date.setHours(12);
+        }
+
+        setDateOfBirth(date);;
     }
 
     return (
@@ -104,6 +130,23 @@ const CheckinModal = (props: any) => {
                         type="text"
                         value={lastname}
                         onChange={(evt: any) => setLastname(evt.target.value)}
+                        required
+                    />
+                    <DatePicker
+                        selected={dateOfBirth}
+                        onChange={handleDateOfBirthChange}
+                        locale='de'
+                        dateFormat={utils.pickerDateFormat}
+                        isClearable
+                        placeholderText={t('translation:date-of-birth')  + '*'}
+                        className='input-checkin input-date-modal'
+                        wrapperClassName='align-self-center'
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                        maxDate={new Date()}
+                        minDate={new Date(1900, 0, 1, 12)}
+                        openToDate={new Date(1990, 0, 1)}
                         required
                     />
                     <Form.Control
