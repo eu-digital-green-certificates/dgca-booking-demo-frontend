@@ -140,7 +140,8 @@ const CheckinModal = (props: any) => {
                         isClearable
                         placeholderText={t('translation:date-of-birth')  + '*'}
                         className='input-checkin input-date-modal'
-                        wrapperClassName='align-self-center'
+                        wrapperClassName='align-self-center mb-3'
+                        popperPlacement='bottom'
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode="select"
