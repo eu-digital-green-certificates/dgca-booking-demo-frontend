@@ -3,8 +3,8 @@
 </h1>
 
 <p align="center">
-  <a href="https://github.com/eu-digital-green-certificates/dgca-booking-demo-fronted/actions/workflows/ci-main.yml" title="ci-main.yml">
-    <img src="https://github.com/eu-digital-green-certificates/dgca-booking-demo-fronted/actions/workflows/ci-main.yml/badge.svg">
+  <a href="https://github.com/eu-digital-green-certificates/dgca-booking-demo-frontend/actions/workflows/ci-main.yml" title="ci-main.yml">
+    <img src="https://github.com/eu-digital-green-certificates/dgca-booking-demo-frontend/actions/workflows/ci-main.yml/badge.svg">
   </a>
   <a href="/../../commits/" title="Last Commit">
     <img src="https://img.shields.io/github/last-commit/eu-digital-green-certificates/dgca-booking-demo-fronted?style=flat">
