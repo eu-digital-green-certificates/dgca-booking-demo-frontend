@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+<h1 align="center">
+   EU Digital COVID Certificate Booking Demo Frontend
+</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <a href="https://github.com/eu-digital-green-certificates/dgca-booking-demo-fronted/actions/workflows/ci-main.yml" title="ci-main.yml">
+    <img src="https://github.com/eu-digital-green-certificates/dgca-booking-demo-fronted/actions/workflows/ci-main.yml/badge.svg">
+  </a>
+  <a href="/../../commits/" title="Last Commit">
+    <img src="https://img.shields.io/github/last-commit/eu-digital-green-certificates/dgca-booking-demo-fronted?style=flat">
+  </a>
+  <a href="/../../issues" title="Open Issues">
+    <img src="https://img.shields.io/github/issues/eu-digital-green-certificates/dgca-booking-demo-fronted?style=flat">
+  </a>
+  <a href="./LICENSE" title="License">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=flat">
+  </a>
+</p>
 
-## Available Scripts
+<p align="center">
+  <a href="#about">About</a> •
+  <a href="#development">Development</a> •
+  <a href="#documentation">Documentation</a> •
+  <a href="#support-and-feedback">Support</a> •
+  <a href="#how-to-contribute">Contribute</a> •
+  <a href="#licensing">Licensing</a>
+</p>
 
-In the project directory, you can run:
+## About
 
-### `yarn start`
+This repository contains the source code of the EU Digital COVID Certificate Booking Demo Frontend.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [ ] TODO: Describe Component
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Development
 
-### `yarn test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [ ] TODO: Prerequisites
 
-### `yarn build`
+### Build
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [ ] TODO: Build
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Documentation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [ ] TODO: Documentation
 
-### `yarn eject`
+## Support and feedback
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The following channels are available for discussions, feedback, and support requests:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Type                     | Channel                                                |
+| ------------------------ | ------------------------------------------------------ |
+| **Issues**    | <a href="/../../issues" title="Open Issues"><img src="https://img.shields.io/github/issues/eu-digital-green-certificates/dgca-booking-demo-fronted?style=flat"></a>  |
+| **Other requests**    | <a href="mailto:opensource@telekom.de" title="Email DGC Team"><img src="https://img.shields.io/badge/email-DGC%20team-green?logo=mail.ru&style=flat-square&logoColor=white"></a>   |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## How to contribute  
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Contribution and feedback is encouraged and always welcome. For more information about how to contribute, the project structure, 
+as well as additional contribution information, see our [Contribution Guidelines](./CONTRIBUTING.md). By participating in this 
+project, you agree to abide by its [Code of Conduct](./CODE_OF_CONDUCT.md) at all times.
 
-## Learn More
+## Licensing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Copyright (C) 2021 T-Systems International GmbH and all other contributors
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Licensed under the **Apache License, Version 2.0** (the "License"); you may not use this file except in compliance with the License.
+
+You may obtain a copy of the License at https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" 
+BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the [LICENSE](./LICENSE) for the specific 
+language governing permissions and limitations under the License.
