@@ -28,7 +28,18 @@ import { BookingPassengerResponse } from "./booking-passenger-response";
 export interface DisplayPassenger extends BookingPassengerResponse {
     /**
      * @type {string}
-     * @memberof BookingPassengerResponse
      */
      qrCode?: string;
+
+     /**
+      * @type {string}
+      * 
+      */
+     token?: string;
+
+     /**
+      * @type {string}
+      * 
+      */
+      status?: string;
 }
