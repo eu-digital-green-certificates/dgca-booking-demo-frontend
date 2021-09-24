@@ -55,7 +55,6 @@ const RecordCheckinPage = (props: any) => {
 
     const [qrCode, getQrCode, getQrCodePromise] = useGetInitialize(undefined, handleError);
     const [getStatusPromise] = useStatus(undefined, handleError);
-    let intervalIds : any = [];
 
     React.useEffect(() => {
         if (context.navigation) {
@@ -66,38 +65,36 @@ const RecordCheckinPage = (props: any) => {
     }, [context.navigation])
 
     React.useEffect(() => {
+
+        const intervalIds: number[] = [];
+        let timeoutId: any = {};
+        
         if (displayPassengers) {
             displayPassengers.map((passenger: DisplayPassenger) => {
-            //     const intervalId = setInterval(() => {
-            //         getStatus(passenger);
-            //     }, 1000, passenger)
-            //     intervalIds.push(intervalId);
-                setTimeout(() => {
-                            getStatus(passenger);
-                        }, 5000, passenger);
 
-                        setTimeout(() => {
-                            getStatus(passenger);
-                        }, 5000, passenger);
+                timeoutId = setTimeout(() => {
+                    getStatus(passenger);
+                    const intervalId = setInterval(getStatus, 1000, passenger);
+                    intervalIds.push(intervalId);
+                }, 10000, passenger);
 
-
-                //getStatus(passenger);
-
-
-                // intervalId = setInterval(getStatus, 500, passenger);
-                // return () => clearInterval(intervalId);
             })
         }
 
-        // intervalIds.forEach((d : number) => clearInterval(d));
+        //Unmount
+        return () => {
+            clearTimeout(timeoutId);
+            intervalIds.map(intervalId => clearInterval(intervalId));
+
+        };
+
     }, [displayPassengers])
 
     const getStatus = (passenger: DisplayPassenger) => {
         getStatusPromise(passenger)
             .then(response => {
+                console.log("Response vom status: " + JSON.stringify(response));
                 passenger.status = response.data.result;
-                console.log("Response vom status: " + JSON.stringify(response.data));
-                console.log("status: " + passenger.status);
             })
             .catch(error => {
                 //TODO: Fehlermeldung

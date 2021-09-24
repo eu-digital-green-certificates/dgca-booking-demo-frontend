@@ -70,42 +70,6 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
     ] as const;
 }
 
-//TODO: 
-export const useGetValidationStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
-    const [validationStatus, setValidationStatus] = React.useState<string>('');
-
-    const baseUri = '/validationStatus';
-
-    const header = {
-        'Content-Type': 'application/json'
-    };
-
-    const getValidationStatus = () => {
-        
-        api.get(baseUri, { headers: header })
-            .then(response => {
-
-                console.log('validationStatus: '); console.log(JSON.stringify(response.data));
-
-                setValidationStatus(response.data);
-                if (onSuccess) {
-                    console.log("Bin im Success");
-                    onSuccess();
-                }
-            })
-            .catch(error => {
-                if (onError) {
-                    onError(error);
-                }
-            });
-    }
-
-    return [
-        validationStatus,
-        getValidationStatus
-    ] as const;
-}
-
 export interface IQrCode {
     [key: string]: string;
 }
@@ -179,6 +143,7 @@ export const useStatus = (onSuccess?: () => void, onError?: (error: any) => void
         const header = {
             "Authorization": `Bearer ${person.token}`,
             'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
         };
 
         console.log("header: " + header);
