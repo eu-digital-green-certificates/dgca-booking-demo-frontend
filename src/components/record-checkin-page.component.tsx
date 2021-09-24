@@ -79,9 +79,9 @@ const RecordCheckinPage = (props: any) => {
 
                 timeoutId = setTimeout(() => {
                     getStatus(passenger);
-                    const intervalId = setInterval(getStatus, 1000, passenger);
+                    const intervalId = setInterval(getStatus, 15000, passenger);
                     intervalIds.push(intervalId);
-                }, 10000, passenger);
+                }, 15000, passenger);
 
             })
         }
