@@ -30,8 +30,12 @@ import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
 import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
 import utils from "../misc/utils";
-import { useGetValidationStatus, useGetInitialize } from '../api';
+import { useGetInitialize, useStatus } from '../api';
 import { DisplayPassenger } from '../interfaces/display-passenger';
+
+export interface IStatus {
+    [key: string]: string;
+}
 
 const RecordCheckinPage = (props: any) => {
 
@@ -41,6 +45,7 @@ const RecordCheckinPage = (props: any) => {
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
+    const [status, setStatus] = React.useState<IStatus>({});
 
     const handleError = (error: any) => {
         let msg = '';
@@ -54,6 +59,7 @@ const RecordCheckinPage = (props: any) => {
     }
 
     const [qrCode, getQrCode, getQrCodePromise] = useGetInitialize(undefined, handleError);
+    const [getStatusPromise] = useStatus(undefined, handleError);
 
     React.useEffect(() => {
         if (context.navigation) {
@@ -64,22 +70,70 @@ const RecordCheckinPage = (props: any) => {
     }, [context.navigation])
 
     React.useEffect(() => {
+
+        const intervalIds: number[] = [];
+        let timeoutId: any = {};
+        
+        if (displayPassengers) {
+            displayPassengers.map((passenger: DisplayPassenger) => {
+
+                timeoutId = setTimeout(() => {
+                    getStatus(passenger);
+                    const intervalId = setInterval(getStatus, 1000, passenger);
+                    intervalIds.push(intervalId);
+                }, 10000, passenger);
+
+            })
+        }
+
+        //Unmount
+        return () => {
+            clearTimeout(timeoutId);
+            intervalIds.map(intervalId => clearInterval(intervalId));
+
+        };
+
+    }, [displayPassengers])
+
+    const getStatus = (passenger: DisplayPassenger) => {
+        getStatusPromise(passenger)
+            .then(response => {
+                console.log("Response vom status: " + JSON.stringify(response));
+                passenger.status = response.data.result;
+                let tmpStatus: IStatus = {};
+                tmpStatus[passenger.id] = 'ok';
+                setStatus(tmpStatus);
+            })
+            .catch(error => {
+                //TODO: Fehlermeldung
+                status[passenger.id] = 'false';
+                console.log("Der Status für die Person : " + passenger.id + "konnte nicht geholt werden./n" + error);
+                let tmpStatus: IStatus = {};
+                tmpStatus[passenger.id] = 'false';
+                setStatus(tmpStatus);
+            })
+            .finally(() => {
+            });
+    }
+
+    React.useEffect(() => {
         if (bookingResponse) {
             const tmpDisplayPassengers: DisplayPassenger[] = [];
             bookingResponse?.passengers.map((passenger: BookingPassengerResponse) => {
                 let tmpDisplayPassenger: DisplayPassenger = { ...passenger };
                 getQrCodePromise(passenger.id)
                     .then(response => {
-
+                        console.log("initialize: " + JSON.stringify(response.data));
                         tmpDisplayPassenger.qrCode = JSON.stringify(response.data);
+                        tmpDisplayPassenger.token = response.data.token;
                     })
                     .catch(error => {
                         //TODO: Fehlermeldung
-                        alert("QR konnte nicht geholt werden:" + tmpDisplayPassenger.id)
+                        console.log("QR konnte nicht geholt werden:" + tmpDisplayPassenger.id)
                     })
                     .finally(() => {
                         tmpDisplayPassengers.push(tmpDisplayPassenger);
-                        if(tmpDisplayPassengers.length === bookingResponse.passengers.length) {
+                        if (tmpDisplayPassengers.length === bookingResponse.passengers.length) {
                             setDisplayPassengers(tmpDisplayPassengers);
                         }
                     });
@@ -87,6 +141,8 @@ const RecordCheckinPage = (props: any) => {
         }
 
     }, [bookingResponse])
+
+
 
     return (!isInit && bookingResponse ? <></> :
         <>
@@ -135,7 +191,7 @@ const RecordCheckinPage = (props: any) => {
                                 {t('translation:name')}
                             </span>
                         </Col>
-                        <Col xs={12} sm={2} lg={2} className="shrink-grow">
+                        {/* <Col xs={12} sm={2} lg={2} className="shrink-grow">
                             <span className="text-vertical-center">
                                 {t('translation:lblUpload')}
                             </span>
@@ -144,8 +200,8 @@ const RecordCheckinPage = (props: any) => {
                             <span className="text-vertical-center">
                                 {t('translation:or')}
                             </span>
-                        </Col>
-                        <Col xs={12} sm={2} lg={2} className="shrink-grow">
+                        </Col> */}
+                        <Col xs={12} sm={5} lg={5} className="shrink-grow">
                             <span className="text-vertical-center">
                                 {t('translation:lblScan')}
                             </span>
@@ -155,17 +211,17 @@ const RecordCheckinPage = (props: any) => {
                     {displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
-                                <Col xs={12} sm={1} lg={1}>{passenger.dccStatus}
+                                <Col xs={12} sm={1} lg={1}>{status[passenger.id]}
                                 </Col>
                                 <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
                                 </Col>
-                                <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
+                                {/* <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
                                 </Col>
-                                {/* Attention column for or */}
+                                //Colum for or
                                 <Col xs={12} sm={1} lg={1} className="no-grow">
                                     &nbsp;
-                                </Col>
-                                <Col xs={12} sm={2} lg={2} className="shrink-grow qr-code-container">
+                                </Col> */}
+                                <Col xs={12} sm={5} lg={5} className="shrink-grow qr-code-container">
                                     {
                                         passenger.qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={passenger.qrCode} />
                                         </> : <></>

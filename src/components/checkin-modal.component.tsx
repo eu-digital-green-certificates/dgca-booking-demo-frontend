@@ -77,7 +77,7 @@ const CheckinModal = (props: any) => {
         let person: IPerson = {
             forename: forename,
             lastname: lastname,
-            dateOfBirth: dateOfBirth!.toISOString(),
+            birthDate: dateOfBirth!.toISOString(),
             bookingReference: bookingCode
         }
 

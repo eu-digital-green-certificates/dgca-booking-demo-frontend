@@ -23,6 +23,7 @@ import axios from 'axios';
 import React from 'react';
 import { BookingRequest } from './interfaces/booking-request';
 import { BookingResponse } from './interfaces/booking-response';
+import { DisplayPassenger } from './interfaces/display-passenger';
 import { IPerson } from './interfaces/person';
 
 export const api = axios.create({
@@ -32,7 +33,7 @@ export const api = axios.create({
 export const useBooking = (onSuccess?: () => void, onError?: (error: any) => void) => {
     const [result, setResult] = React.useState<BookingResponse>();
 
-    const baseUri = '/booking';
+    const baseUri = '/api/booking/';
 
     const header = {
         'Content-Type': 'application/json'
@@ -69,42 +70,6 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
     ] as const;
 }
 
-//TODO: 
-export const useGetValidationStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
-    const [validationStatus, setValidationStatus] = React.useState<string>('');
-
-    const baseUri = '/validationStatus';
-
-    const header = {
-        'Content-Type': 'application/json'
-    };
-
-    const getValidationStatus = () => {
-        
-        api.get(baseUri, { headers: header })
-            .then(response => {
-
-                console.log('validationStatus: '); console.log(JSON.stringify(response.data));
-
-                setValidationStatus(response.data);
-                if (onSuccess) {
-                    console.log("Bin im Success");
-                    onSuccess();
-                }
-            })
-            .catch(error => {
-                if (onError) {
-                    onError(error);
-                }
-            });
-    }
-
-    return [
-        validationStatus,
-        getValidationStatus
-    ] as const;
-}
-
 export interface IQrCode {
     [key: string]: string;
 }
@@ -112,7 +77,7 @@ export interface IQrCode {
 export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) => void) => {
     const [qrCode, setQrCode] = React.useState<IQrCode>({});
 
-    const baseUri = '/initialize/';
+    const baseUri = '/api/initialize/';
 
     const header = {
         'Content-Type': 'application/json'
@@ -130,16 +95,13 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
         api.get(url, { headers: header })
             .then(response => {
 
-                //setQrCode(response.data);
-                qrCode[id] = JSON.stringify(response.data);
+                qrCode[id] = response.data;
                 if (onSuccess) {
-                    alert("onSuccess!");
                     onSuccess();
                 }
             })
             .catch(error => {
                 if (onError) {
-                    alert("onError!")
                     onError(error);
                 }
             });
@@ -162,5 +124,36 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
         qrCode,
         getQrCode,
         getQrCodePromise
+    ] as const;
+}
+
+
+export const useStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
+    const baseUri = '/api/status/';
+
+    /**
+     * Returns a QR-Code Promise
+     * 
+     * @param person DisplayPassenger  
+     */
+     const getStatusPromise = (person: DisplayPassenger) => {
+        console.log("Person.token: " + person.token);
+        
+        const header = {
+            "Authorization": `Bearer ${person.token}`,
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+        };
+
+        console.log("header: " + header);
+
+        const url = baseUri;
+
+        //Promis ohne then
+        return api.get(url, { headers: header })
+     }
+
+    return [
+        getStatusPromise
     ] as const;
 }
