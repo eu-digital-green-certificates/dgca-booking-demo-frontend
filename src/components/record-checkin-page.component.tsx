@@ -34,7 +34,7 @@ import { useGetInitialize, useStatus } from '../api';
 import { DisplayPassenger } from '../interfaces/display-passenger';
 
 export interface IStatus {
-    [key: string]: string;
+    [key: string]: number;
 }
 
 const RecordCheckinPage = (props: any) => {
@@ -45,7 +45,8 @@ const RecordCheckinPage = (props: any) => {
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
-    const [status, setStatus] = React.useState<IStatus>({});
+    const [statusMap] = React.useState<IStatus>({});
+    const [displayStatus,setDiplayStatus] = React.useState<IStatus>({});
 
     const handleError = (error: any) => {
         let msg = '';
@@ -73,15 +74,15 @@ const RecordCheckinPage = (props: any) => {
 
         const intervalIds: number[] = [];
         let timeoutId: any = {};
-        
+
         if (displayPassengers) {
             displayPassengers.map((passenger: DisplayPassenger) => {
 
                 timeoutId = setTimeout(() => {
                     getStatus(passenger);
-                    const intervalId = setInterval(getStatus, 1000, passenger);
+                    const intervalId = setInterval(getStatus, 10000, passenger);
                     intervalIds.push(intervalId);
-                }, 10000, passenger);
+                }, 15000, passenger);
 
             })
         }
@@ -95,22 +96,39 @@ const RecordCheckinPage = (props: any) => {
 
     }, [displayPassengers])
 
+    React.useEffect(() => {
+        if(statusMap) {
+            setDiplayStatus(statusMap);
+        }
+        
+    }, [JSON.stringify(statusMap)])
+
     const getStatus = (passenger: DisplayPassenger) => {
+        console.log("passenger:" + passenger);
         getStatusPromise(passenger)
             .then(response => {
-                console.log("Response vom status: " + JSON.stringify(response));
-                passenger.status = response.data.result;
-                let tmpStatus: IStatus = {};
-                tmpStatus[passenger.id] = 'ok';
-                setStatus(tmpStatus);
+                console.log("-------NON ERROR----------");
+                console.log(JSON.stringify(statusMap));
+                statusMap[passenger.id]= response.status;
             })
             .catch(error => {
                 //TODO: Fehlermeldung
-                status[passenger.id] = 'false';
-                console.log("Der Status für die Person : " + passenger.id + "konnte nicht geholt werden./n" + error);
-                let tmpStatus: IStatus = {};
-                tmpStatus[passenger.id] = 'false';
-                setStatus(tmpStatus);
+                // status[passenger.id] = 'false';
+                // console.log("Der Status für die Person : " + passenger.id + "konnte nicht geholt werden./n" + error);
+                // let tmpStatus: IStatus = {};
+                // tmpStatus[passenger.id] = 'false';
+                // setStatus(tmpStatus);
+
+                console.log("-------ERROR----------" + JSON.stringify(error));
+
+                // if (status && status[passenger.id].length != 0) {
+                //     console.log("response.data.result" + response.status);
+                //     status[passenger.id] = JSON.stringify(response.status);
+                // } else {
+                //     let tmpStatus: IStatus = {};
+                //     tmpStatus[passenger.id] = JSON.stringify(response.status);
+                //     setStatus(tmpStatus);
+                // }
             })
             .finally(() => {
             });
@@ -211,7 +229,7 @@ const RecordCheckinPage = (props: any) => {
                     {displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
-                                <Col xs={12} sm={1} lg={1}>{status[passenger.id]}
+                                <Col xs={12} sm={1} lg={1}>{JSON.stringify(displayStatus[passenger.id])}
                                 </Col>
                                 <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
                                 </Col>
