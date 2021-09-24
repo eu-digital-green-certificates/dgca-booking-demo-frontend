@@ -33,7 +33,7 @@ export const api = axios.create({
 export const useBooking = (onSuccess?: () => void, onError?: (error: any) => void) => {
     const [result, setResult] = React.useState<BookingResponse>();
 
-    const baseUri = '/booking';
+    const baseUri = '/api/booking/';
 
     const header = {
         'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export interface IQrCode {
 export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) => void) => {
     const [qrCode, setQrCode] = React.useState<IQrCode>({});
 
-    const baseUri = '/initialize/';
+    const baseUri = '/api/initialize/';
 
     const header = {
         'Content-Type': 'application/json'
@@ -95,7 +95,6 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
         api.get(url, { headers: header })
             .then(response => {
 
-                //qrCode[id] = JSON.stringify(response.data);
                 qrCode[id] = response.data;
                 if (onSuccess) {
                     onSuccess();
@@ -130,7 +129,7 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
 
 
 export const useStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
-    const baseUri = '/status';
+    const baseUri = '/api/status/';
 
     /**
      * Returns a QR-Code Promise

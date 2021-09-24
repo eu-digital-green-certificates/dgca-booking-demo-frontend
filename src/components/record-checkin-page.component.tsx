@@ -33,6 +33,10 @@ import utils from "../misc/utils";
 import { useGetInitialize, useStatus } from '../api';
 import { DisplayPassenger } from '../interfaces/display-passenger';
 
+export interface IStatus {
+    [key: string]: string;
+}
+
 const RecordCheckinPage = (props: any) => {
 
     const { t } = useTranslation();
@@ -41,6 +45,7 @@ const RecordCheckinPage = (props: any) => {
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
+    const [status, setStatus] = React.useState<IStatus>({});
 
     const handleError = (error: any) => {
         let msg = '';
@@ -95,10 +100,17 @@ const RecordCheckinPage = (props: any) => {
             .then(response => {
                 console.log("Response vom status: " + JSON.stringify(response));
                 passenger.status = response.data.result;
+                let tmpStatus: IStatus = {};
+                tmpStatus[passenger.id] = 'ok';
+                setStatus(tmpStatus);
             })
             .catch(error => {
                 //TODO: Fehlermeldung
+                status[passenger.id] = 'false';
                 console.log("Der Status für die Person : " + passenger.id + "konnte nicht geholt werden./n" + error);
+                let tmpStatus: IStatus = {};
+                tmpStatus[passenger.id] = 'false';
+                setStatus(tmpStatus);
             })
             .finally(() => {
             });
@@ -199,7 +211,7 @@ const RecordCheckinPage = (props: any) => {
                     {displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
-                                <Col xs={12} sm={1} lg={1}>{passenger.status}
+                                <Col xs={12} sm={1} lg={1}>{status[passenger.id]}
                                 </Col>
                                 <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
                                 </Col>
