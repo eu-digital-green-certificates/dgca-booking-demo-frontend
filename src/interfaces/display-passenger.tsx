@@ -24,6 +24,7 @@
  */
 
 import { BookingPassengerResponse } from "./booking-passenger-response";
+import { ResultToken } from "./result-token";
 
 export interface DisplayPassenger extends BookingPassengerResponse {
     /**
@@ -42,4 +43,22 @@ export interface DisplayPassenger extends BookingPassengerResponse {
       * 
       */
       status?: number;
+      
+     /**
+      * @type {number}
+      * 
+      */
+      intervalId?: number;
+      
+     /**
+      * @type {ResultToken}
+      * 
+      */
+      result?: ResultToken;
+      
+     /**
+      * @type {any}
+      * 
+      */
+      parsedToken?: any;
 }

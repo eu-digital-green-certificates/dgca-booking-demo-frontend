@@ -40,17 +40,11 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
     };
 
     const getBooking = (person: IPerson) => {
-        console.log('Person: '); console.log(JSON.stringify(person));
-
 
         const bookingRequest: BookingRequest = { ...person }
 
-        console.log('BookingRequest: '); console.log(JSON.stringify(bookingRequest));
-
         api.post(baseUri, bookingRequest, { headers: header })
             .then(response => {
-
-                console.log('response: '); console.log(JSON.stringify(response.data));
 
                 setResult(response.data);
                 if (onSuccess) {
@@ -75,7 +69,6 @@ export interface IQrCode {
 }
 
 export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) => void) => {
-    const [qrCode, setQrCode] = React.useState<IQrCode>({});
 
     const baseUri = '/api/initialize/';
 
@@ -84,45 +77,19 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
     };
 
     /**
-     * TODO: not used
-     * Returns a QR-Code
-     * 
-     * @param id Id of the Person 
-     */
-    const getQrCode = (id: string) => {
-        const url = baseUri + id;
-
-        api.get(url, { headers: header })
-            .then(response => {
-
-                qrCode[id] = response.data;
-                if (onSuccess) {
-                    onSuccess();
-                }
-            })
-            .catch(error => {
-                if (onError) {
-                    onError(error);
-                }
-            });
-    }
-
-    /**
      * Returns a QR-Code Promise
      * 
      * @param id Id of the Person 
      */
-     const getQrCodePromise = (id: string) => {
+    const getQrCodePromise = (id: string) => {
         const url = baseUri + id;
 
-        //Promis ohne then
+        //return promise
         return api.get(url, { headers: header })
-            
+
     }
 
     return [
-        qrCode,
-        getQrCode,
         getQrCodePromise
     ] as const;
 }
@@ -130,28 +97,25 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
 
 export const useStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
     const baseUri = '/api/status/';
+    // const baseUri = '/api/devStatusNOK/';
 
     /**
      * Returns a QR-Code Promise
      * 
-     * @param person DisplayPassenger  
+     * @param person DisplayPassenger
      */
-     const getStatusPromise = (person: DisplayPassenger) => {
-        console.log("Person.token: " + person.token);
-        
+    const getStatusPromise = (person: DisplayPassenger) => {
         const header = {
             "Authorization": `Bearer ${person.token}`,
             'Content-Type': 'application/json',
             'Cache-Control': 'no-cache'
         };
 
-        console.log("header: " + header);
-
         const url = baseUri;
 
-        //Promis ohne then
+        //return promise
         return api.get(url, { headers: header })
-     }
+    }
 
     return [
         getStatusPromise

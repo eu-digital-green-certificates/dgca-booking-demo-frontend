@@ -19,21 +19,25 @@
  * under the License.
  */
 
+import React, { Fragment } from 'react';
 import { Col, Container, Fade, Image, Row, Form, Button, InputGroup } from 'react-bootstrap';
 
 import '../i18n';
 // import { useTranslation } from 'react-i18next';
 
-import React, { Fragment } from 'react';
 import AppContext from '../misc/appContext';
+
 import flightIcon from '../assets/images/icon_fluege.png';
 import flighthotelIcon from '../assets/images/icon_flughotel.png';
 import hotelIcon from '../assets/images/icon_hotel.png';
 import rentalcarIcon from '../assets/images/icon_mietwagen.png';
+
 import CheckinModal from './checkin-modal.component';
+
 import { IPerson } from '../interfaces/person';
-import { useBooking } from '../api';
 import { BookingResponse } from '../interfaces/booking-response';
+
+import { useBooking } from '../api';
 
 const LandingPage = (props: any) => {
 
@@ -182,11 +186,6 @@ const LandingPage = (props: any) => {
                             </Col>
                         </Row>
                     </Container>
-                    {/* <span className='landing-title mx-auto mb-4'>{t('translation:welcome')}</span>
-
-                <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordVac}>{t('translation:record-vaccination-cert-dat')}</Button>
-                <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordTest}>{t('translation:record-test-cert-dat')}</Button>
-                <Button block className='landing-btn my-2' onClick={context.navigation!.toRecordRecovery}>{t('translation:record-recovery-cert-dat')}</Button> */}
                 </Fragment>
             </Fade>
             <CheckinModal

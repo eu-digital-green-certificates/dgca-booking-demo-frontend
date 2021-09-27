@@ -19,26 +19,26 @@
  * under the License.
  */
 
+import React, { Fragment } from 'react';
+import { Fade, Container, Row, Col, Button, Collapse, Spinner } from 'react-bootstrap';
+
 import '../i18n';
 import { useTranslation } from 'react-i18next';
 
 import QRCode from 'qrcode.react';
-
-import React, { Fragment } from 'react';
-import { Fade, Container, Row, Col, Button, Collapse, Spinner } from 'react-bootstrap';
-import AppContext from '../misc/appContext';
-import { BookingResponse } from '../interfaces/booking-response';
-import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
-import utils from "../misc/utils";
-import { useGetInitialize, useStatus } from '../api';
-import { DisplayPassenger } from '../interfaces/display-passenger';
-import DemoSpinner from './spinner/spinner.component';
+import jwt_decode from "jwt-decode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
-export interface IStatus {
-    [key: string]: string;
-}
+import AppContext from '../misc/appContext';
+import utils from "../misc/utils";
+
+import DemoSpinner from './spinner/spinner.component';
+
+import { BookingResponse } from '../interfaces/booking-response';
+import { DisplayPassenger } from '../interfaces/display-passenger';
+
+import { useGetInitialize, useStatus } from '../api';
 
 const RecordCheckinPage = (props: any) => {
 
@@ -47,6 +47,7 @@ const RecordCheckinPage = (props: any) => {
 
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
+
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
     const displayPassengersRef = React.useRef(displayPassengers);
     displayPassengersRef.current = displayPassengers;
@@ -62,7 +63,7 @@ const RecordCheckinPage = (props: any) => {
         props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
     }
 
-    const [qrCode, getQrCode, getQrCodePromise] = useGetInitialize(undefined, handleError);
+    const [getQrCodePromise] = useGetInitialize(undefined, handleError);
     const [getStatusPromise] = useStatus(undefined, handleError);
 
 
@@ -80,6 +81,7 @@ const RecordCheckinPage = (props: any) => {
             setIsInit(true);
         }
     }, [context.navigation])
+
 
     // on bookingResponse change --> set displaydata and init polling
     React.useEffect(() => {
@@ -102,8 +104,11 @@ const RecordCheckinPage = (props: any) => {
 
                         // timeout and interval for status polling
                         timeoutIds.push(setTimeout(() => {
+                            const intervalId = setInterval(getStatus, 1000, passenger.id);
+                            tmpDisplayPassenger.intervalId = intervalId;
+
+                            intervalIds.push(intervalId);
                             getStatus(passenger.id);
-                            intervalIds.push(setInterval(getStatus, 1000, passenger.id));
                         }, 5000));
 
                     })
@@ -130,6 +135,7 @@ const RecordCheckinPage = (props: any) => {
 
     }, [bookingResponse])
 
+
     const getStatus = (id: string) => {
         // find current passenger from Ref --> it will be called by timeout
         const passenger = displayPassengersRef.current.find(p => p.id === id);
@@ -139,6 +145,13 @@ const RecordCheckinPage = (props: any) => {
                 .then(response => {
                     // update status
                     passenger.status = response.status;
+                    console.log(response.data);
+
+                    // update result
+                    if (response.data && response.data.confirmation) {
+                        passenger.result = response.data;
+                        passenger.parsedToken = jwt_decode(response.data.confirmation);
+                    }
                 })
                 .catch(error => {
                     handleError(error);
@@ -152,10 +165,10 @@ const RecordCheckinPage = (props: any) => {
         }
     }
 
-    const getStatusIcon = (code: number | undefined): any => {
+    const getStatusIcon = (passenger: DisplayPassenger | undefined): any => {
         let status = {};
 
-        switch (code) {
+        switch (passenger?.status) {
             case 200:
                 status = <FontAwesomeIcon icon={faCheckCircle} color="green" />;
                 break;
@@ -182,53 +195,64 @@ const RecordCheckinPage = (props: any) => {
 
     return (!(isInit)
         ? <></>
-        : <>
-            <Fade appear={true} in={true} >
-                <Container className='content-container'>
-                    <Row>
-                        <h1>{t('translation:checkin')}</h1>
-                    </Row>
-                    <Row>
-                        <Col xs={12} sm={7} lg={7}>
-                            {t('translation:infoCheckin1')}<br />
-                            {t('translation:infoCheckin2')}<br />
-                            {t('translation:infoCheckin3')}<br /><br />
-                            {t('translation:infoCheckin4')}<br /><br />
-                            {t('translation:infoCheckin5')}
-                        </Col>
-                        <Col xs={12} sm={5} lg={5}>
-                            <Container className="wrapper-flight-information">
-                                <Container className="padding-checkin flight-information mb-2">
-                                    {/* TODO:  */}
-                                    Flight AIR094, Group booking<br />
-                                    Booking code {bookingResponse?.reference}<br />
-                                    {bookingResponse?.flightInfo.from}<br />
-                                    {bookingResponse?.flightInfo.to}<br />
-                                    Economy Classic<br />
-                                    {bookingResponse?.passengers.length} Passender(s)<br />
-                                    {utils.convertDateToOutputFormat(bookingResponse?.flightInfo.time)}
-                                </Container>
-                                <Container className="padding-checkin flight-information mb-2">
-                                    <span className="logo" />
-                                    <span className="text-vertical-center">
-                                        {t('translation:dccCertificate')}
-                                    </span>
-                                </Container>
-                            </Container>
-                        </Col>
-                    </Row>
-                    <Row className="bold">
-                        <Col xs={12} sm={1} lg={1}>
-                            <span className="text-vertical-center">
-                                {t('translation:conditionFulfilled')}
+        : <Fade appear={true} in={true} >
+            <Container className='content-container'>
+
+                <Row >
+                    <h1 className='head-line'>{t('translation:checkin')}</h1>
+                </Row>
+
+                <Row>
+                    <Col lg={7} className='mb-3'>
+                        {t('translation:infoCheckin1')}<br />
+                        {t('translation:infoCheckin2')}<br /><br />
+                        {t('translation:infoCheckin3')}<br /><br />
+                        {t('translation:infoCheckin4')}<br />
+                        {t('translation:infoCheckin5')}
+                    </Col>
+
+                    <Col lg={5} className="wrapper-flight-information">
+
+                        <Container className="flight-information column-container mb-3">
+                            <span className='mb-1'>
+                                <strong>Flight AIR094, Group booking</strong>
                             </span>
-                        </Col>
-                        <Col xs={12} sm={6} lg={6}>
-                            <span className="text-vertical-center">
-                                {t('translation:name')}
+                            <span className='mb-1'>
+                                Booking code {bookingResponse?.reference}<br />
+                                {bookingResponse?.flightInfo.from}<br />
+                                {bookingResponse?.flightInfo.to}<br />
+                                Economy Classic
                             </span>
-                        </Col>
-                        {/* <Col xs={12} sm={2} lg={2} className="shrink-grow">
+                            <span className='mb-1'>
+                                <strong>{bookingResponse?.passengers.length} Passender(s)</strong>
+                            </span>
+                            <span >
+                                <strong>{utils.convertDateToOutputFormat(bookingResponse?.flightInfo.time)}</strong>
+                            </span>
+                        </Container>
+
+                        <Row className=" dcc-information mx-0 mb-2 mt-3">
+                            <Col xs='auto' className="logo" />
+                            <Col className="text-vertical-center">{t('translation:dccCertificate')}</Col>
+                        </Row>
+                    </Col>
+
+                </Row>
+                <Row className="bold">
+
+                    <Col xs={12} sm={2}>
+                        <span className="text-vertical-center">
+                            {t('translation:conditionFulfilled')}
+                        </span>
+                    </Col>
+
+                    <Col xs={12} sm={5}>
+                        <span className="text-vertical-left">
+                            {t('translation:name')}
+                        </span>
+                    </Col>
+
+                    {/* <Col xs={12} sm={2} lg={2} className="shrink-grow">
                             <span className="text-vertical-center">
                                 {t('translation:lblUpload')}
                             </span>
@@ -238,14 +262,13 @@ const RecordCheckinPage = (props: any) => {
                                 {t('translation:or')}
                             </span>
                         </Col> */}
-                        <Col xs={12} sm={5} lg={5} className="shrink-grow">
-                            <span className="text-vertical-center">
-                                {t('translation:lblScan')}
-                            </span>
-                        </Col>
-                    </Row>
-                    <hr />
 
+                    <Col xs={12} sm={5} lg={5} className="shrink-grow">
+                        <span className="text-vertical-left">{t('translation:lblScan')}</span>
+                    </Col>
+                </Row>
+                <hr />
+                <div className='flex-fill'>
                     {!(displayPassengers.length > 0)
                         ? <DemoSpinner />
                         : <Collapse appear={true} in={true} >
@@ -254,10 +277,10 @@ const RecordCheckinPage = (props: any) => {
                                     displayPassengers.map((passenger: DisplayPassenger) =>
                                         <Fragment key={passenger.id}>
                                             <Row>
-                                                <Col xs={12} sm={1} lg={1}>
-                                                    {getStatusIcon(passenger.status)}
+                                                <Col xs={12} sm={2}>
+                                                    <span className="text-vertical-center">{getStatusIcon(passenger)}</span>
                                                 </Col>
-                                                <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
+                                                <Col xs={12} sm={5}>{passenger.forename + ' ' + passenger.lastname}
                                                 </Col>
                                                 {/* <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
                                 </Col>
@@ -278,15 +301,32 @@ const RecordCheckinPage = (props: any) => {
                             </div>
                         </Collapse>
                     }
-                    <Row xs={12} sm={12} lg={12}>
-                        <Container className="buttons-line">
-                            <Button className="buttons-line-button" onClick={context.navigation!.toLanding}>{t('translation:cancel')}</Button>
-                            <Button className="buttons-line-button" disabled={false}>{t('translation:submitCheckin')}</Button>
-                        </Container>
-                    </Row>
-                </Container>
-            </Fade>
-        </>)
+                </div>
+                <Row className='justify-content-end'>
+                    <Col lg='5'>
+                        <Row >
+                            <Col sm='6' className='d-grid mb-2 mb-sm-0' >
+                                <Button
+                                    className="buttons-line-button"
+                                    onClick={context.navigation!.toLanding}
+                                >
+                                    {t('translation:cancel')}
+                                </Button>
+                            </Col>
+                            <Col sm='6' className='d-grid'>
+                                <Button
+                                    className="ml-3 buttons-line-button"
+                                    disabled={false}
+                                >
+                                    {t('translation:submitCheckin')}
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
+        </Fade>
+    )
 }
 
 export default RecordCheckinPage;

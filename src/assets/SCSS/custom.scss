@@ -44,7 +44,6 @@ $container-max-widths: (
     height: 100%;
     display: flex;
     flex-flow: column;
-    padding-bottom: 7rem;
 }
 
 .header-title {
@@ -101,11 +100,15 @@ $container-max-widths: (
     padding-right: 7rem;
     padding-bottom: 7rem;
     display: flex;
+    height: 100%;
     flex-direction: column;
 }
 
 .routing-content{
-    padding: 0 0 7rem 0;
+    padding: 0 0 3rem 0;
+    flex: 1 1 auto !important;
+    display: flex;
+    flex-direction: column;
 }
 
 .check-in-container {
@@ -357,37 +360,43 @@ $container-max-widths: (
     font-weight: bold;
 }
 
-.padding-checkin {
-    padding: 0.5rem;
-}
-
 .flight-information {
+    padding: 0.75rem 1.5rem;
     display: flex;
     border: 1px solid #262626;
-
-    .logo {
+    flex-direction: column;
+}
+.dcc-information {
+    display: flex;
+    border: 1px solid #262626;
+    
+    .logo{
         background-image: url("../images/eu_logo_big.png") !important;
         background-repeat: no-repeat;
         width: 54px;
         height: 36px;
-        padding-right: 30%;
-        padding-top: auto;
-        padding-bottom: auto;
+        margin: 0.5rem;
     }
 }
+
+
 
 .wrapper-flight-information {
     display: flex;
     flex-flow: column;
-    justify-content: space-between;
-    padding: 0%;
     height: 100%;
 }
 
 .text-vertical-center {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    height: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+.text-vertical-left {
+    display: flex;
+    align-items: center;
 }
 
 .no-grow {
@@ -418,17 +427,14 @@ $container-max-widths: (
         border-color: transparent;
     }
 
-    @include media-breakpoint-up(xs) {
-        width: 100%;
-        margin: 5px 0%;
-    }
-
-    @include media-breakpoint-up(sm) {
-        width: 180px;
-        margin: 5px 5px;
-    }
 }
 
 #qr-code-container {
     background-color: $body-bg;
+}
+
+.head-line{
+    height:5rem;
+    display: flex;
+    align-items: center;
 }
