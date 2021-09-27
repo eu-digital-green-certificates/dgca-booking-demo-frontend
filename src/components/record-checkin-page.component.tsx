@@ -33,10 +33,6 @@ import utils from "../misc/utils";
 import { useGetInitialize, useStatus } from '../api';
 import { DisplayPassenger } from '../interfaces/display-passenger';
 
-export interface IStatus {
-    [key: string]: string;
-}
-
 const RecordCheckinPage = (props: any) => {
 
     const { t } = useTranslation();
@@ -45,7 +41,6 @@ const RecordCheckinPage = (props: any) => {
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
-    const [status, setStatus] = React.useState<IStatus>({});
 
     const handleError = (error: any) => {
         let msg = '';
@@ -71,16 +66,13 @@ const RecordCheckinPage = (props: any) => {
 
     React.useEffect(() => {
 
-        const intervalIds: number[] = [];
         let timeoutId: any = {};
-        
-        if (displayPassengers) {
+
+        if (displayPassengers && displayPassengers.length > 0) {
             displayPassengers.map((passenger: DisplayPassenger) => {
 
                 timeoutId = setTimeout(() => {
                     getStatus(passenger);
-                    const intervalId = setInterval(getStatus, 15000, passenger);
-                    intervalIds.push(intervalId);
                 }, 15000, passenger);
 
             })
@@ -89,7 +81,6 @@ const RecordCheckinPage = (props: any) => {
         //Unmount
         return () => {
             clearTimeout(timeoutId);
-            intervalIds.map(intervalId => clearInterval(intervalId));
 
         };
 
@@ -98,21 +89,17 @@ const RecordCheckinPage = (props: any) => {
     const getStatus = (passenger: DisplayPassenger) => {
         getStatusPromise(passenger)
             .then(response => {
-                console.log("Response vom status: " + JSON.stringify(response));
-                passenger.status = response.data.result;
-                let tmpStatus: IStatus = {};
-                tmpStatus[passenger.id] = 'ok';
-                setStatus(tmpStatus);
+                console.log("-------NON ERROR----------");
+                passenger.status = response.status;
+
             })
             .catch(error => {
-                //TODO: Fehlermeldung
-                status[passenger.id] = 'false';
-                console.log("Der Status für die Person : " + passenger.id + "konnte nicht geholt werden./n" + error);
-                let tmpStatus: IStatus = {};
-                tmpStatus[passenger.id] = 'false';
-                setStatus(tmpStatus);
+                console.log("-------ERROR----------" + JSON.stringify(error));
+
             })
             .finally(() => {
+                let tmpDisplayPassengers: DisplayPassenger[] = [ ...displayPassengers ];
+                setDisplayPassengers(tmpDisplayPassengers);
             });
     }
 
@@ -142,7 +129,27 @@ const RecordCheckinPage = (props: any) => {
 
     }, [bookingResponse])
 
-
+    const getStatusText = (code: number): string => {
+        console.log("Bin im getStatusText" + code);
+        let status = "";
+        switch (code) {
+            case 200:
+                status = "OK";
+                break;
+            case 204:
+                status = "Waiting...";
+                break;
+            case 401:
+                status = "Not authorized";
+                break;
+            case 410:
+                status = "Gone";
+                break;
+            default:
+                break;
+        }
+        return status;
+    }
 
     return (!isInit && bookingResponse ? <></> :
         <>
@@ -208,10 +215,11 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                     </Row>
                     <hr />
-                    {displayPassengers.map((passenger: DisplayPassenger) =>
+
+                    { !(displayPassengers.length >= 0) ? <></> : displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
-                                <Col xs={12} sm={1} lg={1}>{status[passenger.id]}
+                                <Col xs={12} sm={1} lg={1}>{ passenger.status }
                                 </Col>
                                 <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
                                 </Col>
