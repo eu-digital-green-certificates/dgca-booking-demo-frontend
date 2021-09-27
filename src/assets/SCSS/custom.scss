@@ -366,11 +366,13 @@ $container-max-widths: (
     border: 1px solid #262626;
 
     .logo {
-        background-image: url("../images/logo_c19.png") !important;
+        background-image: url("../images/eu_logo_big.png") !important;
         background-repeat: no-repeat;
-        width: 43px;
-        height: 51px;
+        width: 54px;
+        height: 36px;
         padding-right: 30%;
+        padding-top: auto;
+        padding-bottom: auto;
     }
 }
 

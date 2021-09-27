@@ -130,7 +130,6 @@ const RecordCheckinPage = (props: any) => {
 
     }, [bookingResponse])
 
-
     const getStatus = (id: string) => {
         // find current passenger from Ref --> it will be called by timeout
         const passenger = displayPassengersRef.current.find(p => p.id === id);
@@ -152,7 +151,6 @@ const RecordCheckinPage = (props: any) => {
                 });
         }
     }
-
 
     const getStatusIcon = (code: number | undefined): any => {
         let status = {};
@@ -289,7 +287,6 @@ const RecordCheckinPage = (props: any) => {
                 </Container>
             </Fade>
         </>)
-
 }
 
 export default RecordCheckinPage;
