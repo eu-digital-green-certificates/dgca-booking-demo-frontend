@@ -25,13 +25,15 @@ import { useTranslation } from 'react-i18next';
 import QRCode from 'qrcode.react';
 
 import React, { Fragment } from 'react';
-import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
+import { Fade, Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
 import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
 import utils from "../misc/utils";
 import { useGetInitialize, useStatus } from '../api';
 import { DisplayPassenger } from '../interfaces/display-passenger';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 const RecordCheckinPage = (props: any) => {
 
@@ -98,7 +100,7 @@ const RecordCheckinPage = (props: any) => {
 
             })
             .finally(() => {
-                let tmpDisplayPassengers: DisplayPassenger[] = [ ...displayPassengers ];
+                let tmpDisplayPassengers: DisplayPassenger[] = [...displayPassengers];
                 setDisplayPassengers(tmpDisplayPassengers);
             });
     }
@@ -129,23 +131,29 @@ const RecordCheckinPage = (props: any) => {
 
     }, [bookingResponse])
 
-    const getStatusText = (code: number): string => {
-        console.log("Bin im getStatusText" + code);
-        let status = "";
+    const getStatusIcon = (code: number | undefined): any => {
+        let status = {};
+
         switch (code) {
             case 200:
-                status = "OK";
-                break;
-            case 204:
-                status = "Waiting...";
+                status = <FontAwesomeIcon icon={faCheckCircle} color="green" />;
                 break;
             case 401:
-                status = "Not authorized";
+                status = <FontAwesomeIcon icon={faTimesCircle} color="red" />;
                 break;
             case 410:
                 status = "Gone";
                 break;
+            case 204:
             default:
+                status = <Spinner
+                    animation="border"
+                    className='d-flex mx-auto'
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    variant='primary'
+                />
                 break;
         }
         return status;
@@ -216,10 +224,11 @@ const RecordCheckinPage = (props: any) => {
                     </Row>
                     <hr />
 
-                    { !(displayPassengers.length >= 0) ? <></> : displayPassengers.map((passenger: DisplayPassenger) =>
+                    {!(displayPassengers.length >= 0) ? <></> : displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
-                                <Col xs={12} sm={1} lg={1}>{ passenger.status }
+                                <Col xs={12} sm={1} lg={1}>
+                                    {getStatusIcon(passenger.status)}
                                 </Col>
                                 <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
                                 </Col>
