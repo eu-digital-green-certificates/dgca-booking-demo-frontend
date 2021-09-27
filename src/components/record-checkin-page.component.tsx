@@ -25,14 +25,16 @@ import { useTranslation } from 'react-i18next';
 import QRCode from 'qrcode.react';
 
 import React, { Fragment } from 'react';
-import { Fade, Container, Row, Col, Button, Collapse } from 'react-bootstrap';
+import { Fade, Container, Row, Col, Button, Collapse, Spinner } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
 import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
 import utils from "../misc/utils";
 import { useGetInitialize, useStatus } from '../api';
 import { DisplayPassenger } from '../interfaces/display-passenger';
-import Spinner from './spinner/spinner.component';
+import DemoSpinner from './spinner/spinner.component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 export interface IStatus {
     [key: string]: string;
@@ -46,12 +48,8 @@ const RecordCheckinPage = (props: any) => {
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
-<<<<<<< Updated upstream
-    const [status, setStatus] = React.useState<IStatus>({});
-=======
     const displayPassengersRef = React.useRef(displayPassengers);
     displayPassengersRef.current = displayPassengers;
->>>>>>> Stashed changes
 
     const handleError = (error: any) => {
         let msg = '';
@@ -78,62 +76,12 @@ const RecordCheckinPage = (props: any) => {
 
     // on init --> navigation ist needed
     React.useEffect(() => {
-<<<<<<< Updated upstream
-
-        const intervalIds: number[] = [];
-        let timeoutId: any = {};
-        
-        if (displayPassengers) {
-            displayPassengers.map((passenger: DisplayPassenger) => {
-
-                timeoutId = setTimeout(() => {
-                    getStatus(passenger);
-                    const intervalId = setInterval(getStatus, 15000, passenger);
-                    intervalIds.push(intervalId);
-                }, 15000, passenger);
-
-            })
-=======
         if (context.navigation) {
             setIsInit(true);
->>>>>>> Stashed changes
         }
     }, [context.navigation])
 
-<<<<<<< Updated upstream
-        //Unmount
-        return () => {
-            clearTimeout(timeoutId);
-            intervalIds.map(intervalId => clearInterval(intervalId));
-
-        };
-
-    }, [displayPassengers])
-
-    const getStatus = (passenger: DisplayPassenger) => {
-        getStatusPromise(passenger)
-            .then(response => {
-                console.log("Response vom status: " + JSON.stringify(response));
-                passenger.status = response.data.result;
-                let tmpStatus: IStatus = {};
-                tmpStatus[passenger.id] = 'ok';
-                setStatus(tmpStatus);
-            })
-            .catch(error => {
-                //TODO: Fehlermeldung
-                status[passenger.id] = 'false';
-                console.log("Der Status für die Person : " + passenger.id + "konnte nicht geholt werden./n" + error);
-                let tmpStatus: IStatus = {};
-                tmpStatus[passenger.id] = 'false';
-                setStatus(tmpStatus);
-            })
-            .finally(() => {
-            });
-    }
-
-=======
     // on bookingResponse change --> set displaydata and init polling
->>>>>>> Stashed changes
     React.useEffect(() => {
         if (bookingResponse) {
 
@@ -183,8 +131,6 @@ const RecordCheckinPage = (props: any) => {
     }, [bookingResponse])
 
 
-<<<<<<< Updated upstream
-=======
     const getStatus = (id: string) => {
         // find current passenger from Ref --> it will be called by timeout
         const passenger = displayPassengersRef.current.find(p => p.id === id);
@@ -208,29 +154,33 @@ const RecordCheckinPage = (props: any) => {
     }
 
 
+    const getStatusIcon = (code: number | undefined): any => {
+        let status = {};
 
-    const getStatusText = (code: number): string => {
-        console.log("Bin im getStatusText" + code);
-        let status = "";
         switch (code) {
             case 200:
-                status = "OK";
-                break;
-            case 204:
-                status = "Waiting...";
+                status = <FontAwesomeIcon icon={faCheckCircle} color="green" />;
                 break;
             case 401:
-                status = "Not authorized";
+                status = <FontAwesomeIcon icon={faTimesCircle} color="red" />;
                 break;
             case 410:
                 status = "Gone";
                 break;
+            case 204:
             default:
+                status = <Spinner
+                    animation="border"
+                    className='d-flex mx-auto'
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    variant='primary'
+                />
                 break;
         }
         return status;
     }
->>>>>>> Stashed changes
 
     return (!(isInit)
         ? <></>
@@ -297,31 +247,21 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                     </Row>
                     <hr />
-<<<<<<< Updated upstream
-                    {displayPassengers.map((passenger: DisplayPassenger) =>
-                        <Fragment key={passenger.id}>
-                            <Row>
-                                <Col xs={12} sm={1} lg={1}>{status[passenger.id]}
-                                </Col>
-                                <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
-                                </Col>
-                                {/* <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
-=======
 
                     {!(displayPassengers.length > 0)
-                        ? <Spinner />
+                        ? <DemoSpinner />
                         : <Collapse appear={true} in={true} >
                             <div>
                                 {
                                     displayPassengers.map((passenger: DisplayPassenger) =>
                                         <Fragment key={passenger.id}>
                                             <Row>
-                                                <Col xs={12} sm={1} lg={1}>{passenger.status}
+                                                <Col xs={12} sm={1} lg={1}>
+                                                    {getStatusIcon(passenger.status)}
                                                 </Col>
                                                 <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
                                                 </Col>
                                                 {/* <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
->>>>>>> Stashed changes
                                 </Col>
                                 //Colum for or
                                 <Col xs={12} sm={1} lg={1} className="no-grow">

@@ -1,5 +1,5 @@
 /*
- * eu-digital-green-certificates/ dgca-booking-demo-frontend
+ * eu-digital-green-certificates/ dgca-issuance-web
  *
  * (C) 2021, T-Systems International GmbH
  *
@@ -19,27 +19,23 @@
  * under the License.
  */
 
-/* @export
- * @interface DisplayPassenger
- */
+import React from 'react';
+import './spinner.component.scss';
 
-import { BookingPassengerResponse } from "./booking-passenger-response";
+const Spinner = (props: any) => {
 
-export interface DisplayPassenger extends BookingPassengerResponse {
-    /**
-     * @type {string}
-     */
-     qrCode?: string;
+    const [bg, setBg] = React.useState('#fff');
 
-     /**
-      * @type {string}
-      * 
-      */
-     token?: string;
+    React.useEffect(() => {
+        if (props.background) {
+            setBg(props.background)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
-     /**
-      * @type {number}
-      * 
-      */
-      status?: number;
+    return (
+        <div className={'loader'} style={{ background: bg }}>Loading...</div>
+    )
 }
+
+export default Spinner;
