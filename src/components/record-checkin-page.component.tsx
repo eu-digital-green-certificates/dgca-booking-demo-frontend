@@ -33,10 +33,6 @@ import utils from "../misc/utils";
 import { useGetInitialize, useStatus } from '../api';
 import { DisplayPassenger } from '../interfaces/display-passenger';
 
-export interface IStatus {
-    [key: string]: number;
-}
-
 const RecordCheckinPage = (props: any) => {
 
     const { t } = useTranslation();
@@ -45,8 +41,6 @@ const RecordCheckinPage = (props: any) => {
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
-    const [statusMap] = React.useState<IStatus>({});
-    const [displayStatus, setDiplayStatus] = React.useState<IStatus>({});
 
     const handleError = (error: any) => {
         let msg = '';
@@ -72,7 +66,6 @@ const RecordCheckinPage = (props: any) => {
 
     React.useEffect(() => {
 
-        const intervalIds: number[] = [];
         let timeoutId: any = {};
 
         if (displayPassengers && displayPassengers.length > 0) {
@@ -80,9 +73,7 @@ const RecordCheckinPage = (props: any) => {
 
                 timeoutId = setTimeout(() => {
                     getStatus(passenger);
-                    // const intervalId = setInterval(getStatus, 10000, passenger);
-                    // intervalIds.push(intervalId);
-                }, 5000, passenger);
+                }, 15000, passenger);
 
             })
         }
@@ -90,54 +81,25 @@ const RecordCheckinPage = (props: any) => {
         //Unmount
         return () => {
             clearTimeout(timeoutId);
-            // intervalIds.map(intervalId => clearInterval(intervalId));
 
         };
 
     }, [displayPassengers])
 
-    React.useEffect(() => {
-        if (statusMap) {
-            console.log("statusmap: " + JSON.stringify(statusMap));
-            setDiplayStatus(statusMap);
-        }
-
-    }, [JSON.stringify(statusMap)])
-
     const getStatus = (passenger: DisplayPassenger) => {
-        console.log("passenger:" + passenger);
         getStatusPromise(passenger)
             .then(response => {
                 console.log("-------NON ERROR----------");
-                console.log(JSON.stringify(statusMap));
-                statusMap[passenger.id] = response.status;
                 passenger.status = response.status;
-                //setDiplayStatus(statusMap);
+
             })
             .catch(error => {
-                //TODO: Fehlermeldung
-                // status[passenger.id] = 'false';
-                // console.log("Der Status für die Person : " + passenger.id + "konnte nicht geholt werden./n" + error);
-                // let tmpStatus: IStatus = {};
-                // tmpStatus[passenger.id] = 'false';
-                // setStatus(tmpStatus);
-
                 console.log("-------ERROR----------" + JSON.stringify(error));
 
-                // if (status && status[passenger.id].length != 0) {
-                //     console.log("response.data.result" + response.status);
-                //     status[passenger.id] = JSON.stringify(response.status);
-                // } else {
-                //     let tmpStatus: IStatus = {};
-                //     tmpStatus[passenger.id] = JSON.stringify(response.status);
-                //     setStatus(tmpStatus);
-                // }
             })
             .finally(() => {
-                console.log("passenger" + JSON.stringify(passenger));
                 let tmpDisplayPassengers: DisplayPassenger[] = [ ...displayPassengers ];
                 setDisplayPassengers(tmpDisplayPassengers);
-                console.log(tmpDisplayPassengers);
             });
     }
 
