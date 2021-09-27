@@ -46,7 +46,7 @@ const RecordCheckinPage = (props: any) => {
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
     const [statusMap] = React.useState<IStatus>({});
-    const [displayStatus,setDiplayStatus] = React.useState<IStatus>({});
+    const [displayStatus, setDiplayStatus] = React.useState<IStatus>({});
 
     const handleError = (error: any) => {
         let msg = '';
@@ -75,14 +75,14 @@ const RecordCheckinPage = (props: any) => {
         const intervalIds: number[] = [];
         let timeoutId: any = {};
 
-        if (displayPassengers) {
+        if (displayPassengers && displayPassengers.length > 0) {
             displayPassengers.map((passenger: DisplayPassenger) => {
 
                 timeoutId = setTimeout(() => {
                     getStatus(passenger);
-                    const intervalId = setInterval(getStatus, 10000, passenger);
-                    intervalIds.push(intervalId);
-                }, 15000, passenger);
+                    // const intervalId = setInterval(getStatus, 10000, passenger);
+                    // intervalIds.push(intervalId);
+                }, 5000, passenger);
 
             })
         }
@@ -90,17 +90,18 @@ const RecordCheckinPage = (props: any) => {
         //Unmount
         return () => {
             clearTimeout(timeoutId);
-            intervalIds.map(intervalId => clearInterval(intervalId));
+            // intervalIds.map(intervalId => clearInterval(intervalId));
 
         };
 
     }, [displayPassengers])
 
     React.useEffect(() => {
-        if(statusMap) {
+        if (statusMap) {
+            console.log("statusmap: " + JSON.stringify(statusMap));
             setDiplayStatus(statusMap);
         }
-        
+
     }, [JSON.stringify(statusMap)])
 
     const getStatus = (passenger: DisplayPassenger) => {
@@ -109,7 +110,9 @@ const RecordCheckinPage = (props: any) => {
             .then(response => {
                 console.log("-------NON ERROR----------");
                 console.log(JSON.stringify(statusMap));
-                statusMap[passenger.id]= response.status;
+                statusMap[passenger.id] = response.status;
+                passenger.status = response.status;
+                //setDiplayStatus(statusMap);
             })
             .catch(error => {
                 //TODO: Fehlermeldung
@@ -131,6 +134,10 @@ const RecordCheckinPage = (props: any) => {
                 // }
             })
             .finally(() => {
+                console.log("passenger" + JSON.stringify(passenger));
+                let tmpDisplayPassengers: DisplayPassenger[] = [ ...displayPassengers ];
+                setDisplayPassengers(tmpDisplayPassengers);
+                console.log(tmpDisplayPassengers);
             });
     }
 
@@ -160,7 +167,27 @@ const RecordCheckinPage = (props: any) => {
 
     }, [bookingResponse])
 
-
+    const getStatusText = (code: number): string => {
+        console.log("Bin im getStatusText" + code);
+        let status = "";
+        switch (code) {
+            case 200:
+                status = "OK";
+                break;
+            case 204:
+                status = "Waiting...";
+                break;
+            case 401:
+                status = "Not authorized";
+                break;
+            case 410:
+                status = "Gone";
+                break;
+            default:
+                break;
+        }
+        return status;
+    }
 
     return (!isInit && bookingResponse ? <></> :
         <>
@@ -226,10 +253,11 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                     </Row>
                     <hr />
-                    {displayPassengers.map((passenger: DisplayPassenger) =>
+
+                    { !(displayPassengers.length >= 0) ? <></> : displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
-                                <Col xs={12} sm={1} lg={1}>{JSON.stringify(displayStatus[passenger.id])}
+                                <Col xs={12} sm={1} lg={1}>{ passenger.status }
                                 </Col>
                                 <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
                                 </Col>

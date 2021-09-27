@@ -38,8 +38,8 @@ export interface DisplayPassenger extends BookingPassengerResponse {
      token?: string;
 
      /**
-      * @type {string}
+      * @type {number}
       * 
       */
-      status?: string;
+      status?: number;
 }
