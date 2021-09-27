@@ -85,7 +85,7 @@ const Routing = () => {
                 {/*
     Content area. fit the rest of screen and children
     */}
-                <Container className='p-0'>
+                <Container className='routing-content'>
 
                     {/* Landing */}
                     <Route

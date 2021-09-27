@@ -25,13 +25,14 @@ import { useTranslation } from 'react-i18next';
 import QRCode from 'qrcode.react';
 
 import React, { Fragment } from 'react';
-import { Fade, Container, Row, Col, Button } from 'react-bootstrap';
+import { Fade, Container, Row, Col, Button, Collapse } from 'react-bootstrap';
 import AppContext from '../misc/appContext';
 import { BookingResponse } from '../interfaces/booking-response';
 import { BookingPassengerResponse } from '../interfaces/booking-passenger-response';
 import utils from "../misc/utils";
 import { useGetInitialize, useStatus } from '../api';
 import { DisplayPassenger } from '../interfaces/display-passenger';
+import Spinner from './spinner/spinner.component';
 
 export interface IStatus {
     [key: string]: string;
@@ -45,7 +46,12 @@ const RecordCheckinPage = (props: any) => {
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
+<<<<<<< Updated upstream
     const [status, setStatus] = React.useState<IStatus>({});
+=======
+    const displayPassengersRef = React.useRef(displayPassengers);
+    displayPassengersRef.current = displayPassengers;
+>>>>>>> Stashed changes
 
     const handleError = (error: any) => {
         let msg = '';
@@ -55,21 +61,24 @@ const RecordCheckinPage = (props: any) => {
             msg = error.message
         }
 
-        // props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
+        props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
     }
 
     const [qrCode, getQrCode, getQrCodePromise] = useGetInitialize(undefined, handleError);
     const [getStatusPromise] = useStatus(undefined, handleError);
 
+
+    // on mount
     React.useEffect(() => {
-        if (context.navigation) {
+        if (props) {
             setBookingResponse(props.bookingResponse);
-            setIsInit(true);
         }
+    }, [])
 
-    }, [context.navigation])
 
+    // on init --> navigation ist needed
     React.useEffect(() => {
+<<<<<<< Updated upstream
 
         const intervalIds: number[] = [];
         let timeoutId: any = {};
@@ -84,8 +93,14 @@ const RecordCheckinPage = (props: any) => {
                 }, 15000, passenger);
 
             })
+=======
+        if (context.navigation) {
+            setIsInit(true);
+>>>>>>> Stashed changes
         }
+    }, [context.navigation])
 
+<<<<<<< Updated upstream
         //Unmount
         return () => {
             clearTimeout(timeoutId);
@@ -116,36 +131,110 @@ const RecordCheckinPage = (props: any) => {
             });
     }
 
+=======
+    // on bookingResponse change --> set displaydata and init polling
+>>>>>>> Stashed changes
     React.useEffect(() => {
         if (bookingResponse) {
+
             const tmpDisplayPassengers: DisplayPassenger[] = [];
-            bookingResponse?.passengers.map((passenger: BookingPassengerResponse) => {
+            let timeoutIds: NodeJS.Timeout[] = [];
+            let intervalIds: number[] = [];
+
+            for (const passenger of bookingResponse.passengers) {
+                // create display passenger from passenger
                 let tmpDisplayPassenger: DisplayPassenger = { ...passenger };
+
                 getQrCodePromise(passenger.id)
                     .then(response => {
-                        console.log("initialize: " + JSON.stringify(response.data));
-                        tmpDisplayPassenger.qrCode = JSON.stringify(response.data);
+                        // token for upcomming pollin
                         tmpDisplayPassenger.token = response.data.token;
+                        // qr-code for display
+                        tmpDisplayPassenger.qrCode = JSON.stringify(response.data);
+
+                        // timeout and interval for status polling
+                        timeoutIds.push(setTimeout(() => {
+                            getStatus(passenger.id);
+                            intervalIds.push(setInterval(getStatus, 1000, passenger.id));
+                        }, 5000));
+
                     })
                     .catch(error => {
-                        //TODO: Fehlermeldung
-                        console.log("QR konnte nicht geholt werden:" + tmpDisplayPassenger.id)
+                        handleError(error);
                     })
                     .finally(() => {
+                        // collect all displaypassengers
                         tmpDisplayPassengers.push(tmpDisplayPassenger);
+
+                        // set all display passengers at once
                         if (tmpDisplayPassengers.length === bookingResponse.passengers.length) {
                             setDisplayPassengers(tmpDisplayPassengers);
                         }
                     });
-            })
+            }
+
+            // on unmount all open timeouts and intervals will be canceled
+            return () => {
+                timeoutIds.forEach(timeoutId => clearTimeout(timeoutId));
+                intervalIds.forEach(intervalId => clearInterval(intervalId));
+            };
         }
 
     }, [bookingResponse])
 
 
+<<<<<<< Updated upstream
+=======
+    const getStatus = (id: string) => {
+        // find current passenger from Ref --> it will be called by timeout
+        const passenger = displayPassengersRef.current.find(p => p.id === id);
 
-    return (!isInit && bookingResponse ? <></> :
-        <>
+        if (passenger) {
+            getStatusPromise(passenger)
+                .then(response => {
+                    // update status
+                    passenger.status = response.status;
+                })
+                .catch(error => {
+                    handleError(error);
+                })
+                .finally(() => {
+                    // spread all current display passengers into help array
+                    let tmpDisplayPassengers: DisplayPassenger[] = [...displayPassengersRef.current];
+                    // set updated array
+                    setDisplayPassengers(tmpDisplayPassengers);
+                });
+        }
+    }
+
+
+
+    const getStatusText = (code: number): string => {
+        console.log("Bin im getStatusText" + code);
+        let status = "";
+        switch (code) {
+            case 200:
+                status = "OK";
+                break;
+            case 204:
+                status = "Waiting...";
+                break;
+            case 401:
+                status = "Not authorized";
+                break;
+            case 410:
+                status = "Gone";
+                break;
+            default:
+                break;
+        }
+        return status;
+    }
+>>>>>>> Stashed changes
+
+    return (!(isInit)
+        ? <></>
+        : <>
             <Fade appear={true} in={true} >
                 <Container className='content-container'>
                     <Row>
@@ -208,6 +297,7 @@ const RecordCheckinPage = (props: any) => {
                         </Col>
                     </Row>
                     <hr />
+<<<<<<< Updated upstream
                     {displayPassengers.map((passenger: DisplayPassenger) =>
                         <Fragment key={passenger.id}>
                             <Row>
@@ -216,21 +306,40 @@ const RecordCheckinPage = (props: any) => {
                                 <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
                                 </Col>
                                 {/* <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
+=======
+
+                    {!(displayPassengers.length > 0)
+                        ? <Spinner />
+                        : <Collapse appear={true} in={true} >
+                            <div>
+                                {
+                                    displayPassengers.map((passenger: DisplayPassenger) =>
+                                        <Fragment key={passenger.id}>
+                                            <Row>
+                                                <Col xs={12} sm={1} lg={1}>{passenger.status}
+                                                </Col>
+                                                <Col xs={12} sm={6} lg={6}>{passenger.forename + ' ' + passenger.lastname}
+                                                </Col>
+                                                {/* <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
+>>>>>>> Stashed changes
                                 </Col>
                                 //Colum for or
                                 <Col xs={12} sm={1} lg={1} className="no-grow">
                                     &nbsp;
                                 </Col> */}
-                                <Col xs={12} sm={5} lg={5} className="shrink-grow qr-code-container">
-                                    {
-                                        passenger.qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={passenger.qrCode} />
-                                        </> : <></>
-                                    }
-                                </Col>
-                            </Row>
-                            <hr />
-                        </Fragment>
-                    )}
+                                                <Col xs={12} sm={5} lg={5} className="shrink-grow qr-code-container">
+                                                    {
+                                                        passenger.qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={passenger.qrCode} />
+                                                        </> : <></>
+                                                    }
+                                                </Col>
+                                            </Row>
+                                            <hr />
+                                        </Fragment>
+                                    )}
+                            </div>
+                        </Collapse>
+                    }
                     <Row xs={12} sm={12} lg={12}>
                         <Container className="buttons-line">
                             <Button className="buttons-line-button" onClick={context.navigation!.toLanding}>{t('translation:cancel')}</Button>

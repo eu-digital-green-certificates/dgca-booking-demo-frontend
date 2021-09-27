@@ -40,6 +40,13 @@ $container-max-widths: (
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";
 
+#root {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    padding-bottom: 7rem;
+}
+
 .header-title {
     color: $light;
     margin-top: auto;
@@ -93,6 +100,12 @@ $container-max-widths: (
     padding-left: 7rem;
     padding-right: 7rem;
     padding-bottom: 7rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.routing-content{
+    padding: 0 0 7rem 0;
 }
 
 .check-in-container {
