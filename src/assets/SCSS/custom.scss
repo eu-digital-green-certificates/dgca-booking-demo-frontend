@@ -40,6 +40,12 @@ $container-max-widths: (
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";
 
+#root {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
 .header-title {
     color: $light;
     margin-top: auto;
@@ -93,6 +99,16 @@ $container-max-widths: (
     padding-left: 7rem;
     padding-right: 7rem;
     padding-bottom: 7rem;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+.routing-content {
+    padding: 0 0 3rem 0;
+    flex: 1 1 auto !important;
+    display: flex;
+    flex-direction: column;
 }
 
 .check-in-container {
@@ -243,7 +259,6 @@ $container-max-widths: (
 }
 
 .input-checkin-modal {
-    
     margin-bottom: 1rem;
 
     &:first-of-type {
@@ -344,11 +359,13 @@ $container-max-widths: (
     font-weight: bold;
 }
 
-.padding-checkin {
-    padding: 0.5rem;
-}
-
 .flight-information {
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    border: 1px solid #262626;
+    flex-direction: column;
+}
+.dcc-information {
     display: flex;
     border: 1px solid #262626;
 
@@ -357,24 +374,36 @@ $container-max-widths: (
         background-repeat: no-repeat;
         width: 54px;
         height: 36px;
-        padding-right: 30%;
-        padding-top: auto;
-        padding-bottom: auto;
+        margin: 0.5rem;
     }
+}
+.error-information {
+    display: flex;
+    border: 1px solid red;
+    flex-direction: column;
+}
+.warning-information {
+    display: flex;
+    border: 1px solid orange;
+    flex-direction: column;
 }
 
 .wrapper-flight-information {
     display: flex;
     flex-flow: column;
-    justify-content: space-between;
-    padding: 0%;
     height: 100%;
 }
 
 .text-vertical-center {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    height: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+.text-vertical-left {
+    display: flex;
+    align-items: center;
 }
 
 .no-grow {
@@ -404,18 +433,14 @@ $container-max-widths: (
         background-color: #ffd617;
         border-color: transparent;
     }
-
-    @include media-breakpoint-up(xs) {
-        width: 100%;
-        margin: 5px 0%;
-    }
-
-    @include media-breakpoint-up(sm) {
-        width: 180px;
-        margin: 5px 5px;
-    }
 }
 
 #qr-code-container {
     background-color: $body-bg;
+}
+
+.head-line {
+    height: 5rem;
+    display: flex;
+    align-items: center;
 }

@@ -24,6 +24,8 @@
  */
 
 import { BookingPassengerResponse } from "./booking-passenger-response";
+import { IConfirmationToken } from "./confirmation-token";
+import { ResultToken } from "./result-token";
 
 export interface DisplayPassenger extends BookingPassengerResponse {
     /**
@@ -42,4 +44,22 @@ export interface DisplayPassenger extends BookingPassengerResponse {
       * 
       */
       status?: number;
+      
+     /**
+      * @type {number}
+      * 
+      */
+      intervalId?: number;
+      
+     /**
+      * @type {ResultToken}
+      * 
+      */
+      result?: ResultToken;
+      
+     /**
+      * @type {IConfirmationToken}
+      * 
+      */
+      parsedToken?: IConfirmationToken;
 }

@@ -85,20 +85,29 @@ const Routing = () => {
                 {/*
     Content area. fit the rest of screen and children
     */}
-                <Container className='p-0'>
+                <Container className='routing-content'>
 
                     {/* Landing */}
                     <Route
                         exact
                         path={context.navigation.routes.landing}
                     >
-                        <LandingPage setBookingResponse={setBookingResponse} bookingResponse={bookingResponse} setError={setError}/>
+                        <LandingPage
+                            setBookingResponse={setBookingResponse}
+                            bookingResponse={bookingResponse}
+                            setError={setError}
+                        />
                     </Route>
                     <Route
                         exact
                         path={context.navigation.routes.checkin}
-                        render={ (props) => <RecordCheckinPage setBookingResponse={setBookingResponse} bookingResponse={bookingResponse}/>}
-                    />
+                    >
+                        <RecordCheckinPage
+                            setBookingResponse={setBookingResponse}
+                            bookingResponse={bookingResponse}
+                            setError={setError}
+                        />
+                    </Route>
 
                 </Container>
             </AppContext.Provider>
