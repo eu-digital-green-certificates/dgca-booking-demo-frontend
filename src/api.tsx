@@ -98,8 +98,8 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
 
 
 export const useStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
-    // const baseUri = '/api/status/';
-    const baseUri = '/api/devStatusNOK/';
+    const baseUri = '/api/status/';
+    // const baseUri = '/api/devStatusNOK/';
     // const baseUri = '/api/devStatusCHK/';
     // const baseUri = '/api/devStatusOK/';
 

@@ -121,7 +121,7 @@ const CheckinModal = (props: any) => {
                         placeholder={t('translation:forename') + '*'}
                         type="text"
                         value={forename}
-                        onChange={(evt: any) => setForname(evt.target.value)}
+                        onChange={(evt: any) => setForname((evt.target.value as string).toUpperCase())}
                         required
                     />
                     <Form.Control
@@ -129,7 +129,7 @@ const CheckinModal = (props: any) => {
                         placeholder={t('translation:lastname') + '*'}
                         type="text"
                         value={lastname}
-                        onChange={(evt: any) => setLastname(evt.target.value)}
+                        onChange={(evt: any) => setLastname((evt.target.value as string).toUpperCase())}
                         required
                     />
                     <DatePicker
