@@ -11,6 +11,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import { Result } from "./result";
+
 /**
  * 
  * @export
@@ -25,10 +28,10 @@ export interface ResultToken {
     result?: any;
     /**
      * 
-     * @type {Array&lt;Result&gt;}
+     * @type {Result[]}
      * @memberof ResultToken
      */
-    results?: any;
+    results?: Result[];
     /**
      * 
      * @type {string}

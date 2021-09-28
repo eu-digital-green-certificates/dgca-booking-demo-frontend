@@ -28,7 +28,7 @@ import { useTranslation } from 'react-i18next';
 import QRCode from 'qrcode.react';
 import jwt_decode from "jwt-decode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faExclamationCircle, faTimesCircle, faCircle } from '@fortawesome/free-solid-svg-icons'
 
 import AppContext from '../misc/appContext';
 import utils from "../misc/utils";
@@ -39,6 +39,7 @@ import { BookingResponse } from '../interfaces/booking-response';
 import { DisplayPassenger } from '../interfaces/display-passenger';
 
 import { useGetInitialize, useStatus } from '../api';
+import { Result } from '../interfaces/result';
 
 const RecordCheckinPage = (props: any) => {
 
@@ -104,7 +105,7 @@ const RecordCheckinPage = (props: any) => {
 
                         // timeout and interval for status polling
                         timeoutIds.push(setTimeout(() => {
-                            const intervalId = setInterval(getStatus, 1000, passenger.id);
+                            const intervalId = setInterval(getStatus, 5000, passenger.id);
                             tmpDisplayPassenger.intervalId = intervalId;
 
                             intervalIds.push(intervalId);
@@ -135,7 +136,6 @@ const RecordCheckinPage = (props: any) => {
 
     }, [bookingResponse])
 
-
     const getStatus = (id: string) => {
         // find current passenger from Ref --> it will be called by timeout
         const passenger = displayPassengersRef.current.find(p => p.id === id);
@@ -145,7 +145,6 @@ const RecordCheckinPage = (props: any) => {
                 .then(response => {
                     // update status
                     passenger.status = response.status;
-                    console.log(response.data);
 
                     // update result
                     if (response.data && response.data.confirmation) {
@@ -157,6 +156,8 @@ const RecordCheckinPage = (props: any) => {
                     handleError(error);
                 })
                 .finally(() => {
+                    // check whether further polling is needed
+                    checkPolling(passenger);
                     // spread all current display passengers into help array
                     let tmpDisplayPassengers: DisplayPassenger[] = [...displayPassengersRef.current];
                     // set updated array
@@ -165,31 +166,80 @@ const RecordCheckinPage = (props: any) => {
         }
     }
 
-    const getStatusIcon = (passenger: DisplayPassenger | undefined): any => {
-        let status = {};
-
-        switch (passenger?.status) {
-            case 200:
-                status = <FontAwesomeIcon icon={faCheckCircle} color="green" />;
-                break;
-            case 401:
-                status = <FontAwesomeIcon icon={faTimesCircle} color="red" />;
-                break;
-            case 410:
-                status = "Gone";
-                break;
-            case 204:
-            default:
-                status = <Spinner
-                    animation="border"
-                    className='d-flex mx-auto'
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                    variant='primary'
-                />
-                break;
+    const checkPolling = (passenger: DisplayPassenger) => {
+        // if OK or Expired
+        if (passenger.intervalId
+            && (
+                (
+                    passenger.result
+                    && passenger.result.result === 'OK'
+                )
+                || (
+                    passenger.parsedToken
+                    && passenger.parsedToken.iat
+                    && (passenger.parsedToken.iat * 1000) < Date.now()
+                )
+            )
+        ) {
+            clearInterval(passenger.intervalId);
+            passenger.intervalId = undefined;
         }
+    }
+
+    const getStatusIcon = (passenger: DisplayPassenger | undefined): any => {
+        const status: JSX.Element[] = [];
+
+        if (passenger) {
+            let icon: any = {};
+
+            switch (passenger.status) {
+                case 200: {
+                    if (passenger.result?.result) {
+                        switch (passenger.result.result) {
+                            case 'OK':
+                                icon = <FontAwesomeIcon icon={faCheckCircle} color="green" key='icon' />
+                                break;
+
+                            case 'NOK':
+                                icon = <FontAwesomeIcon icon={faTimesCircle} color="red" key='icon' />
+                                break;
+
+                            case 'CHK':
+                                icon = <FontAwesomeIcon icon={faExclamationCircle} color="orange" key='icon' />
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                }
+                case 401:
+                case 410:
+                    icon = <FontAwesomeIcon icon={faTimesCircle} color="red" key='icon' />;
+                    break;
+                case 204:
+                default:
+                    icon = <FontAwesomeIcon icon={faCircle} color="lightgrey" key='icon' />;
+                    break;
+            }
+
+            if (icon) {
+                status.push(icon);
+                // if (passenger.intervalId) {
+                //     status.push(<Spinner
+                //         animation="border"
+                //         key='spinner'
+                //         className='d-flex mx-auto'
+                //         size="sm"
+                //         role="status"
+                //         aria-hidden="true"
+                //         variant='primary'
+                //     />);
+                // }
+            }
+        }
+
         return status;
     }
 
@@ -217,15 +267,18 @@ const RecordCheckinPage = (props: any) => {
                             <span className='mb-1'>
                                 <strong>Flight AIR094, Group booking</strong>
                             </span>
+
                             <span className='mb-1'>
                                 Booking code {bookingResponse?.reference}<br />
                                 {bookingResponse?.flightInfo.from}<br />
                                 {bookingResponse?.flightInfo.to}<br />
                                 Economy Classic
                             </span>
+
                             <span className='mb-1'>
                                 <strong>{bookingResponse?.passengers.length} Passender(s)</strong>
                             </span>
+
                             <span >
                                 <strong>{utils.convertDateToOutputFormat(bookingResponse?.flightInfo.time)}</strong>
                             </span>
@@ -278,9 +331,24 @@ const RecordCheckinPage = (props: any) => {
                                         <Fragment key={passenger.id}>
                                             <Row>
                                                 <Col xs={12} sm={2}>
-                                                    <span className="text-vertical-center">{getStatusIcon(passenger)}</span>
+                                                    <span className="text-vertical-center">
+                                                        {getStatusIcon(passenger)}
+                                                    </span>
                                                 </Col>
-                                                <Col xs={12} sm={5}>{passenger.forename + ' ' + passenger.lastname}
+                                                <Col xs={12} sm={5}>
+                                                    <span>
+                                                        <strong>{passenger.forename + ' ' + passenger.lastname}</strong>
+                                                    </span>
+                                                    {
+                                                        !(passenger.result?.results && passenger.result?.results.length > 0)
+                                                            ? <></>
+                                                            : <Container className={(passenger.result?.result === 'NOK' ? 'error-information' : 'warning-information') + ' column-container p-1 my-3'} >
+                                                                {passenger.result.results.map((result: Result) =>
+                                                                    <span>
+                                                                        {result.details}
+                                                                    </span>)}
+                                                            </Container>
+                                                    }
                                                 </Col>
                                                 {/* <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
                                 </Col>
@@ -290,7 +358,7 @@ const RecordCheckinPage = (props: any) => {
                                 </Col> */}
                                                 <Col xs={12} sm={5} lg={5} className="shrink-grow qr-code-container">
                                                     {
-                                                        passenger.qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='svg' value={passenger.qrCode} />
+                                                        passenger.qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='canvas' value={passenger.qrCode} />
                                                         </> : <></>
                                                     }
                                                 </Col>

@@ -104,7 +104,7 @@ $container-max-widths: (
     flex-direction: column;
 }
 
-.routing-content{
+.routing-content {
     padding: 0 0 3rem 0;
     flex: 1 1 auto !important;
     display: flex;
@@ -259,7 +259,6 @@ $container-max-widths: (
 }
 
 .input-checkin-modal {
-    
     margin-bottom: 1rem;
 
     &:first-of-type {
@@ -369,8 +368,8 @@ $container-max-widths: (
 .dcc-information {
     display: flex;
     border: 1px solid #262626;
-    
-    .logo{
+
+    .logo {
         background-image: url("../images/eu_logo_big.png") !important;
         background-repeat: no-repeat;
         width: 54px;
@@ -378,8 +377,16 @@ $container-max-widths: (
         margin: 0.5rem;
     }
 }
-
-
+.error-information {
+    display: flex;
+    border: 1px solid red;
+    flex-direction: column;
+}
+.warning-information {
+    display: flex;
+    border: 1px solid orange;
+    flex-direction: column;
+}
 
 .wrapper-flight-information {
     display: flex;
@@ -426,15 +433,14 @@ $container-max-widths: (
         background-color: #ffd617;
         border-color: transparent;
     }
-
 }
 
 #qr-code-container {
     background-color: $body-bg;
 }
 
-.head-line{
-    height:5rem;
+.head-line {
+    height: 5rem;
     display: flex;
     align-items: center;
 }
