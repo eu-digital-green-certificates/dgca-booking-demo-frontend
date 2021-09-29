@@ -78,16 +78,16 @@ const LandingPage = (props: any) => {
                     <Container className='p-0 booking-container'>
                         <Row className="search">
                             <Row className="p-0 m-0 search-header">
-                                <Col xs='auto' className="search-header-element">
+                                <Col sm='6' md='auto' className="search-header-element">
                                     <Image className="icon" src={flightIcon} />{'Flights'}
                                 </Col>
-                                <Col xs='auto' className="search-header-element">
+                                <Col sm='6' md='auto' className="search-header-element">
                                     <Image className="icon" src={flighthotelIcon} />Flight &amp; Hotel
                                 </Col>
-                                <Col xs='auto' className="search-header-element">
+                                <Col sm='6' md='auto' className="search-header-element">
                                     <Image className="icon" src={rentalcarIcon} />Rental Car
                                 </Col>
-                                <Col xs='auto' className="search-header-element">
+                                <Col sm='6' md='auto' className="search-header-element">
                                     <Image className="icon" src={hotelIcon} />Hotel
                                 </Col>
                             </Row>
@@ -98,7 +98,7 @@ const LandingPage = (props: any) => {
                                 <Row className="m-0 d-flex pb-4">
                                     <Form>
                                         <Form.Group as={Row}>
-                                            <Col xs lg="4" md="4">
+                                            <Col xs="5" sm="4">
                                                 <InputGroup className="input-transparent">
                                                     <Form.Control
                                                         className="input-transparent"
@@ -110,19 +110,19 @@ const LandingPage = (props: any) => {
                                                     </InputGroup.Text>
                                                 </InputGroup>
                                             </Col>
-                                            <Col xs lg="1" md="1">
+                                            <Col xs="2" sm="1">
                                                 <div className="change-icon" />
                                             </Col>
 
-                                            <Col xs lg="4" md="4">
+                                            <Col xs="5" sm="4">
                                                 <Form.Control
                                                     className="input-transparent"
                                                     placeholder="To"
                                                     type="text"
                                                 />
                                             </Col>
-                                            <Col xs lg="3" md="3">
-                                                <Button className="botton" type="submit">Next</Button>
+                                            <Col sm="3" className='d-grid'>
+                                                <Button className="next-button" type="submit">Next</Button>
                                             </Col>
                                         </Form.Group>
                                     </Form>
@@ -131,9 +131,9 @@ const LandingPage = (props: any) => {
                         </Row>
                     </Container>
                     <Container className='content-container'>
-                        <Row className='p-0'>
+                        <Row className='p-0 m-0'>
                             <Container fluid className='check-in-container'>
-                                <Col xs="12" lg="3" md="3" className="p-0">
+                                <Col xs="12" sm="5" lg='3' className="p-0">
                                     <InputGroup className="input-checkin">
                                         <Form.Control
                                             className="input-checkin"
@@ -145,7 +145,7 @@ const LandingPage = (props: any) => {
                                         </InputGroup.Text>
                                     </InputGroup>
                                 </Col>
-                                <Col xs="12" lg="3" md="3" className="p-0">
+                                <Col xs="12" sm="5" lg='3' className="p-0">
                                     <InputGroup className="input-checkin">
                                         <Form.Control
                                             className="input-checkin"
@@ -157,7 +157,7 @@ const LandingPage = (props: any) => {
                                         </InputGroup.Text>
                                     </InputGroup>
                                 </Col>
-                                <Col xs="12" lg="3" md="3" className="p-0">
+                                <Col xs="12" sm="5" lg='3' className="p-0">
                                     <InputGroup className="input-checkin">
                                         <Form.Control
                                             className="input-checkin"
@@ -171,18 +171,18 @@ const LandingPage = (props: any) => {
                                 </Col>
                             </Container>
                         </Row>
-                        <Row className='card-group'>
-                            <Col sm='6' md='4' className='col-item' >
-
+                        <Row className='card-group m-0'>
+                            <Col lg='6' xl='4' className='justify-content-around p-2' >
+                                <div className='col-item'/>
                             </Col>
-                            <Col sm='6' md='4' className='col-item' >
-
+                            <Col lg='6' xl='4' className='justify-content-around p-2' >
+                            <div className='col-item'/>
                             </Col>
-                            <Col sm='6' md='4' className='col-item' >
-
+                            <Col lg='6' xl='4' className='justify-content-around p-2' >
+                            <div className='col-item'/>
                             </Col>
-                            <Col sm='6' md='4' className='col-item' >
-
+                            <Col lg='6' xl='4' className='justify-content-around p-2' >
+                            <div className='col-item'/>
                             </Col>
                         </Row>
                     </Container>
