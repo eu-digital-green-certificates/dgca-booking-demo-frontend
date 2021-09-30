@@ -34,10 +34,7 @@ import rentalcarIcon from '../assets/images/icon_mietwagen.png';
 
 import CheckinModal from './checkin-modal.component';
 
-import { IPerson } from '../interfaces/person';
 import { BookingResponse } from '../interfaces/booking-response';
-
-import { useBooking } from '../api';
 
 const LandingPage = (props: any) => {
 
@@ -46,7 +43,6 @@ const LandingPage = (props: any) => {
 
     const [isInit, setIsInit] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
-    const [booking, getBooking] = useBooking();
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
 
     React.useEffect(() => {
@@ -59,16 +55,11 @@ const LandingPage = (props: any) => {
             props.setBookingResponse(bookingResponse);
             context.navigation!.toCheckin();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bookingResponse, setBookingResponse])
 
-    //TODO: braucht man das?
     const handleCheckinClick = (event: any) => {
         setShowModal(true);
-    }
-
-    //TODO: braucht man das?
-    const handleCheckin = (person: IPerson) => {
-        getBooking(person);
     }
 
     return (!isInit ? <></> :
@@ -122,7 +113,7 @@ const LandingPage = (props: any) => {
                                                 />
                                             </Col>
                                             <Col sm="3" className='d-grid'>
-                                                <Button className="next-button" type="submit">Next</Button>
+                                                <Button className="next-button" >Next</Button>
                                             </Col>
                                         </Form.Group>
                                     </Form>
@@ -173,16 +164,16 @@ const LandingPage = (props: any) => {
                         </Row>
                         <Row className='card-group m-0'>
                             <Col lg='6' xl='4' className='justify-content-around p-2' >
-                                <div className='col-item'/>
+                                <div className='col-item' />
                             </Col>
                             <Col lg='6' xl='4' className='justify-content-around p-2' >
-                            <div className='col-item'/>
+                                <div className='col-item' />
                             </Col>
                             <Col lg='6' xl='4' className='justify-content-around p-2' >
-                            <div className='col-item'/>
+                                <div className='col-item' />
                             </Col>
                             <Col lg='6' xl='4' className='justify-content-around p-2' >
-                            <div className='col-item'/>
+                                <div className='col-item' />
                             </Col>
                         </Row>
                     </Container>
@@ -191,7 +182,6 @@ const LandingPage = (props: any) => {
             <CheckinModal
                 show={showModal}
                 hide={() => setShowModal(false)}
-                handleCheckin={handleCheckin}
                 setBookingResponse={setBookingResponse}
                 setError={props.setError}
             />

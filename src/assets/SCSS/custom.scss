@@ -113,7 +113,7 @@ $container-max-widths: (
     display: flex;
     height: 100%;
     flex-direction: column;
-    
+
     @include media-breakpoint-up(md) {
         padding-left: 7rem;
         padding-right: 7rem;
@@ -145,7 +145,7 @@ $container-max-widths: (
 }
 .col-item {
     background-color: #ccc;
-    margin:auto;
+    margin: auto;
     border: #707070 solid 1px;
     max-width: 300px;
     height: 301px;
@@ -176,7 +176,7 @@ $container-max-widths: (
     margin: 0px;
     width: 100%;
     color: #262626;
-    
+
     @include media-breakpoint-up(md) {
         padding-left: 7rem;
         padding-right: 7rem;
@@ -324,20 +324,18 @@ $container-max-widths: (
     &:active {
         background: #ffd617;
         color: #262626;
-        width: 100px;
         border: none;
         font-weight: bold;
     }
-    
+
     @include media-breakpoint-up(sm) {
         margin-top: 0rem;
     }
 }
 
-.upload-botton {
+.upload-button {
     background: transparent;
     color: #262626;
-    width: 100px;
     border: 1px solid #262626;
     font-weight: bold;
     &:focus,
@@ -346,7 +344,6 @@ $container-max-widths: (
     &:active {
         background: transparent;
         color: #262626;
-        width: 100px;
         border: 1px solid #262626;
         font-weight: bold;
     }
@@ -429,6 +426,10 @@ $container-max-widths: (
     align-items: center;
 }
 
+.text-right{
+    text-align: right;
+}
+
 .no-grow {
     flex: 0 1 0 !important;
 }
@@ -466,4 +467,49 @@ $container-max-widths: (
     height: 5rem;
     display: flex;
     align-items: center;
+}
+
+td,
+th {
+    padding: 0.75rem !important;
+}
+
+.tbl-auto {
+    // width: 16.66%;
+    width: auto;
+}
+
+.tbl-1 {
+    // width: 16.66%;
+    width: calc(100% * (1 / 12));
+}
+
+.tbl-2 {
+    // width: 16.66%;
+    width: calc(100% * (2 / 12));
+}
+
+.tbl-3 {
+    // width: 16.66%;
+    width: calc(100% * (3 / 12));
+}
+
+.tbl-4 {
+    // width: 16.66%;
+    width: calc(100% * (4 / 12));
+}
+
+.tbl-5 {
+    // width: 41.66%;
+    width: calc(100% * (5 / 12));
+}
+
+.tbl-result {
+    min-width: 800px;
+}
+#qr-code-container {
+    background-color: white;
+    padding: 12px;
+    position: relative;
+    display: inline-flex;
 }

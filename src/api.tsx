@@ -41,9 +41,7 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
 
     const getBooking = (person: IPerson) => {
 
-        const bookingRequest: BookingRequest = { ...person }
-        console.log(JSON.stringify(bookingRequest));
-        
+        const bookingRequest: BookingRequest = { ...person }        
 
         api.post(baseUri, bookingRequest, { headers: header })
             .then(response => {

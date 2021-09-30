@@ -19,8 +19,8 @@
  * under the License.
  */
 
-import React, { Fragment } from 'react';
-import { Fade, Container, Row, Col, Button, Collapse, Spinner } from 'react-bootstrap';
+import React from 'react';
+import { Fade, Container, Row, Col, Button, Collapse, Table } from 'react-bootstrap';
 
 import '../i18n';
 import { useTranslation } from 'react-i18next';
@@ -57,7 +57,6 @@ const RecordCheckinPage = (props: any) => {
         let msg = '';
 
         if (error) {
-            console.log(error);
             msg = error.message
         }
 
@@ -73,6 +72,7 @@ const RecordCheckinPage = (props: any) => {
         if (props) {
             setBookingResponse(props.bookingResponse);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -134,6 +134,7 @@ const RecordCheckinPage = (props: any) => {
             };
         }
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bookingResponse])
 
     const getStatus = (id: string) => {
@@ -291,51 +292,26 @@ const RecordCheckinPage = (props: any) => {
                     </Col>
 
                 </Row>
-                <Row className="bold">
-
-                    <Col xs={12} sm={2}>
-                        <span className="text-vertical-center">
-                            {t('translation:conditionFulfilled')}
-                        </span>
-                    </Col>
-
-                    <Col xs={12} sm={5}>
-                        <span className="text-vertical-left">
-                            {t('translation:name')}
-                        </span>
-                    </Col>
-
-                    {/* <Col xs={12} sm={2} lg={2} className="shrink-grow">
-                            <span className="text-vertical-center">
-                                {t('translation:lblUpload')}
-                            </span>
-                        </Col>
-                        <Col xs={12} sm={1} lg={1} className="no-grow">
-                            <span className="text-vertical-center">
-                                {t('translation:or')}
-                            </span>
-                        </Col> */}
-
-                    <Col xs={12} sm={5} lg={5} className="shrink-grow">
-                        <span className="text-vertical-left">{t('translation:lblScan')}</span>
-                    </Col>
-                </Row>
-                <hr />
                 <div className='flex-fill'>
                     {!(displayPassengers.length > 0)
                         ? <DemoSpinner />
                         : <Collapse appear={true} in={true} >
                             <div>
-                                {
-                                    displayPassengers.map((passenger: DisplayPassenger) =>
-                                        <Fragment key={passenger.id}>
-                                            <Row>
-                                                <Col xs={12} sm={2}>
-                                                    <span className="text-vertical-center">
-                                                        {getStatusIcon(passenger)}
-                                                    </span>
-                                                </Col>
-                                                <Col xs={12} sm={5}>
+                                <Table className='tbl-result' responsive>
+                                    <thead>
+                                        <tr>
+                                            <th>{t('translation:conditionFulfilled')}</th>
+                                            <th>{t('translation:name')}</th>
+                                            <th className='text-center align-middle'>{t('translation:lblUpload')}</th>
+                                            <th className='text-center p-0 align-middle'><strong>OR</strong></th>
+                                            <th className='text-center align-middle'>{t('translation:lblScan')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>{
+                                        displayPassengers.map((passenger: DisplayPassenger, i: number) =>
+                                            <tr key={i}>
+                                                <td className='tbl-2'>{getStatusIcon(passenger)}</td>
+                                                <td className='tbl-5'>
                                                     <span>
                                                         <strong>{passenger.forename + ' ' + passenger.lastname}</strong>
                                                     </span>
@@ -343,29 +319,46 @@ const RecordCheckinPage = (props: any) => {
                                                         !(passenger.result?.results && passenger.result?.results.length > 0)
                                                             ? <></>
                                                             : <Container className={(passenger.result?.result === 'NOK' ? 'error-information' : 'warning-information') + ' column-container p-1 my-3'} >
-                                                                {passenger.result.results.map((result: Result) =>
-                                                                    <span>
-                                                                        {result.details}
-                                                                    </span>)}
+                                                                {
+                                                                    passenger.result.results.map((result: Result) =>
+                                                                        <span>
+                                                                            {result.details}
+                                                                        </span>)
+                                                                }
                                                             </Container>
                                                     }
-                                                </Col>
-                                                {/* <Col xs={12} sm={2} lg={2} className="shrink-grow"><Button className="upload-botton">{t('translation:upload')}</Button>
-                                </Col>
-                                //Colum for or
-                                <Col xs={12} sm={1} lg={1} className="no-grow">
-                                    &nbsp;
-                                </Col> */}
-                                                <Col xs={12} sm={5} lg={5} className="shrink-grow qr-code-container">
+                                                </td>
+                                                <td className='tbl-auto bg-light align-middle text-center'>
                                                     {
-                                                        passenger.qrCode ? <> <QRCode id='qr-code-pdf' size={256} renderAs='canvas' value={passenger.qrCode} />
-                                                        </> : <></>
+                                                        <div className='d-grid'>
+                                                            <Button className=""
+                                                                variant='outline-secondary'
+                                                                size='sm'
+                                                            >
+                                                                {t('translation:upload')}
+                                                            </Button>
+                                                        </div>
                                                     }
-                                                </Col>
-                                            </Row>
-                                            <hr />
-                                        </Fragment>
-                                    )}
+                                                </td>
+                                                <td className='tbl-auto p-0 bg-light'></td>
+                                                <td className='tbl-2 bg-light text-right'>
+                                                    {
+                                                        !passenger.qrCode
+                                                            ? <></>
+                                                            : <div id='qr-code-container'>
+                                                                <QRCode id='qr-code-pdf'
+                                                                    size={256}
+                                                                    renderAs='svg'
+                                                                    value={passenger.qrCode}
+                                                                />
+                                                            </div>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                    </tbody>
+                                </Table>
                             </div>
                         </Collapse>
                     }
@@ -383,10 +376,11 @@ const RecordCheckinPage = (props: any) => {
                             </Col>
                             <Col sm='6' className='d-grid'>
                                 <Button
-                                    className="ml-3 buttons-line-button"
+                                    className="ml-3"
                                     disabled={false}
+                                    variant='info'
                                 >
-                                    {t('translation:submitCheckin')}
+                                    <strong>{t('translation:submitCheckin')}</strong>
                                 </Button>
                             </Col>
                         </Row>
