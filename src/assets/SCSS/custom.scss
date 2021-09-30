@@ -276,6 +276,9 @@ $container-max-widths: (
         border-bottom: 1px solid #7e7e7e;
     }
 }
+.checkin-modal{
+    border-radius: 0px;
+}
 
 .input-checkin-modal {
     margin-bottom: 1rem;
@@ -361,6 +364,7 @@ $container-max-widths: (
     height: 40px;
     margin: 0%;
     padding: 0%;
+    border-radius: 0px;
 
     img {
         margin-left: 15px;

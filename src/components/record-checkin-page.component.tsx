@@ -40,6 +40,7 @@ import { DisplayPassenger } from '../interfaces/display-passenger';
 
 import { useGetInitialize, useStatus } from '../api';
 import { Result } from '../interfaces/result';
+import InvalidSubmitModal from './invalid-submit-modal.component';
 
 const RecordCheckinPage = (props: any) => {
 
@@ -48,6 +49,7 @@ const RecordCheckinPage = (props: any) => {
 
     const [isInit, setIsInit] = React.useState(false);
     const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
+    const [showModal, setShowModal] = React.useState(false);
 
     const [displayPassengers, setDisplayPassengers] = React.useState<DisplayPassenger[]>([]);
     const displayPassengersRef = React.useRef(displayPassengers);
@@ -244,9 +246,13 @@ const RecordCheckinPage = (props: any) => {
         return status;
     }
 
+    const handleSubmit = () => {
+        setShowModal(true);
+    }
+
     return (!(isInit)
         ? <></>
-        : <Fade appear={true} in={true} >
+        : <><Fade appear={true} in={true} >
             <Container className='content-container'>
 
                 <Row >
@@ -379,6 +385,7 @@ const RecordCheckinPage = (props: any) => {
                                     className="ml-3"
                                     disabled={false}
                                     variant='info'
+                                    onClick={handleSubmit}
                                 >
                                     <strong>{t('translation:submitCheckin')}</strong>
                                 </Button>
@@ -388,6 +395,13 @@ const RecordCheckinPage = (props: any) => {
                 </Row>
             </Container>
         </Fade>
+            <InvalidSubmitModal
+                show={showModal}
+                hide={() => setShowModal(false)}
+                setBookingResponse={setBookingResponse}
+                setError={props.setError}
+            />
+        </>
     )
 }
 
