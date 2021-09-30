@@ -122,7 +122,7 @@ const LandingPage = (props: any) => {
                                                 />
                                             </Col>
                                             <Col sm="3" className='d-grid'>
-                                                <Button className="next-button" type="submit">Next</Button>
+                                                <Button className="next-button" >Next</Button>
                                             </Col>
                                         </Form.Group>
                                     </Form>
