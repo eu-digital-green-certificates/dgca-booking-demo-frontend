@@ -38,6 +38,7 @@ import utils from './misc/utils';
 import RecordCheckinPage from './components/record-checkin-page.component';
 import { BookingResponse } from './interfaces/booking-response';
 import ErrorPage from './components/error-page.component';
+import DownloadTicketPage from './components/download-ticket-page.component';
 
 const Routing = () => {
     const { t } = useTranslation();
@@ -103,6 +104,16 @@ const Routing = () => {
                         path={context.navigation.routes.checkin}
                     >
                         <RecordCheckinPage
+                            setBookingResponse={setBookingResponse}
+                            bookingResponse={bookingResponse}
+                            setError={setError}
+                        />
+                    </Route>
+                    <Route
+                        exact
+                        path={context.navigation.routes.download}
+                    >
+                        <DownloadTicketPage
                             setBookingResponse={setBookingResponse}
                             bookingResponse={bookingResponse}
                             setError={setError}

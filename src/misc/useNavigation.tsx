@@ -29,7 +29,8 @@ export interface IRoute {
 export interface INavigation {
     routes: IRoute,
     toLanding: () => void,
-    toCheckin: () => void
+    toCheckin: () => void,
+    toDownload: () => void
 }
 
 export const useRoutes = () => {
@@ -41,7 +42,8 @@ export const useRoutes = () => {
         setResult({
             root: basePath,
             landing: basePath,
-            checkin: basePath + 'checkin'
+            checkin: basePath + 'checkin',
+            download: basePath + 'download'
         })
     }, [])
 
@@ -70,7 +72,8 @@ const useNavigation = () => {
                 routes: _routes,
 
                 toLanding: () => { history.push(_routes.landing); },
-                toCheckin: () => { history.push(_routes.checkin); }
+                toCheckin: () => { history.push(_routes.checkin); },
+                toDownload: () => { history.push(_routes.download); }
             }
 
             setResult(n);

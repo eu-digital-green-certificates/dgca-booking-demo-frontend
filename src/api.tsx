@@ -41,7 +41,7 @@ export const useBooking = (onSuccess?: () => void, onError?: (error: any) => voi
 
     const getBooking = (person: IPerson) => {
 
-        const bookingRequest: BookingRequest = { ...person }        
+        const bookingRequest: BookingRequest = { ...person }
 
         api.post(baseUri, bookingRequest, { headers: header })
             .then(response => {
@@ -96,10 +96,10 @@ export const useGetInitialize = (onSuccess?: () => void, onError?: (error: any) 
 
 
 export const useStatus = (onSuccess?: () => void, onError?: (error: any) => void) => {
-    const baseUri = '/api/status/';
+    // const baseUri = '/api/status/';
     // const baseUri = '/api/devStatusNOK/';
     // const baseUri = '/api/devStatusCHK/';
-    // const baseUri = '/api/devStatusOK/';
+    const baseUri = '/api/devStatusOK/';
 
     /**
      * Returns a QR-Code Promise

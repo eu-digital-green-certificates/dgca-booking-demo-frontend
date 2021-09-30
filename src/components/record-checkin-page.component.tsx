@@ -247,7 +247,12 @@ const RecordCheckinPage = (props: any) => {
     }
 
     const handleSubmit = () => {
-        setShowModal(true);
+        if (displayPassengers.every(passenger => passenger.result?.result === 'OK')) {
+            context.navigation?.toDownload()
+        }
+        else {
+            setShowModal(true);
+        }
     }
 
     return (!(isInit)
