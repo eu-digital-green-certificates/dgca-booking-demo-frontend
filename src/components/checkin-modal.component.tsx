@@ -67,6 +67,7 @@ const CheckinModal = (props: any) => {
         if (booking) {
             props.setBookingResponse(booking);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [booking])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

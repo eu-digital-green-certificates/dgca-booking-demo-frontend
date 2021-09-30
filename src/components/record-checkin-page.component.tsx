@@ -19,8 +19,8 @@
  * under the License.
  */
 
-import React, { Fragment } from 'react';
-import { Fade, Container, Row, Col, Button, Collapse, Spinner, Table } from 'react-bootstrap';
+import React from 'react';
+import { Fade, Container, Row, Col, Button, Collapse, Table } from 'react-bootstrap';
 
 import '../i18n';
 import { useTranslation } from 'react-i18next';
@@ -57,7 +57,6 @@ const RecordCheckinPage = (props: any) => {
         let msg = '';
 
         if (error) {
-            console.log(error);
             msg = error.message
         }
 
@@ -73,6 +72,7 @@ const RecordCheckinPage = (props: any) => {
         if (props) {
             setBookingResponse(props.bookingResponse);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -134,6 +134,7 @@ const RecordCheckinPage = (props: any) => {
             };
         }
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bookingResponse])
 
     const getStatus = (id: string) => {
