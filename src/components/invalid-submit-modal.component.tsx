@@ -21,34 +21,9 @@
 
 import React from 'react';
 
-import '../i18n';
-import { useTranslation } from 'react-i18next';
-
-import { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import de from 'date-fns/locale/de';
-
 import { Button, Modal, ModalBody, ModalFooter } from 'react-bootstrap';
 
-import AppContext from '../misc/appContext';
-
-registerLocale('de', de)
-
 const InvalidSubmitModal = (props: any) => {
-
-    const context = React.useContext(AppContext);
-    const { t } = useTranslation();
-
-    const handleError = (error: any) => {
-        let msg = '';
-
-        if (error) {
-            msg = error.message
-        }
-
-        props.hide();
-        props.setError({ error: error, message: msg, onCancel: context.navigation!.toLanding });
-    }
 
     return (
         <Modal contentClassName='checkin-modal'

@@ -471,6 +471,7 @@ $container-max-widths: (
     height: 5rem;
     display: flex;
     align-items: center;
+    font-weight: bold;
 }
 
 td,
@@ -506,6 +507,15 @@ th {
 .tbl-5 {
     // width: 41.66%;
     width: calc(100% * (5 / 12));
+}
+.tbl-lg-7 {
+    // width: 41.66%;
+    width: auto;
+
+    
+    @include media-breakpoint-up(lg) {
+        width: calc(100% * (7 / 12));
+    }
 }
 
 .tbl-result {
