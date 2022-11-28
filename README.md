@@ -30,21 +30,49 @@
 
 This repository contains the source code of the EU Digital COVID Certificate Booking Demo Frontend.
 
-- [ ] TODO: Describe Component
+The main implementation of the Booking-Demo can be found here:
+https://github.com/eu-digital-green-certificates/dgca-booking-demo
 
 ## Development
 
 ### Prerequisites
 
-- [ ] TODO: Prerequisites
+- [ ] [Git](https://git-scm.com/)
+- [ ] [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/))
+- [ ] [yarn](https://yarnpkg.com/) (recommended)
 
-### Build
+### How to use
+We recommend to use yarn to install and run the project. However the npm package manager can also be used.
 
-- [ ] TODO: Build
+#### Getting the source code
+```
+# Clone this repository
+$ git clone https://github.com/eu-digital-green-certificates/dgca-booking-demo-frontend.git
 
-## Documentation
+# Go into the repository
+$ cd dgca-booking-demo-frontend
+```
 
-- [ ] TODO: Documentation
+#### Starting the project (yarn)
+```
+# Install yarn
+$ npm install -g yarn
+
+# Install dependencies
+$ yarn install
+
+# Run the app
+$ yarn start
+```
+
+#### Starting the project (npm)
+```
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm run start
+```
 
 ## Support and feedback
 
