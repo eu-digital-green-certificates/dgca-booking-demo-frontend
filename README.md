@@ -7,10 +7,10 @@
     <img src="https://github.com/eu-digital-green-certificates/dgca-booking-demo-frontend/actions/workflows/ci-main.yml/badge.svg">
   </a>
   <a href="/../../commits/" title="Last Commit">
-    <img src="https://img.shields.io/github/last-commit/eu-digital-green-certificates/dgca-booking-demo-fronted?style=flat">
+    <img src="https://img.shields.io/github/last-commit/eu-digital-green-certificates/dgca-booking-demo-frontend?style=flat">
   </a>
   <a href="/../../issues" title="Open Issues">
-    <img src="https://img.shields.io/github/issues/eu-digital-green-certificates/dgca-booking-demo-fronted?style=flat">
+    <img src="https://img.shields.io/github/issues/eu-digital-green-certificates/dgca-booking-demo-frontend?style=flat">
   </a>
   <a href="./LICENSE" title="License">
     <img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=flat">
