@@ -20,8 +20,8 @@
  */
 
 import React from 'react';
-import { Route } from 'react-router-dom'
-import { Container } from 'react-bootstrap'
+import { Route, Routes } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 
 import './i18n';
 import { useTranslation } from 'react-i18next';
@@ -41,89 +41,88 @@ import ErrorPage from './components/error-page.component';
 import DownloadTicketPage from './components/download-ticket-page.component';
 
 const Routing = () => {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const [error, setError] = React.useState<IError>();
-    const [errorShow, setErrorShow] = React.useState(false);
-    const [isInit, setIsInit] = React.useState(false);
-    const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
+  const [error, setError] = React.useState<IError>();
+  const [errorShow, setErrorShow] = React.useState(false);
+  const [isInit, setIsInit] = React.useState(false);
+  const [bookingResponse, setBookingResponse] = React.useState<BookingResponse>();
 
-    const context: IAppContext = {
-        navigation: useNavigation(),
-        utils: utils
+  const context: IAppContext = {
+    navigation: useNavigation(),
+    utils: utils,
+  };
+
+  document.title = t('translation:title');
+
+  React.useEffect(() => {
+    if (error) {
+      setErrorShow(true);
     }
+  }, [error]);
 
-    document.title = t('translation:title');
+  React.useEffect(() => {
+    if (!errorShow) {
+      setError(undefined);
+    }
+  }, [errorShow]);
 
-    React.useEffect(() => {
-        if (error) {
-            setErrorShow(true);
-        }
-    }, [error])
+  React.useEffect(() => {
+    if (context.navigation) setIsInit(true);
+  }, [context.navigation]);
 
-    React.useEffect(() => {
-        if (!errorShow) {
-            setError(undefined);
-        }
-    }, [errorShow])
-
-    React.useEffect(() => {
-        if (context.navigation)
-            setIsInit(true);
-    }, [context.navigation])
-
-    return (!(isInit && context.navigation) ? <></> ://<Spinner background='#cfcfcf' /> :
-        <>
-            <AppContext.Provider value={context}>
-                {/*
+  return !(isInit && context.navigation) ? (
+    <></> //<Spinner background='#cfcfcf' /> :
+  ) : (
+    <>
+      <AppContext.Provider value={context}>
+        {/*
     header, every time shown. fit its children
     */}
-                <Route path={context.navigation.routes.root}>
-                    <Header />
-                    <ErrorPage error={error} show={errorShow} onCancel={error?.onCancel} onHide={() => setErrorShow(false)} />
-                </Route>
+        <Header />
+        <ErrorPage error={error} show={errorShow} onCancel={error?.onCancel} onHide={() => setErrorShow(false)} />
 
-                {/*
+        {/*
     Content area. fit the rest of screen and children
     */}
-                <Container className='routing-content'>
-
-                    {/* Landing */}
-                    <Route
-                        exact
-                        path={context.navigation.routes.landing}
-                    >
-                        <LandingPage
-                            setBookingResponse={setBookingResponse}
-                            bookingResponse={bookingResponse}
-                            setError={setError}
-                        />
-                    </Route>
-                    <Route
-                        exact
-                        path={context.navigation.routes.checkin}
-                    >
-                        <RecordCheckinPage
-                            setBookingResponse={setBookingResponse}
-                            bookingResponse={bookingResponse}
-                            setError={setError}
-                        />
-                    </Route>
-                    <Route
-                        exact
-                        path={context.navigation.routes.download}
-                    >
-                        <DownloadTicketPage
-                            setBookingResponse={setBookingResponse}
-                            bookingResponse={bookingResponse}
-                            setError={setError}
-                        />
-                    </Route>
-
-                </Container>
-            </AppContext.Provider>
-        </>
-    )
-}
+        <Container className='routing-content'>
+          <Routes>
+            {/* Landing */}
+            <Route
+              path={context.navigation.routes.landing}
+              element={
+                <LandingPage
+                  setBookingResponse={setBookingResponse}
+                  bookingResponse={bookingResponse}
+                  setError={setError}
+                />
+              }
+            />
+            <Route
+              path={context.navigation.routes.checkin}
+              element={
+                <RecordCheckinPage
+                  setBookingResponse={setBookingResponse}
+                  bookingResponse={bookingResponse}
+                  setError={setError}
+                />
+              }
+            />
+            <Route
+              path={context.navigation.routes.download}
+              element={
+                <DownloadTicketPage
+                  setBookingResponse={setBookingResponse}
+                  bookingResponse={bookingResponse}
+                  setError={setError}
+                />
+              }
+            />
+          </Routes>
+        </Container>
+      </AppContext.Provider>
+    </>
+  );
+};
 
 export default Routing;
