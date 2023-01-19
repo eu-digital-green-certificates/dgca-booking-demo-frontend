@@ -20,69 +20,70 @@
  */
 
 import React from 'react';
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 export interface IRoute {
-    [key: string]: string;
+  [key: string]: string;
 }
 
 export interface INavigation {
-    routes: IRoute,
-    toLanding: () => void,
-    toCheckin: () => void,
-    toDownload: () => void
+  routes: IRoute;
+  toLanding: () => void;
+  toCheckin: () => void;
+  toDownload: () => void;
 }
 
 export const useRoutes = () => {
+  const basePath = '/';
+  const [result, setResult] = React.useState<IRoute>();
 
-    const basePath = '/';
-    const [result, setResult] = React.useState<IRoute>();
+  React.useEffect(() => {
+    setResult({
+      root: basePath,
+      landing: basePath,
+      checkin: basePath + 'checkin',
+      download: basePath + 'download',
+    });
+  }, []);
 
-    React.useEffect(() => {
-        setResult({
-            root: basePath,
-            landing: basePath,
-            checkin: basePath + 'checkin',
-            download: basePath + 'download'
-        })
-    }, [])
-
-    return result;
-}
+  return result;
+};
 
 const useNavigation = () => {
+  const nav = useNavigate();
+  const _routes = useRoutes();
+  const [result, setResult] = React.useState<INavigation>();
 
-    const history = useHistory();
-    const _routes = useRoutes();
-    const [result, setResult] = React.useState<INavigation>();
+  // React.useEffect(() => {
+  //     if (routes) {
 
-    // React.useEffect(() => {
-    //     if (routes) {
+  //         const c = routes;
+  //         setCalculatedRoutes(c);
+  //     }
+  // }, [routes])
 
-    //         const c = routes;
-    //         setCalculatedRoutes(c);
-    //     }
-    // }, [routes])
+  React.useEffect(() => {
+    if (_routes) {
+      const n: INavigation = {
+        routes: _routes,
 
-    React.useEffect(() => {
+        toLanding: () => {
+          nav(_routes.landing);
+        },
+        toCheckin: () => {
+          nav(_routes.checkin);
+        },
+        toDownload: () => {
+          nav(_routes.download);
+        },
+      };
 
-        if (_routes) {
+      setResult(n);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [_routes]);
 
-            const n: INavigation = {
-                routes: _routes,
-
-                toLanding: () => { history.push(_routes.landing); },
-                toCheckin: () => { history.push(_routes.checkin); },
-                toDownload: () => { history.push(_routes.download); }
-            }
-
-            setResult(n);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_routes])
-
-    return result;
-
-}
+  return result;
+};
 
 export default useNavigation;
